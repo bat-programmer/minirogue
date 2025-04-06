@@ -56,6 +56,7 @@ public class Jugador : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Q))
         {
             UnityEngine.Debug.Log(string.Format("speed:{0}, vida:{1}",speed,vida));
+
         }
 
        
