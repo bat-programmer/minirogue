@@ -1943,9 +1943,11 @@ MonoBehaviour:
   doorRight: 1
   hasEnemies: 1
   hasItems: 1
-  enemyPrefabs: []
+  enemyPrefabs:
+  - {fileID: 6377795284674676544, guid: 8f3cb9e2dc1a8b4429dd7618245f808d, type: 3}
   itemPrefabs:
   - {fileID: 2067285235936784148, guid: 9047c235aea439a43a0119521fe4e1f4, type: 3}
+  - {fileID: 3737222247340488834, guid: d984907befb504b43abd6b60bb975c47, type: 3}
 --- !u!114 &286604813421245365
 MonoBehaviour:
   m_ObjectHideFlags: 0
