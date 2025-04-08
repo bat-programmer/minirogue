@@ -118,6 +118,9 @@ public class RoomManager : MonoBehaviour
             Vector3 roomCenter = room.transform.position;
             Vector3 roomSize = new Vector3(room.roomSize.x, room.roomSize.y, 1);
             Gizmos.DrawWireCube(roomCenter, roomSize);
+            //Gizmos.color = Color.cyan;
+            //Gizmos.DrawSphere(room.gameObject.transform.position, 0.3f);
+            //Debug.Log($"{room.name} - room.transform.position = {room.transform.position}, room.gameObject.name = {room.gameObject.name}");
 
             // Draw doors
             Gizmos.color = Color.yellow;
