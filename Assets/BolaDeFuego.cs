@@ -5,6 +5,7 @@ public class BolaDeFuego : MonoBehaviour
     public float speed = 5f;
     private Vector2 direction;
     private ParticleSystem trailEffect;
+    public GameObject impactEffectPrefab;  // Add this
     private SpriteRenderer spriteRenderer;
 
     void Awake()
@@ -38,17 +39,32 @@ public class BolaDeFuego : MonoBehaviour
         transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Enemy"))
         {
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                // Tell the enemy it got hit (optional but cleaner)
+                var enemy = collision.GetComponent<EsqueletoEspada>();
+                if (enemy != null)
+                {
+                    enemy.vida_enemigo -= 10;
+                    enemy.TakeDamage(); // New method you define
+                }
+            }
+
             if (trailEffect != null)
             {
                 trailEffect.Stop();
             }
 
-            // Instead of destroying, return to the pool
-            Invoke(nameof(DisableFireball), 0.2f); // Give time for the trail to fade
+            if (impactEffectPrefab != null)
+            {
+                Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+            }
+
+            Invoke(nameof(DisableFireball), 0.2f);
         }
     }
 
