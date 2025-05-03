@@ -40,6 +40,12 @@ public class Jugador : MonoBehaviour
         MovV();
         Sprint();
         ExecuteAttack();
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            GameManager.Instance.AddItem("Potion");
+        }
+
         mov = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
         // Update last direction if moving
         if (mov != Vector2.zero)
