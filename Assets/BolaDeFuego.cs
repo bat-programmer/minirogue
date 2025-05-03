@@ -50,7 +50,7 @@ public class BolaDeFuego : MonoBehaviour
                 if (enemy != null)
                 {
                     enemy.vida_enemigo -= 10;
-                    enemy.TakeDamage(); // New method you define
+                    enemy.ApplyDamage(); // New method you define
                 }
             }
 

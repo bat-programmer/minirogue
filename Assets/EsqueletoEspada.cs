@@ -14,8 +14,10 @@ public class EsqueletoEspada : MonoBehaviour
     public float attackRange = 1.5f; // Range to detect the player
     private float attackCooldown = 1.0f;
     private float lastAttackTime = -Mathf.Infinity;
-    
-    private float speed = 2.0f;
+    private bool isInAttackState = false;
+
+
+    private float speed = 3.0f;    
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +34,9 @@ public class EsqueletoEspada : MonoBehaviour
         {
             Attack();
         }
-        else
+        else if (!isInAttackState) // Only wander if not in attack state
         {
-            //Wander();
+            Wander();
         }
     }
     private Vector2 GetRandomDirection()
@@ -43,7 +45,7 @@ public class EsqueletoEspada : MonoBehaviour
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 
-    public void TakeDamage()
+    public void ApplyDamage()
     {
         vida_enemigo -= 10; 
         animator.SetTrigger("takeDamage");
@@ -97,14 +99,17 @@ public class EsqueletoEspada : MonoBehaviour
 
     private void Attack()
     {
-         if (Time.time - lastAttackTime >= attackCooldown)
-    {
-        FacePlayer();
-        animator.SetTrigger("IsAttacking");
-        lastAttackTime = Time.time;
-        Debug.Log("Enemy is attacking!");
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            
+            FacePlayer();
+            animator.SetTrigger("IsAttacking");
+            lastAttackTime = Time.time;
+            Debug.Log("Enemy is attacking!");
+           
+        }
     }
-    }
+    
 
     private void OnDrawGizmosSelected()
     {
@@ -113,7 +118,17 @@ public class EsqueletoEspada : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
-private void FacePlayer()
+    public void OnAttackStart()
+    {
+        isInAttackState = true;
+    }
+
+    public void OnAttackEnd()
+    {
+        isInAttackState = false;
+    }
+
+    private void FacePlayer()
 {
     GameObject player = GameObject.FindGameObjectWithTag("Player");
     if (player != null)
