@@ -205,6 +205,18 @@ public class Jugador : MonoBehaviour
         }
     }
 
+    public void AddMoney(int amount)
+    {
+        // Handle money collection or spending
+        Debug.Log("Money handled: " + amount);
+    }
+
+    public void RemoveMoney(int amount)
+    {
+        // Handle money collection or spending
+        Debug.Log("Money removed: " + amount);
+    }
+
     public bool IsDead()
     {
         foreach (int heart in hearts)
