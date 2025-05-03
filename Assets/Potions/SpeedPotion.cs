@@ -8,6 +8,6 @@ public class SpeedPotion : MonoBehaviour, IPotionEffect
 
     public void ApplyEffect(Jugador player)
     {
-        player.StartCoroutine(player.ApplySpeedBoost(speedBoost, duration));
+        //player.StartCoroutine(player.ApplySpeedBoost(speedBoost, duration));
     }
 }

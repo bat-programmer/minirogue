@@ -115,15 +115,11 @@ public class SpikeTrap : MonoBehaviour
 
         if (isDangerous && player != null)
         {
-            // Get player's health component and damage them
-            //PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
-            //if (playerHealth != null)
-            //{
-            //    playerHealth.TakeDamage(damageAmount);
+            //apply damage to player
+            //
+            // Assuming the player has a method to apply damage
+            player.GetComponent<Jugador>().ApplyDamage(damageAmount);
 
-            //    // Optional: Add small knockback or immunity period
-            //}
-            // For demonstration, we will just log the damage
             Debug.Log($"Player took {damageAmount} damage from spike trap!");
         }
     }

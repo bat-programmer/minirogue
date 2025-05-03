@@ -7,7 +7,7 @@ public class HealingPotion : MonoBehaviour, IPotionEffect
 
     public void ApplyEffect(Jugador player)
     {
-        player.cambiarVida(healAmount);
+        //player.cambiarVida(healAmount);
         Debug.Log("Healed " + healAmount + " HP");
     }
 }

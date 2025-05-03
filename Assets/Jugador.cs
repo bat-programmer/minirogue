@@ -1,7 +1,7 @@
 using System.Collections;
-using System.Diagnostics;
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Jugador : MonoBehaviour
 {
@@ -14,13 +14,23 @@ public class Jugador : MonoBehaviour
     float speedShift;
     private Rigidbody2D rb;
     private Animator anim;
-    private SpriteRenderer sr;    
+    private SpriteRenderer sr;
     public Transform firePoint;
     private float fireballSpeed = 10;
-    public int vida = 0;
+
+    [Header("UI")]
+    public Transform heartsContainer; // Drag your container here in the Inspector
+
+
+    [Header("Health System")]
+    public List<int> hearts = new List<int>(); // Each heart can have values: 2 (full), 1 (half), 0 (empty)
+    public int maxHearts = 3; // Maximum number of hearts
+
+    private bool isInvulnerable = false;
+    [SerializeField] private float invulnerabilityDuration = 5f;
+    [SerializeField] private float blinkInterval = 0.2f;
     private Vector2 lastDirection = Vector2.right; // Default direction
     private PoolBolaDeFuego poolBolaDeFuego;
-
 
     void Start()
     {
@@ -31,7 +41,9 @@ public class Jugador : MonoBehaviour
 
         speedNormal = speed;
         speedShift = speed * 10;
-        cambiarVida(200);
+
+        InitializeHearts(maxHearts);
+        UpdateHeartUI();
     }
 
     void Update()
@@ -40,32 +52,29 @@ public class Jugador : MonoBehaviour
         MovV();
         Sprint();
         ExecuteAttack();
+        
 
         if (Input.GetKeyDown(KeyCode.I))
         {
-            GameManager.Instance.AddItem("Potion");
+            AddHealth(1); // Add half a heart for testing
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            RemoveHealth(1); // Remove half a heart for testing
         }
 
         mov = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
-        // Update last direction if moving
         if (mov != Vector2.zero)
         {
             lastDirection = mov;
         }
 
-        // Flip sprite based on movement direction
         if (mov.x < 0)
             sr.flipX = true;
         else if (mov.x > 0)
             sr.flipX = false;
 
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            UnityEngine.Debug.Log(string.Format("speed:{0}, vida:{1}",speed,vida));
-
-        }
-
-       
         transform.Translate(mov * speed * Time.deltaTime);
     }
 
@@ -100,15 +109,10 @@ public class Jugador : MonoBehaviour
 
     private void Fire()
     {
-        //GameObject fireball = Instantiate(fireballPrefab, firePoint.position, Quaternion.identity);
-        //BolaDeFuego fireballScript = fireball.GetComponent<BolaDeFuego>();
-        //fireballScript.SetDirection(lastDirection.normalized); // Fire in the last movement direction
-
         if (poolBolaDeFuego != null)
         {
             poolBolaDeFuego.GetFireball(firePoint.position, lastDirection.normalized);
         }
-        
     }
 
     private void Sprint()
@@ -116,32 +120,114 @@ public class Jugador : MonoBehaviour
         speed = Input.GetKey(KeyCode.LeftShift) ? speedShift : speedNormal;
     }
 
-    public void cambiarVida(int a)
+    // Initialize hearts with full health
+    private void InitializeHearts(int count)
     {
-        vida += a;
-        print("vida actual: " + vida);
+        hearts.Clear();
+        for (int i = 0; i < count; i++)
+        {
+            hearts.Add(2); // Full heart
+        }
     }
 
-    //Why Not Use Invoke() Instead?
-    //Unity has Invoke("MethodName", delay), but it only works for void methods.
-    //Invoke() doesn’t allow intermediate steps(like modifying speed before resetting).
-    //IEnumerator lets us control the entire process over time, making it more powerful.
-
-    public IEnumerator ApplySpeedBoost(float multiplier, float time)
+    // Add health (1 = half heart, 2 = full heart)
+    public void AddHealth(int amount)
     {
-        speed *= multiplier;  // Increase speed
-        UnityEngine.Debug.Log("Speed increased to " + speed);
+        for (int i = 0; i < hearts.Count; i++)
+        {
+            if (hearts[i] < 2)
+            {
+                hearts[i] += amount;
+                if (hearts[i] > 2) hearts[i] = 2; // Cap at full heart
+                amount -= 1;
+                if (amount <= 0) break;
+            }
+        }
 
-        yield return new WaitForSeconds(time); // Wait for effect duration
-
-        speed /= multiplier;  // Reset speed to normal
-        UnityEngine.Debug.Log("Speed back to normal: "+ speed);
+        UpdateHeartUI();
+        Debug.Log("Health added. Current hearts: " + string.Join(", ", hearts));
     }
 
-    private void FixedUpdate()
+    // Remove health (1 = half heart, 2 = full heart)
+    public void RemoveHealth(int amount)
     {
-        //mov = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
-        ////rb.velocity = mov * speed * Time.fixedDeltaTime;
-        //transform.Translate(mov * speed * Time.deltaTime);
+        for (int i = hearts.Count - 1; i >= 0; i--)
+        {
+            if (hearts[i] > 0)
+            {
+                hearts[i] -= amount;
+                if (hearts[i] < 0) hearts[i] = 0; // Cap at empty heart
+                amount -= 1;
+                if (amount <= 0) break;
+            }
+        }
+        UpdateHeartUI();
+        Debug.Log("Health removed. Current hearts: " + string.Join(", ", hearts));
     }
+    void UpdateHeartUI()
+    {
+        for (int i = 0; i < heartsContainer.childCount; i++)
+        {
+            var heartUI = heartsContainer.GetChild(i).GetComponent<HeartImage>();
+
+            if (i < hearts.Count)
+            {
+                heartUI.SetState(hearts[i]);
+            }
+            else
+            {
+                heartUI.gameObject.SetActive(false); // Optional: hide extra hearts
+            }
+        }
+    }
+    public void ApplyHealth(int amount)
+    {
+        AddHealth(amount);
+        if (IsDead())
+        {
+            // Handle player death (e.g., restart level, show game over screen)
+            Debug.Log("Player is dead!");
+        }
+    }
+    public void ApplyDamage(int damage)
+    {
+        if (isInvulnerable) return;   
+
+        RemoveHealth(damage);
+        if (IsDead())
+        {
+            // Handle player death (e.g., restart level, show game over screen)
+            Debug.Log("Player is dead!");
+        }
+        else
+        {
+            StartCoroutine(InvulnerabilityCoroutine());
+        }
+    }
+
+    public bool IsDead()
+    {
+        foreach (int heart in hearts)
+        {
+            if (heart > 0)
+                return false; // Player is alive
+        }
+        return true; // Player is dead
+    }
+    private IEnumerator InvulnerabilityCoroutine()
+    {
+    isInvulnerable = true;
+
+    float elapsed = 0f;
+    while (elapsed < invulnerabilityDuration)
+    {
+        sr.enabled = !sr.enabled;
+        yield return new WaitForSeconds(blinkInterval);
+        elapsed += blinkInterval;
+    }
+
+    sr.enabled = true; // Make sure sprite is visible at end
+    isInvulnerable = false;
+    }
+
 }
