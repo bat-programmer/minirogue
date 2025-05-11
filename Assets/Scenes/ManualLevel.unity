@@ -4336,21 +4336,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 842084320538276012, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
-      propertyPath: chaseRange
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 6017146483738869006, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_Name
       value: EsqueletoEspada
-      objectReference: {fileID: 0}
-    - target: {fileID: 7450857586954114119, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 1267116239, guid: e7942aa96076fce4e93862510b3c3793, type: 3}
-    - target: {fileID: 7450857586954114119, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4391,10 +4379,6 @@ PrefabInstance:
     - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

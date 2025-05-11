@@ -18,6 +18,7 @@ public class Cofre : MonoBehaviour
         
     }
 
+    //called from the animation event
     void ChestOpen()
     {
         SpawnRandomItem();
@@ -41,7 +42,7 @@ public class Cofre : MonoBehaviour
             if (animator != null)
             {
                 animator.SetTrigger("Open");
-                //StartCoroutine(WaitAndSpawnItem(10f));
+                
             }
          
            
