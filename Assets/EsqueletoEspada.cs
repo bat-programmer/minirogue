@@ -99,10 +99,15 @@ public class EsqueletoEspada : MonoBehaviour
         if (vida_enemigo <= 0)
         {
             // Handle death
-            animator.SetTrigger("death");
-            // Disable components
-            GetComponent<Collider2D>().enabled = false;
-            this.enabled = false;
+            // Reset all states and triggers
+            animator.ResetTrigger("IsAttacking");
+            animator.ResetTrigger("takeDamage");
+            animator.SetBool("isMoving", false);
+
+            animator.SetTrigger("Death");
+            
+
+            Debug.Log("Enemy is starting to die!");
         }
     }
 
@@ -228,7 +233,8 @@ public class EsqueletoEspada : MonoBehaviour
         if (hit.collider != null && !hit.collider.CompareTag("Player"))
         {
             // We hit something - check if it's a wall or obstacle
-            if (hit.collider.CompareTag("Wall") || hit.collider.CompareTag("Obstacle"))
+            //|| hit.collider.CompareTag("Obstacle")
+            if (hit.collider.CompareTag("Wall") )
             {
                 return true; // Path is blocked
             }
@@ -313,5 +319,22 @@ public class EsqueletoEspada : MonoBehaviour
             float directionX = player.transform.position.x - transform.position.x;
             spriteRenderer.flipX = directionX < 0;
         }
+    }
+
+    public void Die()
+    {
+        // Handle death logic here
+        // delete the enemy
+        Debug.Log("Enemy has died!");
+        Destroy(this.gameObject);
+
+
+    }
+
+    // NEW: Animation event method that can be called from the animation
+    public void OnDeathAnimationComplete()
+    {
+        // This can be called from the animation event
+        Die();
     }
 }
