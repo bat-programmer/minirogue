@@ -10,6 +10,7 @@ public class EsqueletoEspada : MonoBehaviour
     public float attackRange = 1.5f;
     public float chaseRange = 8.0f;    // Range to detect and chase player
     public float pathUpdateInterval = 0.5f; // How often to recalculate path to player
+    private bool isDead = false;
 
     // Movement constraints
     private readonly Vector2[] directions = new Vector2[]
@@ -44,6 +45,8 @@ public class EsqueletoEspada : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return; // block all updates
+
         // Only perform behaviors if not in a blocking state
         if (!isInAttackState && !isInDamageState)
         {
@@ -100,6 +103,7 @@ public class EsqueletoEspada : MonoBehaviour
         {
             // Handle death
             // Reset all states and triggers
+            isDead = true;
             animator.ResetTrigger("IsAttacking");
             animator.ResetTrigger("takeDamage");
             animator.SetBool("isMoving", false);
