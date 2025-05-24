@@ -52,7 +52,7 @@ public class Jugador : MonoBehaviour
         MovV();
         Sprint();
         ExecuteAttack();
-        
+        usePotion();
 
         if (Input.GetKeyDown(KeyCode.I))
         {
@@ -122,7 +122,13 @@ public class Jugador : MonoBehaviour
         }
     }
 
-
+    private void usePotion()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            GameManager.Instance.UsePotion(this); 
+        }
+    }
     private void Fire(Vector2 direction)
     {
         if (poolBolaDeFuego != null)
@@ -257,5 +263,7 @@ public class Jugador : MonoBehaviour
     sr.enabled = true; // Make sure sprite is visible at end
     isInvulnerable = false;
     }
+
+
 
 }

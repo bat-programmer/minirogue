@@ -15,9 +15,18 @@ public class Potion : MonoBehaviour
     {
         if (collision.gameObject.TryGetComponent<Jugador>(out Jugador player))
         {
-
-            potionEffect?.ApplyEffect(player); // Apply effect if assigned
-            Destroy(gameObject); // Remove potion after use
+            if (GameManager.Instance.currentPotion == null)
+            {
+                Debug.Log("Potion picked up: " + gameObject.name);
+                IPotionEffect effect = GetComponent<IPotionEffect>();                
+                RandomPotionColor randomPotionColor = GetComponentInChildren<RandomPotionColor>();
+                SpriteRenderer sr = randomPotionColor.liquidRenderer;
+                Debug.Log("grabbed color: " + sr.color.ToString());
+                GameManager.Instance.EquipPotion(effect, sr.sprite, sr.color);
+                //gameObject.SetActive(false); // Deactivate the potion object instead of destroying it
+                Destroy(gameObject);
+            }
         }
     }
+
 }
