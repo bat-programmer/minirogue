@@ -1,4 +1,6 @@
-using UnityEditor.EditorTools;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine;
 
 public enum RoomType
@@ -111,6 +113,9 @@ public class Room : MonoBehaviour
         Gizmos.DrawWireCube(transform.position, new Vector3(roomSize.x, roomSize.y, 1));
 
         // Show room type
+#if UNITY_EDITOR
         UnityEditor.Handles.Label(transform.position, roomType.ToString());
+#endif
+
     }
 }

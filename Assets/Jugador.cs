@@ -100,18 +100,34 @@ public class Jugador : MonoBehaviour
 
     private void ExecuteAttack()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.UpArrow))
         {
             anim.SetTrigger("Attack");
-            Fire();
+            Fire(Vector2.up);
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            anim.SetTrigger("Attack");
+            Fire(Vector2.down);
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            anim.SetTrigger("Attack");
+            Fire(Vector2.left);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            anim.SetTrigger("Attack");
+            Fire(Vector2.right);
         }
     }
 
-    private void Fire()
+
+    private void Fire(Vector2 direction)
     {
         if (poolBolaDeFuego != null)
         {
-            poolBolaDeFuego.GetFireball(firePoint.position, lastDirection.normalized);
+            poolBolaDeFuego.GetFireball(firePoint.position, direction.normalized);
         }
     }
 
