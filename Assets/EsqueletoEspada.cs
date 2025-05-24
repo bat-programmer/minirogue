@@ -286,7 +286,7 @@ public class EsqueletoEspada : MonoBehaviour
         }
     }
 
-    // This can be called from an Animation Event to deal damage at the right moment
+
     public void DealDamageToPlayer()
     {
         // Find player in attack range
@@ -298,7 +298,7 @@ public class EsqueletoEspada : MonoBehaviour
                 Jugador jugador = hit.GetComponent<Jugador>();
                 if (jugador != null)
                 {
-                    jugador.ApplyDamage(10); // Deal damage to player
+                    jugador.ApplyDamage(1); // Deal damage to player
                 }
             }
         }

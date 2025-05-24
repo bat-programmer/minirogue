@@ -10,7 +10,7 @@ public class Jugador : MonoBehaviour
     Vector2 mov = new Vector2(0, 0);
 
     [SerializeField] private float speed = 100;
-    float speedNormal;
+    public float baseSpeed;
     float speedShift;
     private Rigidbody2D rb;
     private Animator anim;
@@ -39,7 +39,7 @@ public class Jugador : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         poolBolaDeFuego = FindObjectOfType<PoolBolaDeFuego>();
 
-        speedNormal = speed;
+        baseSpeed = speed;
         speedShift = speed * 10;
 
         InitializeHearts(maxHearts);
@@ -133,7 +133,7 @@ public class Jugador : MonoBehaviour
 
     private void Sprint()
     {
-        speed = Input.GetKey(KeyCode.LeftShift) ? speedShift : speedNormal;
+        speed = Input.GetKey(KeyCode.LeftShift) ? speedShift : baseSpeed;
     }
 
     // Initialize hearts with full health
