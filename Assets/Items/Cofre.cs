@@ -28,9 +28,21 @@ public class Cofre : MonoBehaviour
     void SpawnRandomItem()
     {
         if (itemPrefabs.Length == 0) return;
+
         int index = Random.Range(0, itemPrefabs.Length);
-        Instantiate(itemPrefabs[index], transform.position, Quaternion.identity);
+        GameObject spawnedItem = Instantiate(itemPrefabs[index], transform.position, Quaternion.identity);
+
+        // Decide if it's beneficial or not (could be random or based on level, etc.)
+        //bool forceBeneficial = Random.value > 0.5f; // Example
+        bool forceBeneficial = true;
+        var effectAssigner = spawnedItem.GetComponent<PotionEffectAssigner>();
+        if (effectAssigner != null)
+        {
+            Debug.Log($"Assigning effect to {spawnedItem.name}. Beneficial: {forceBeneficial}");
+            effectAssigner.Initialize(forceBeneficial);
+        }
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefabs:
-  - {fileID: 2067285235936784148, guid: 9047c235aea439a43a0119521fe4e1f4, type: 3}
+  - {fileID: 5477635131080504617, guid: de83dc12dc6a300419b0318c665c5fff, type: 3}
 --- !u!212 &-4383779968627134488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -135,7 +135,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 991b82ecc20828a46b44fb83d57c0a93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

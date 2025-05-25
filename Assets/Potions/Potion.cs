@@ -16,14 +16,12 @@ public class Potion : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Jugador>(out Jugador player))
         {
             if (GameManager.Instance.currentPotion == null)
-            {
-                Debug.Log("Potion picked up: " + gameObject.name);
-                IPotionEffect effect = GetComponent<IPotionEffect>();                
+            {                
+                IPotionEffect effect = GetComponent<IPotionEffect>();
+                //GetComponent<MonoBehaviour>() as IPotionEffect;
                 RandomPotionColor randomPotionColor = GetComponentInChildren<RandomPotionColor>();
-                SpriteRenderer sr = randomPotionColor.liquidRenderer;
-                Debug.Log("grabbed color: " + sr.color.ToString());
-                GameManager.Instance.EquipPotion(effect, sr.sprite, sr.color);
-                //gameObject.SetActive(false); // Deactivate the potion object instead of destroying it
+                SpriteRenderer sr = randomPotionColor.liquidRenderer;             
+                GameManager.Instance.EquipPotion(effect, sr.sprite, sr.color);                
                 Destroy(gameObject);
             }
         }
