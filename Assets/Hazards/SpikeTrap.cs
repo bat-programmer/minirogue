@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections; // Add this for coroutines
 
 public class SpikeTrap : MonoBehaviour
 {
@@ -18,6 +19,9 @@ public class SpikeTrap : MonoBehaviour
     [SerializeField] private float animationSpeed = 4f; // Frames per second
     [SerializeField] private int damageAmount = 1;
 
+    [Header("Timing")]
+    [SerializeField] private float startDelay = 0f; // Add this field
+
     // Animation frame indices where spike is dangerous when pulsing (0-based)
     [SerializeField] private int[] dangerousFrameIndices = { 2, 3 };
 
@@ -32,7 +36,23 @@ public class SpikeTrap : MonoBehaviour
         if (spriteRenderer == null)
             spriteRenderer = GetComponent<SpriteRenderer>();
 
-        UpdateSpikeState();
+        // If the trap should start pulsing, delay it
+        if (currentState == SpikeState.Pulsing && startDelay > 0f)
+        {
+            currentState = SpikeState.Retracted;
+            UpdateSpikeState();
+            StartCoroutine(StartPulsingAfterDelay());
+        }
+        else
+        {
+            UpdateSpikeState();
+        }
+    }
+
+    private IEnumerator StartPulsingAfterDelay()
+    {
+        yield return new WaitForSeconds(startDelay);
+        SetSpikeState(SpikeState.Pulsing);
     }
 
     private void Update()

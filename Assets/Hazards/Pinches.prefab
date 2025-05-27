@@ -55,7 +55,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 991b82ecc20828a46b44fb83d57c0a93, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -153,6 +153,7 @@ MonoBehaviour:
   currentState: 1
   animationSpeed: 4
   damageAmount: 1
+  startDelay: 0
   dangerousFrameIndices: 0200000003000000
 --- !u!61 &4013598757830268387
 BoxCollider2D:
