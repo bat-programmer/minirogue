@@ -92,9 +92,9 @@ public class EsqueletoEspada : MonoBehaviour
         return directions[Random.Range(0, directions.Length)];
     }
 
-    public void ApplyDamage()
+    public void ApplyDamage(int damage)
     {
-        vida_enemigo -= 10;
+        vida_enemigo -= damage;
         animator.SetTrigger("takeDamage");
         Debug.Log("Enemy hit! Remaining health: " + vida_enemigo);
 

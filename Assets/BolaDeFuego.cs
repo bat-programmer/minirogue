@@ -48,9 +48,8 @@ public class BolaDeFuego : MonoBehaviour
                 // Tell the enemy it got hit (optional but cleaner)
                 var enemy = collision.GetComponent<EsqueletoEspada>();
                 if (enemy != null)
-                {
-                    enemy.vida_enemigo -= 10;
-                    enemy.ApplyDamage(); // New method you define
+                {                    
+                    enemy.ApplyDamage(10); // New method you define
                 }
             }
 
