@@ -48,6 +48,7 @@ public class Jugador : MonoBehaviour
 
         InitializeHearts(maxHearts);
         UpdateHeartUI();
+        GameManager.Instance.playerTransform= transform; // Set player transform in GameManager
     }
 
     void Update()
