@@ -21,7 +21,6 @@ public class Jugador : MonoBehaviour
     [Header("UI")]
     public Transform heartsContainer; // Drag your container here in the Inspector
 
-
     [Header("Health System")]
     public List<int> hearts = new List<int>(); // Each heart can have values: 2 (full), 1 (half), 0 (empty)
     public int maxHearts = 3; // Maximum number of hearts
@@ -31,6 +30,11 @@ public class Jugador : MonoBehaviour
     [SerializeField] private float blinkInterval = 0.2f;
     private Vector2 lastDirection = Vector2.right; // Default direction
     private PoolBolaDeFuego poolBolaDeFuego;
+
+    [Header("Attack Settings")]
+    [SerializeField] public float fireRate = 0.1f; // Seconds between shots
+    public float fireCooldown = 1f;
+    private Vector2? heldFireDirection = null;
 
     void Start()
     {
@@ -51,7 +55,7 @@ public class Jugador : MonoBehaviour
         MovH();
         MovV();
         Sprint();
-        ExecuteAttack();
+        HandleAttackInput();
         usePotion();
 
         if (Input.GetKeyDown(KeyCode.I))
@@ -98,28 +102,34 @@ public class Jugador : MonoBehaviour
             movimientoVertical = 0;
     }
 
-    private void ExecuteAttack()
+    private void HandleAttackInput()
     {
-        if (Input.GetKeyDown(KeyCode.UpArrow))
+        // Detect if any attack key is held and set the direction
+        if (Input.GetKey(KeyCode.UpArrow))
+            heldFireDirection = Vector2.up;
+        else if (Input.GetKey(KeyCode.DownArrow))
+            heldFireDirection = Vector2.down;
+        else if (Input.GetKey(KeyCode.LeftArrow))
+            heldFireDirection = Vector2.left;
+        else if (Input.GetKey(KeyCode.RightArrow))
+            heldFireDirection = Vector2.right;
+        else
+            heldFireDirection = null;
+
+        // Fire if holding a direction and cooldown is over
+        if (heldFireDirection.HasValue)
         {
-            anim.SetTrigger("Attack");
-            Fire(Vector2.up);
+            if (fireCooldown <= 0f)
+            {
+                anim.SetTrigger("Attack");
+                Fire(heldFireDirection.Value);
+                fireCooldown = fireRate;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            anim.SetTrigger("Attack");
-            Fire(Vector2.down);
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            anim.SetTrigger("Attack");
-            Fire(Vector2.left);
-        }
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            anim.SetTrigger("Attack");
-            Fire(Vector2.right);
-        }
+
+        // Reduce cooldown timer
+        if (fireCooldown > 0f)
+            fireCooldown -= Time.deltaTime;
     }
 
     private void usePotion()
@@ -129,6 +139,7 @@ public class Jugador : MonoBehaviour
             GameManager.Instance.UsePotion(this); 
         }
     }
+
     private void Fire(Vector2 direction)
     {
         if (poolBolaDeFuego != null)
@@ -186,6 +197,7 @@ public class Jugador : MonoBehaviour
         UpdateHeartUI();
         Debug.Log("Health removed. Current hearts: " + string.Join(", ", hearts));
     }
+
     void UpdateHeartUI()
     {
         for (int i = 0; i < heartsContainer.childCount; i++)
@@ -202,6 +214,7 @@ public class Jugador : MonoBehaviour
             }
         }
     }
+
     public void ApplyHealth(int amount)
     {
         AddHealth(amount);
@@ -211,6 +224,7 @@ public class Jugador : MonoBehaviour
             Debug.Log("Player is dead!");
         }
     }
+
     public void ApplyDamage(int damage)
     {
         if (isInvulnerable) return;   
@@ -248,22 +262,20 @@ public class Jugador : MonoBehaviour
         }
         return true; // Player is dead
     }
+
     private IEnumerator InvulnerabilityCoroutine()
     {
-    isInvulnerable = true;
+        isInvulnerable = true;
 
-    float elapsed = 0f;
-    while (elapsed < invulnerabilityDuration)
-    {
-        sr.enabled = !sr.enabled;
-        yield return new WaitForSeconds(blinkInterval);
-        elapsed += blinkInterval;
+        float elapsed = 0f;
+        while (elapsed < invulnerabilityDuration)
+        {
+            sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(blinkInterval);
+            elapsed += blinkInterval;
+        }
+
+        sr.enabled = true; // Make sure sprite is visible at end
+        isInvulnerable = false;
     }
-
-    sr.enabled = true; // Make sure sprite is visible at end
-    isInvulnerable = false;
-    }
-
-
-
 }

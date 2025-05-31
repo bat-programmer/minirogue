@@ -88,6 +88,8 @@ MonoBehaviour:
   maxHearts: 3
   invulnerabilityDuration: 5
   blinkInterval: 0.2
+  fireRate: 0.6
+  fireCooldown: 1
 --- !u!50 &6869564674163887659
 Rigidbody2D:
   serializedVersion: 4
