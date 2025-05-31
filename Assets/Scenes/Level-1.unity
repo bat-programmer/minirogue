@@ -5400,7 +5400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 7404838379091509611, guid: 5284856fc8d7e4c4297b2038b0effe30, type: 3}
-  poolSize: 10
+  poolSize: 20
 --- !u!4 &1477086773
 Transform:
   m_ObjectHideFlags: 0
