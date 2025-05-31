@@ -382,10 +382,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: EsqueletoEspada (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 7450857586954114119, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.407061
@@ -582,17 +578,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: EsqueletoEspada
       objectReference: {fileID: 0}
-    - target: {fileID: 7450857586954114119, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.48
+      value: 9.41
       objectReference: {fileID: 0}
     - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.13
+      value: 1.833
       objectReference: {fileID: 0}
     - target: {fileID: 8058745880168196188, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_LocalPosition.z

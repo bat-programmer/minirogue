@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
     public IPotionEffect currentPotion;
     public PotionUISlot potionUISlot; // Assign in the Inspector
     public static GameManager Instance;
+    public Transform playerTransform;
 
     public int playerHealth = 100;
 
@@ -26,6 +27,9 @@ public class GameManager : MonoBehaviour
     }
     public void EquipPotion(IPotionEffect effect, Sprite sprite, Color color)
     {
+        Vector3 textPosition = playerTransform != null ? playerTransform.position : transform.position;
+
+        FloatingText.Create(textPosition, "Potion Grabbed!", Color.green);
         Debug.Log("Potion equipped: " + effect.GetType().Name);
         currentPotion = effect;
         //log potion color
@@ -40,6 +44,7 @@ public class GameManager : MonoBehaviour
             currentPotion.ApplyEffect(player);
             currentPotion = null;
             potionUISlot.ClearPotion();
+            FloatingText.Create(player.transform.position, "Potion used", Color.yellow);
         }
     }
 }

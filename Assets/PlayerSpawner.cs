@@ -14,6 +14,13 @@ public class PlayerSpawner : MonoBehaviour
     void SpawnPlayer()
     {
         GameObject player = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);
+
+        // Assign the player's transform to the GameManager
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.playerTransform = player.transform;
+        }
+
         cameraFollow = Camera.main.GetComponent<CameraFollow>();
         if (cameraFollow != null)
         {

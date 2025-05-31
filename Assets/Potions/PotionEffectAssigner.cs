@@ -39,7 +39,7 @@ public class PotionEffectAssigner : MonoBehaviour
         Debug.Log($"Assigning {(isBeneficial ? "beneficial" : "harmful")} effect from pool of size {pool.Length}.");
         int randomIndex = Random.Range(0, pool.Length);
         gameObject.AddComponent(pool[randomIndex]);
-        FloatingText.Create(transform.position, "Potion Grabbed!", Color.green);
+        
 
     }
 }
