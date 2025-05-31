@@ -214,6 +214,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4106244213498239414, guid: 43cf1e77bf809924288d17f192980fd2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4106244213498239414, guid: 43cf1e77bf809924288d17f192980fd2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322916101771062361, guid: 43cf1e77bf809924288d17f192980fd2, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5322916101771062361, guid: 43cf1e77bf809924288d17f192980fd2, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6174816685053136531, guid: 43cf1e77bf809924288d17f192980fd2, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -378,6 +394,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 842084320538276012, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
+      propertyPath: chaseRange
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6017146483738869006, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_Name
       value: EsqueletoEspada (1)
@@ -574,6 +594,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 842084320538276012, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
+      propertyPath: chaseRange
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 6017146483738869006, guid: edb5ff862470fff40b61dbc0cd09d618, type: 3}
       propertyPath: m_Name
       value: EsqueletoEspada
@@ -653,6 +677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   potionUISlot: {fileID: 939560554}
+  playerTransform: {fileID: 0}
   playerHealth: 100
   heldPotion: {fileID: 0}
 --- !u!4 &496479008
