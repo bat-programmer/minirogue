@@ -5,3 +5,7 @@ Controles
 WASD movimiento
 
 flechas direccionales disparo
+
+E para usar la pocion activa
+
+
