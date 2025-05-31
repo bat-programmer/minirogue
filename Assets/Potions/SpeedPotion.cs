@@ -10,4 +10,9 @@ public class SpeedPotion : MonoBehaviour, IPotionEffect
     {
         //player.StartCoroutine(player.ApplySpeedBoost(speedBoost, duration));
     }
+
+    public string GetUILabel()
+    {
+        return "Pocion de Aumento de Velocidad";
+    }
 }

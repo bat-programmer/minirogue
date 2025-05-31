@@ -8,4 +8,9 @@ public class SpeedDownPotionEffect : MonoBehaviour, IPotionEffect
         player.baseSpeed -= 20; // adjust as needed
         Debug.Log("Permanent speed down applied");
     }
+
+    public string GetUILabel()
+    {
+        return "Pocion de Reduccion de Velocidad";
+    }
 }

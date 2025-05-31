@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
         currentPotion = effect;
         //log potion color
         Debug.Log("Potion color: " + color.ToString());
-        potionUISlot.SetPotion(sprite, color);
+        potionUISlot.SetPotion(sprite, color,effect.GetUILabel());
     }
 
     public void UsePotion(Jugador player)

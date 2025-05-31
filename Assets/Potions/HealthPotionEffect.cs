@@ -8,4 +8,9 @@ public class HealthPotionEffect : MonoBehaviour, IPotionEffect
         player.ApplyHealth(2); // Add 1 full heart
         Debug.Log("Health potion applied");
     }
+
+    public string GetUILabel()
+    {
+        return "Pocion de Curacion";
+    }
 }

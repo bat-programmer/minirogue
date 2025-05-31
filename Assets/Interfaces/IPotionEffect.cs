@@ -3,6 +3,7 @@
         public interface IPotionEffect
         {
             void ApplyEffect(Jugador player);
-        }
+            string GetUILabel();
+    }
 
 }

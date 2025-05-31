@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Assets.Interfaces;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets.Potions
 {
-    public class FireRateDownPotionEffect : MonoBehaviour
+    public class FireRateDownPotionEffect : IPotionEffect
     {
         public void ApplyEffect(Jugador player)
         {
@@ -11,5 +12,9 @@ namespace Assets.Potions
             Debug.Log("Permanent fire up applied");
         }
 
+        public string GetUILabel()
+        {
+            return "Pocion ralentizadora de disparo";
+        }
     }
 }

@@ -8,4 +8,9 @@ public class SpeedUpPotionEffect : MonoBehaviour, IPotionEffect
         player.baseSpeed += 1; // adjust as needed
         Debug.Log("Permanent speed up applied");
     }
+
+    public string GetUILabel()
+    {
+        return "Pocion de Aumento de Velocidad";
+    }
 }

@@ -8,4 +8,9 @@ public class FireRateUpPotionEffect : MonoBehaviour, IPotionEffect
         player.fireRate -= 0.1f; // adjust as needed
         Debug.Log("Permanent fire up applied");
     }
+
+    public string GetUILabel()
+    {
+        return "Pocion de Aumento de Cadencia de Fuego";
+    }
 }
