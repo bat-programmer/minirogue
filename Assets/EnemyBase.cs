@@ -160,9 +160,11 @@ public abstract class EnemyBase : MonoBehaviour
 
     public virtual void ApplyDamage(int damage)
     {
+        if (isDead || isInDamageState) return; // Ignore if already dead or in damage state
+
         health -= damage;
         animator.SetTrigger("takeDamage");
-
+        Debug.Log($"Enemy took {damage} damage, remaining health: {health}");
         if (health <= 0 && !isDead)
         {
             isDead = true;
