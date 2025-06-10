@@ -5455,6 +5455,22 @@ PrefabInstance:
       propertyPath: heartsContainer
       value: 
       objectReference: {fileID: 2005081167}
+    - target: {fileID: 7193469338074618779, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
+      propertyPath: m_Size.x
+      value: 0.65371513
+      objectReference: {fileID: 0}
+    - target: {fileID: 7193469338074618779, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
+      propertyPath: m_Size.y
+      value: 0.845581
+      objectReference: {fileID: 0}
+    - target: {fileID: 7193469338074618779, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.049099922
+      objectReference: {fileID: 0}
+    - target: {fileID: 7193469338074618779, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.015188187
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

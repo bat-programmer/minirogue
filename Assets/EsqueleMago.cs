@@ -56,13 +56,22 @@ public class EsqueleMago : EnemyBase
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return;
 
-        Vector2 direction = (player.transform.position - transform.position).normalized;
+        Vector2 baseDirection = (player.transform.position - transform.position).normalized;
 
-        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
-        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-        if (rb != null)
+        // Fan angles in degrees
+        float[] angles = { 0f, -15f, 15f };
+
+        foreach (float angle in angles)
         {
-            rb.velocity = direction * projectileSpeed;
+            // Rotate the base direction by the angle
+            Vector2 rotatedDirection = Quaternion.Euler(0, 0, angle) * baseDirection;
+
+            GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+            Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
+            if (rb != null)
+            {
+                rb.velocity = rotatedDirection.normalized * projectileSpeed;
+            }
         }
     }
 
