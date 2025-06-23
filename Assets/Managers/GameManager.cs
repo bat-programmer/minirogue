@@ -11,8 +11,25 @@ public class GameManager : MonoBehaviour
 
     public int playerHealth = 100;
 
+
     // Reference to the current potion the player is holding
     public GameObject heldPotion;
+    public event System.Action OnAllEnemiesDefeated;
+    private int deadEnemies = 0;
+    private int totalEnemies = 0;
+
+    private void Start()
+    {
+        totalEnemies = FindObjectsOfType<NavEnemyBase>().Length;
+        deadEnemies = 0;
+
+        NavEnemyBase.OnAnyEnemyDied += HandleEnemyDeath;
+    }
+    public void RegisterEnemy()
+    {
+        totalEnemies++;
+        Debug.Log($"[GameManager] Enemy registered. Total: {totalEnemies}");
+    }
 
     private void Awake()
     {
@@ -45,6 +62,20 @@ public class GameManager : MonoBehaviour
             currentPotion = null;
             potionUISlot.ClearPotion();
             FloatingText.Create(player.transform.position, "Potion used", Color.yellow);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        NavEnemyBase.OnAnyEnemyDied -= HandleEnemyDeath;
+    }
+    private void HandleEnemyDeath()
+    {
+        deadEnemies++;
+
+        if (deadEnemies >= totalEnemies)
+        {
+            OnAllEnemiesDefeated?.Invoke();
         }
     }
 }

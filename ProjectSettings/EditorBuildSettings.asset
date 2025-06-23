@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: f9fbbcd37b3bf07468138b00192e1649
   - enabled: 1
+    path: Assets/Scenes/NavMesh-Path.unity
+    guid: dec93b8913583754c822cb2a38c94a25
+  - enabled: 1
     path: Assets/Scenes/Level-1.unity
     guid: 03ff46cfdefe94849a02750417f71537
   - enabled: 1

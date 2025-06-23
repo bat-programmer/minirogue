@@ -15,6 +15,7 @@ public abstract class NavEnemyBase : MonoBehaviour
     protected bool isInAttackState = false;
     protected bool isInDamageState = false;
     protected bool isChasing = false;
+    public static event System.Action OnAnyEnemyDied;
 
     // Components
     protected Animator animator;
@@ -177,6 +178,7 @@ public abstract class NavEnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
+        OnAnyEnemyDied?.Invoke(); // Fire event
         Destroy(this.gameObject);
     }
 
