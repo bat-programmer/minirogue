@@ -3,6 +3,9 @@ using UnityEngine.AI;
 
 public abstract class NavEnemyBase : MonoBehaviour
 {
+    [Header("Movement Type")]
+    public bool useNavMesh = false;
+
     [Header("Enemy Settings")]
     public float speed = 3.0f;
     public int health = 100;
@@ -33,14 +36,20 @@ public abstract class NavEnemyBase : MonoBehaviour
     protected float lastAttackTime = -Mathf.Infinity;
     protected NavMeshAgent navAgent;
     protected virtual void Start()
-    {
-        navAgent = GetComponent<NavMeshAgent>();
+    {        
         currentDirection = GetRandomCardinalDirection();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        navAgent.updateRotation = false; // Disable automatic rotation
-        navAgent.updateUpAxis = false; // Disable automatic up-axis adjustment
+        if (useNavMesh)
+        {
+            navAgent = GetComponent<NavMeshAgent>();
+            if (navAgent != null)
+            {
+                navAgent.updateRotation = false;
+                navAgent.updateUpAxis = false;
+            }
+        }
     }
 
     protected virtual void Update()

@@ -6,8 +6,10 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 {
     [SerializeField] private Vector2 searchBoxSize = new Vector2(10f, 10f);
     [SerializeField] private LayerMask spawnerLayer;
+    [SerializeField] private float enemyCheckInterval = 1f;
 
     private bool activated = false;
+    private bool allEnemiesDead = false;
 
     public void OnPostTeleport()
     {
@@ -16,24 +18,68 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
         // Find all colliders in the defined box area
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, searchBoxSize, 0f, spawnerLayer);
         Debug.Log($"Found {colliders.Length} colliders in the area.");
+
         foreach (var col in colliders)
         {
             NavEnemySpawner spawner = col.GetComponent<NavEnemySpawner>();
             if (spawner != null)
             {
-                spawner.enabled = true;                
+                spawner.enabled = true;
             }
+
             EnemyBase enemy = col.GetComponent<EnemyBase>();
             if (enemy != null)
             {
-                
                 enemy.enabled = true;
-                
             }
-
+            NavEnemyBase navEnemy = col.GetComponent<NavEnemyBase>();
+            if (navEnemy != null)
+            {
+                navEnemy.enabled = true;
+                Debug.Log($"Enabled NavEnemyBase on {col.name}");
+            }
+           // Debug.Log($"Enabled spawner/enemy on {col.name}");
         }
 
         activated = true;
+        StartCoroutine(CheckIfAllEnemiesDeadCoroutine());
+    }
+
+    private IEnumerator CheckIfAllEnemiesDeadCoroutine()
+    {
+        while (!allEnemiesDead)
+        {
+            yield return new WaitForSeconds(enemyCheckInterval);
+
+            Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, searchBoxSize, 0f, spawnerLayer);
+            bool anyAlive = false;
+
+            foreach (var col in colliders)
+            {
+                EnemyBase enemy = col.GetComponent<EnemyBase>();
+                if (enemy != null && enemy.gameObject.activeInHierarchy)
+                {
+                    anyAlive = true;
+                    break;
+                }
+                NavEnemyBase navEnemy = col.GetComponent<NavEnemyBase>();
+                if (navEnemy != null && navEnemy.gameObject.activeInHierarchy)
+                {
+                    anyAlive = true;
+                    break;
+                }
+            }
+
+            if (!anyAlive)
+            {
+                allEnemiesDead = true;
+                Debug.Log($"All enemies in room '{name}' are dead!");
+                // You can do other things here, like:
+                // - Open a door
+                // - Spawn loot
+                // - Signal LevelManager
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
