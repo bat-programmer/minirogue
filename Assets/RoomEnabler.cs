@@ -15,14 +15,22 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 
         // Find all colliders in the defined box area
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, searchBoxSize, 0f, spawnerLayer);
-
+        Debug.Log($"Found {colliders.Length} colliders in the area.");
         foreach (var col in colliders)
         {
             NavEnemySpawner spawner = col.GetComponent<NavEnemySpawner>();
             if (spawner != null)
             {
-                spawner.enabled = true;
+                spawner.enabled = true;                
             }
+            EnemyBase enemy = col.GetComponent<EnemyBase>();
+            if (enemy != null)
+            {
+                
+                enemy.enabled = true;
+                
+            }
+
         }
 
         activated = true;

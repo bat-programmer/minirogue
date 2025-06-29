@@ -51,7 +51,9 @@ public class EsqueleMago : EnemyBase
 
     private void ShootProjectileAtPlayer()
     {
+        Debug.Log("EsqueleMago is shooting projectiles at the player.");
         if (projectilePrefab == null) return;
+        Debug.Log($"Projectile prefab: {projectilePrefab.name}");
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player == null) return;
