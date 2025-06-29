@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public abstract class NavEnemyBase : MonoBehaviour
 {
     [Header("Movement Type")]
-    public bool useNavMesh = false;
+    public bool useNavMesh = true;
 
     [Header("Enemy Settings")]
     public float speed = 3.0f;
@@ -86,12 +86,35 @@ public abstract class NavEnemyBase : MonoBehaviour
     }
     protected virtual void ChasePlayer()
     {
-
         isChasing = true;
-        animator.SetBool("isMoving", true);
-        FacePlayer();
-        navAgent.SetDestination(GameObject.FindGameObjectWithTag("Player").transform.position);
-        
+
+        if (useNavMesh && navAgent != null)
+        {
+            // NavMesh chasing
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                navAgent.SetDestination(player.transform.position);
+                animator.SetBool("isMoving", true);
+                FacePlayer();
+            }
+        }
+        else
+        {
+            // Direct movement chasing
+            pathUpdateTimer += Time.deltaTime;
+            if (pathUpdateTimer >= pathUpdateInterval)
+            {
+                GameObject player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    Vector2 directionToPlayer = player.transform.position - transform.position;
+                    currentDirection = GetBestCardinalDirection(directionToPlayer);
+                }
+                pathUpdateTimer = 0f;
+            }
+            MoveInDirection(currentDirection);
+        }
     }
     protected virtual void MoveInDirection(Vector2 direction)
     {

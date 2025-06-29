@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EsqueleMago : EnemyBase
+public class EsqueleMago : NavEnemyBase
 {
     private GameObject projectilePrefab;
 

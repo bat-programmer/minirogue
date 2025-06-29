@@ -100,10 +100,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1729beb7ceac37d43a1c1bed10034100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useNavMesh: 1
   speed: 3
-  health: 100
+  health: 40
   attackRange: 1.5
-  chaseRange: 8
+  chaseRange: 10
   pathUpdateInterval: 0.5
 --- !u!195 &6745188206620286208
 NavMeshAgent:
