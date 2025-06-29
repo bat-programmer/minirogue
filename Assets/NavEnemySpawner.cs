@@ -32,7 +32,10 @@ public class NavEnemySpawner : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        GameObject enemy = Instantiate(enemyPrefab, transform.position, Quaternion.identity);
+        //Instantiate the enemy a bit away from the spawner position to avoid overlap
+        Vector2 spawnPosition = transform.position + (Vector3)(Random.insideUnitCircle * 0.5f); // Random offset
+        spawnPosition = new Vector2(Mathf.Round(spawnPosition.x), Mathf.Round(spawnPosition.y)); // Round to avoid sub-pixel issues
+        GameObject enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
         spawnedCount++;
 
         GameManager.Instance?.RegisterEnemy();

@@ -33,6 +33,13 @@ public class FlechaMover : MonoBehaviour
                 jugador.ApplyDamage(50); // Adjust damage value as needed
             }
         }
+
+        if (collision.CompareTag("Wall"))
+        {
+            // If it hits a wall, just destroy itself
+            Destroy(gameObject);
+            return;
+        }
         //Destroy(gameObject);
     }
 }
