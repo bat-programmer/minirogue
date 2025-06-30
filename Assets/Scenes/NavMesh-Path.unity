@@ -359,6 +359,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43cf1e77bf809924288d17f192980fd2, type: 3}
+--- !u!1 &87513098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 87513100}
+  - component: {fileID: 87513099}
+  m_Layer: 0
+  m_Name: RoomEnablerHazard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &87513099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87513098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd6e3d9f46af0543941e7ae3d46d102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  searchBoxSize: {x: 29.6, y: 16.7}
+  spawnerLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  enemyCheckInterval: 1
+--- !u!4 &87513100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87513098}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 33.41, y: 18.93, z: 0.047389865}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &92315037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2144,7 +2193,7 @@ PrefabInstance:
     - target: {fileID: 2445634683655240414, guid: c4780bb77a2884941bd686bab9fba5c5, type: 3}
       propertyPath: postTeleportActions.Array.data[0]
       value: 
-      objectReference: {fileID: 1546575892}
+      objectReference: {fileID: 87513099}
     - target: {fileID: 6492105238653241425, guid: c4780bb77a2884941bd686bab9fba5c5, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.904
@@ -30194,6 +30243,7 @@ SceneRoots:
   - {fileID: 963478960}
   - {fileID: 14899786}
   - {fileID: 1546575893}
+  - {fileID: 87513100}
   - {fileID: 522705136}
   - {fileID: 835793905}
   - {fileID: 169578503}
