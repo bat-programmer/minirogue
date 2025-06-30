@@ -58,9 +58,10 @@ public class BolaDeFuego : MonoBehaviour
                 trailEffect.Stop();
             }
 
-            if (impactEffectPrefab != null)
+            PoolImpactEffect impactPool = FindObjectOfType<PoolImpactEffect>();
+            if (impactPool != null)
             {
-                Instantiate(impactEffectPrefab, transform.position, Quaternion.identity);
+                impactPool.GetImpactEffect(transform.position);
             }
 
             Invoke(nameof(DisableFireball), 0.2f);
@@ -83,8 +84,6 @@ public class BolaDeFuego : MonoBehaviour
     {
         if (trailEffect != null)
         {
-            var main = trailEffect.main;
-
             // Reverse the particle system if moving left
             trailEffect.transform.localRotation = direction.x < 0
                 ? Quaternion.Euler(0, 180, 0)

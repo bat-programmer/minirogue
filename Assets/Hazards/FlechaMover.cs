@@ -15,7 +15,7 @@ public class FlechaMover : MonoBehaviour
         if (collision.CompareTag("Enemy"))
         {
             // Assuming the player has a method to take damage
-            EnemyBase enemy = collision.GetComponent<EnemyBase>();
+            NavEnemyBase enemy = collision.GetComponent<NavEnemyBase>();
             if (enemy != null)
             {
                 enemy.ApplyDamage(50); // Adjust damage value as needed
