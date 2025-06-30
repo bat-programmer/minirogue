@@ -15,6 +15,8 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
     {
         if (activated) return;
 
+        Debug.Log($"Searching for layer mask: {spawnerLayer.value}");
+
         // Find all colliders in the defined box area
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, searchBoxSize, 0f, spawnerLayer);
         Debug.Log($"Found {colliders.Length} colliders in the area.");
@@ -27,11 +29,6 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
                 spawner.enabled = true;
             }
 
-            EnemyBase enemy = col.GetComponent<EnemyBase>();
-            if (enemy != null)
-            {
-                enemy.enabled = true;
-            }
             NavEnemyBase navEnemy = col.GetComponent<NavEnemyBase>();
             if (navEnemy != null)
             {
@@ -56,12 +53,6 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 
             foreach (var col in colliders)
             {
-                EnemyBase enemy = col.GetComponent<EnemyBase>();
-                if (enemy != null && enemy.gameObject.activeInHierarchy)
-                {
-                    anyAlive = true;
-                    break;
-                }
                 NavEnemyBase navEnemy = col.GetComponent<NavEnemyBase>();
                 if (navEnemy != null && navEnemy.gameObject.activeInHierarchy)
                 {

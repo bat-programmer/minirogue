@@ -1,26 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackStateBehaviorNavEnemy : StateMachineBehaviour
 {
-    // Reference to the enemy script
     private NavEnemyBase enemyScript;
 
-    // This is called when the state is entered
-    override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         if (enemyScript == null)
-            enemyScript = animator.GetComponent<NavEnemyBase>();
+            enemyScript = animator.GetComponentInParent<NavEnemyBase>();
 
-        // Tell the enemy script that an attack has started
-        enemyScript.OnAttackStart();
+        if (enemyScript != null)
+            enemyScript.OnAttackStart();
+        else
+            Debug.LogWarning("NavEnemyBase not found in parent hierarchy.");
     }
 
-    // This is called when the state is exited
-    override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
+    public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Tell the enemy script that the attack has ended
-        enemyScript.OnAttackEnd();
+        if (enemyScript != null)
+            enemyScript.OnAttackEnd();
     }
 }
+
+

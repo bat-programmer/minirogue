@@ -38,8 +38,8 @@ public abstract class NavEnemyBase : MonoBehaviour
     protected virtual void Start()
     {        
         currentDirection = GetRandomCardinalDirection();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponentInChildren<Animator>();
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
         if (useNavMesh)
         {
