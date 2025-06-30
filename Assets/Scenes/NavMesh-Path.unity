@@ -393,6 +393,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   enemyCheckInterval: 1
+  onRoomCleared:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &87513100
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,6 +1836,52 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &153450242
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 153450244}
+  - component: {fileID: 153450243}
+  m_Layer: 0
+  m_Name: RoomClearReward
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &153450243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153450242}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f1870ddd93bfe7448b943209e5e6ff2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treasurePrefab: {fileID: 4748041705917666, guid: 552f573deabb38f40b6d69c355b0e89d, type: 3}
+  spawnOffset: {x: 0, y: 0}
+--- !u!4 &153450244
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153450242}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.98, y: 2.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &168700885
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22909,6 +22958,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   enemyCheckInterval: 1
+  onRoomCleared:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &522705136
 Transform:
   m_ObjectHideFlags: 0
@@ -26335,6 +26387,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   enemyCheckInterval: 1
+  onRoomCleared:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 153450243}
+        m_TargetAssemblyTypeName: RoomClearRewardSpawner, Assembly-CSharp
+        m_MethodName: SpawnTreasure
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!4 &1546575893
 Transform:
   m_ObjectHideFlags: 0
@@ -30242,6 +30309,7 @@ SceneRoots:
   - {fileID: 1008374208}
   - {fileID: 963478960}
   - {fileID: 14899786}
+  - {fileID: 153450244}
   - {fileID: 1546575893}
   - {fileID: 87513100}
   - {fileID: 522705136}

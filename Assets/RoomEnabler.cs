@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 {
     [SerializeField] private Vector2 searchBoxSize = new Vector2(10f, 10f);
     [SerializeField] private LayerMask spawnerLayer;
     [SerializeField] private float enemyCheckInterval = 1f;
+
+
+    [Header("Room Cleared Event")]
+    public UnityEvent onRoomCleared;
 
     private bool activated = false;
     private bool allEnemiesDead = false;
@@ -65,6 +70,8 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
             {
                 allEnemiesDead = true;
                 Debug.Log($"All enemies in room '{name}' are dead!");
+                onRoomCleared?.Invoke();
+
                 // You can do other things here, like:
                 // - Open a door
                 // - Spawn loot

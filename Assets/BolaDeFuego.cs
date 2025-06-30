@@ -3,6 +3,7 @@ using UnityEngine;
 public class BolaDeFuego : MonoBehaviour
 {
     public float speed = 5f;
+    public int damage = 1000; // Damage value for the fireball
     private Vector2 direction;
     private ParticleSystem trailEffect;
     public GameObject impactEffectPrefab;  // Add this
@@ -49,7 +50,7 @@ public class BolaDeFuego : MonoBehaviour
                 var enemy = collision.GetComponent<NavEnemyBase>();
                 if (enemy != null)
                 {                    
-                    enemy.ApplyDamage(10); // New method you define
+                    enemy.ApplyDamage(damage); // New method you define
                 }
             }
 

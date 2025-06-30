@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 9f1870ddd93bfe7448b943209e5e6ff2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - treasurePrefab: {fileID: 4748041705917666, guid: 552f573deabb38f40b6d69c355b0e89d, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
