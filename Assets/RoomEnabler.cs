@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +14,26 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
     [Header("Room Cleared Event")]
     public UnityEvent onRoomCleared;
 
+    [Header("Room Activation Options")]
+    [SerializeField] private bool activateOnStart = false;
+
     private bool activated = false;
     private bool allEnemiesDead = false;
 
+    void Start()
+    {
+        if (activateOnStart)
+        {
+            ActivateRoom();
+        }
+    }
+
     public void OnPostTeleport()
+    {
+    ActivateRoom();
+    }
+
+    public void ActivateRoom()
     {
         if (activated) return;
 
@@ -40,7 +57,7 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
                 navEnemy.enabled = true;
                 Debug.Log($"Enabled NavEnemyBase on {col.name}");
             }
-           // Debug.Log($"Enabled spawner/enemy on {col.name}");
+            // Debug.Log($"Enabled spawner/enemy on {col.name}");
         }
 
         activated = true;

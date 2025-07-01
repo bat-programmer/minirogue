@@ -43,11 +43,12 @@ public abstract class NavEnemyBase : MonoBehaviour
 
         if (useNavMesh)
         {
-            navAgent = GetComponent<NavMeshAgent>();
+            navAgent = GetComponentInChildren<NavMeshAgent>();
             if (navAgent != null)
             {
                 navAgent.updateRotation = false;
                 navAgent.updateUpAxis = false;
+                navAgent.updatePosition = false;
             }
         }
     }
@@ -318,4 +319,13 @@ public abstract class NavEnemyBase : MonoBehaviour
     }
 
     #endregion
+
+    private void LateUpdate()
+    {
+        if (useNavMesh && navAgent != null)
+        {
+         transform.position = navAgent.nextPosition; // Sync position with NavMeshAgent
+         navAgent.nextPosition= transform.position; // Ensure NavMeshAgent updates correctly
+        }
+    }
 }
