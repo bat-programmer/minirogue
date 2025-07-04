@@ -17,6 +17,8 @@ public class Jugador : MonoBehaviour
     private SpriteRenderer sr;
     public Transform firePoint;
     private float fireballSpeed = 10;
+    [SerializeField] private int fireballDamage = 1000; // Default damage
+    private Coroutine fireballDamageBoostCoroutine;
 
     [Header("UI")]
     public Transform heartsContainer; // Drag your container here in the Inspector
@@ -145,7 +147,7 @@ public class Jugador : MonoBehaviour
     {
         if (poolBolaDeFuego != null)
         {
-            poolBolaDeFuego.GetFireball(firePoint.position, direction.normalized);
+            poolBolaDeFuego.GetFireball(firePoint.position, direction.normalized, fireballDamage);
         }
     }
 
@@ -278,5 +280,24 @@ public class Jugador : MonoBehaviour
 
         sr.enabled = true; // Make sure sprite is visible at end
         isInvulnerable = false;
+    }
+
+    public void ApplyFireballDamageBoost(int amount, float duration)
+    {
+        if (fireballDamageBoostCoroutine != null)
+            StopCoroutine(fireballDamageBoostCoroutine);
+
+        fireballDamageBoostCoroutine = StartCoroutine(FireballDamageBoostCoroutine(amount, duration));
+    }
+
+    private IEnumerator FireballDamageBoostCoroutine(int amount, float duration)
+    {
+        fireballDamage += amount;
+        Debug.Log($"Fireball damage increased by {amount} for {duration} seconds.");
+
+        yield return new WaitForSeconds(duration);
+
+        fireballDamage -= amount;
+        Debug.Log("Fireball damage boost ended.");
     }
 }

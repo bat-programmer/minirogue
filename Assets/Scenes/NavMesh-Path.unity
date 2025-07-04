@@ -22867,6 +22867,9 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   playerHealth: 100
   heldPotion: {fileID: 0}
+  coinPrefab: {fileID: 803591683841211928, guid: ce2e7d208ce80584aba096035e2fcaf5, type: 3}
+  coinDropEveryXDeaths: 3
+  coinDropChance: 0.5
 --- !u!4 &496479008
 Transform:
   m_ObjectHideFlags: 0

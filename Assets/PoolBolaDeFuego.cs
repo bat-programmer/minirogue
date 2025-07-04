@@ -21,7 +21,8 @@ public class PoolBolaDeFuego : MonoBehaviour
     }
 
 
-    public GameObject GetFireball(Vector3 position, Vector2 direction)
+    // Add damage parameter
+    public GameObject GetFireball(Vector3 position, Vector2 direction, int damage)
     {
         if (fireballPool.Count == 0)
         {
@@ -34,6 +35,7 @@ public class PoolBolaDeFuego : MonoBehaviour
 
         BolaDeFuego fireballScript = fireball.GetComponent<BolaDeFuego>();
         fireballScript.SetDirection(direction);
+        fireballScript.SetDamage(damage); // Set the damage
 
         return fireball;
     }

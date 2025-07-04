@@ -3,7 +3,11 @@ guid: 3878b74164777784fb765f4862c050a3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - potionUISlot: {instanceID: 0}
+  - playerTransform: {instanceID: 0}
+  - heldPotion: {instanceID: 0}
+  - coinPrefab: {fileID: 803591683841211928, guid: 6ece00c21daa52e478b7ad13b204071c, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -3,10 +3,10 @@ using UnityEngine;
 public class BolaDeFuego : MonoBehaviour
 {
     public float speed = 5f;
-    public int damage = 1000; // Damage value for the fireball
+    public int damage = 1000; // Default damage value for the fireball
     private Vector2 direction;
     private ParticleSystem trailEffect;
-    public GameObject impactEffectPrefab;  // Add this
+    public GameObject impactEffectPrefab;
     private SpriteRenderer spriteRenderer;
 
     void Awake()
@@ -27,7 +27,6 @@ public class BolaDeFuego : MonoBehaviour
     public void SetDirection(Vector2 newDirection)
     {
         direction = newDirection;
-        // Flip sprite if moving left
         if (spriteRenderer != null)
         {
             spriteRenderer.flipX = direction.x < 0;
@@ -35,22 +34,27 @@ public class BolaDeFuego : MonoBehaviour
         AdjustParticleEffect();
     }
 
+    // Add this method to set damage from outside
+    public void SetDamage(int newDamage)
+    {
+        damage = newDamage;
+    }
+
     void Update()
     {
         transform.position += (Vector3)direction * speed * Time.deltaTime;
     }
 
-     private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Enemy"))
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                // Tell the enemy it got hit (optional but cleaner)
                 var enemy = collision.GetComponent<NavEnemyBase>();
                 if (enemy != null)
-                {                    
-                    enemy.ApplyDamage(damage); // New method you define
+                {
+                    enemy.ApplyDamage(damage);
                 }
             }
 
@@ -85,7 +89,6 @@ public class BolaDeFuego : MonoBehaviour
     {
         if (trailEffect != null)
         {
-            // Reverse the particle system if moving left
             trailEffect.transform.localRotation = direction.x < 0
                 ? Quaternion.Euler(0, 180, 0)
                 : Quaternion.identity;

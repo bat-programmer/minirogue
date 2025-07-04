@@ -18,6 +18,11 @@ public class GameManager : MonoBehaviour
     private int deadEnemies = 0;
     private int totalEnemies = 0;
 
+    [Header("Coin Drop Settings")]
+    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private int coinDropEveryXDeaths = 3;
+    [SerializeField][Range(0f, 1f)] private float coinDropChance = 0.5f;
+
     private void Start()
     {
         totalEnemies = FindObjectsOfType<NavEnemyBase>().Length;
@@ -77,5 +82,33 @@ public class GameManager : MonoBehaviour
         {
             OnAllEnemiesDefeated?.Invoke();
         }
+        // Try to spawn coin every X deaths
+        if (deadEnemies % coinDropEveryXDeaths == 0)
+        {
+            float roll = Random.value; // Random between 0 and 1
+            if (roll < coinDropChance)
+            {
+                SpawnCoin();
+            }
+        }
     }
+    private void SpawnCoin()
+    {
+        if (coinPrefab == null)
+        {
+            Debug.LogWarning("[GameManager] Coin prefab not assigned.");
+            return;
+        }
+
+        if (playerTransform == null)
+        {
+            Debug.LogWarning("[GameManager] Player transform not assigned.");
+            return;
+        }
+
+        // Spawn near the player with slight random offset
+        Vector2 spawnPos = (Vector2)playerTransform.position + Random.insideUnitCircle * 1.5f;
+        Instantiate(coinPrefab, spawnPos, Quaternion.identity);
+    }
+
 }
