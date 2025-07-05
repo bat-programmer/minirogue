@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BolaDeFuego : MonoBehaviour
@@ -8,6 +10,11 @@ public class BolaDeFuego : MonoBehaviour
     private ParticleSystem trailEffect;
     public GameObject impactEffectPrefab;
     private SpriteRenderer spriteRenderer;
+
+    // Effects system
+    private List<FireballEffect> activeEffects = new List<FireballEffect>();
+    public event Action<Vector2> OnWallHit;
+    public Vector2 GetDirection() => direction;
 
     void Awake()
     {
@@ -47,29 +54,27 @@ public class BolaDeFuego : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Wall"))
         {
-            if (collision.gameObject.CompareTag("Enemy"))
-            {
-                var enemy = collision.GetComponent<NavEnemyBase>();
-                if (enemy != null)
-                {
-                    enemy.ApplyDamage(damage);
-                }
-            }
+            // Calculate hit normal for bounce effect
+            Vector2 hitNormal = (transform.position - collision.transform.position).normalized;
+            OnWallHit?.Invoke(hitNormal);
 
-            if (trailEffect != null)
+            // Check if we have bounce effect, if not, destroy as normal
+            bool hasBounceEffect = activeEffects.Exists(effect => effect is BounceEffect);
+            if (!hasBounceEffect)
             {
-                trailEffect.Stop();
+                DestroyFireball();
             }
-
-            PoolImpactEffect impactPool = FindObjectOfType<PoolImpactEffect>();
-            if (impactPool != null)
+        }
+        else if (collision.gameObject.CompareTag("Enemy"))
+        {
+            var enemy = collision.GetComponent<NavEnemyBase>();
+            if (enemy != null)
             {
-                impactPool.GetImpactEffect(transform.position);
+                enemy.ApplyDamage(damage);
             }
-
-            Invoke(nameof(DisableFireball), 0.2f);
+            DestroyFireball();
         }
     }
 
@@ -85,6 +90,23 @@ public class BolaDeFuego : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void DestroyFireball()
+    {
+        if (trailEffect != null)
+        {
+            trailEffect.Stop();
+        }
+
+        PoolImpactEffect impactPool = FindObjectOfType<PoolImpactEffect>();
+        if (impactPool != null)
+        {
+            impactPool.GetImpactEffect(transform.position);
+        }
+
+        ClearAllEffects();
+        Invoke(nameof(DisableFireball), 0.2f);
+    }
+
     private void AdjustParticleEffect()
     {
         if (trailEffect != null)
@@ -94,4 +116,44 @@ public class BolaDeFuego : MonoBehaviour
                 : Quaternion.identity;
         }
     }
+
+    public void AddEffect<T>(float duration = -1f) where T : FireballEffect
+    {
+        T effect = gameObject.AddComponent<T>();
+        effect.Initialize(this, duration);
+        effect.ApplyEffect();
+        activeEffects.Add(effect);
+    }
+
+    public void AddEffect(FireballEffect effectPrefab, float duration = -1f)
+    {
+        FireballEffect effect = gameObject.AddComponent(effectPrefab.GetType()) as FireballEffect;
+        effect.Initialize(this, duration);
+        effect.ApplyEffect();
+        activeEffects.Add(effect);
+    }
+
+    public void RemoveEffect<T>() where T : FireballEffect
+    {
+        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        {
+            if (activeEffects[i] is T)
+            {
+                activeEffects[i].RemoveEffect();
+                Destroy(activeEffects[i]);
+                activeEffects.RemoveAt(i);
+            }
+        }
+    }
+
+    public void ClearAllEffects()
+    {
+        for (int i = activeEffects.Count - 1; i >= 0; i--)
+        {
+            activeEffects[i].RemoveEffect();
+            Destroy(activeEffects[i]);
+        }
+        activeEffects.Clear();
+    }
+
 }

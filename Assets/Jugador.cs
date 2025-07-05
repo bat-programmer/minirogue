@@ -147,7 +147,22 @@ public class Jugador : MonoBehaviour
     {
         if (poolBolaDeFuego != null)
         {
-            poolBolaDeFuego.GetFireball(firePoint.position, direction.normalized, fireballDamage);
+            GameObject fireballObj = poolBolaDeFuego.GetFireball(firePoint.position, direction.normalized, fireballDamage);
+            BolaDeFuego fireball = fireballObj.GetComponent<BolaDeFuego>();
+            ApplyFireballEffects(fireball);
+
+        }
+    }
+    private void ApplyFireballEffects(BolaDeFuego fireball)
+    {
+        // Example: Apply wavy movement        
+        fireball.AddEffect<TrackingEffect>();
+        
+        // Example: Combine multiple effects
+        if (Input.GetKey(KeyCode.Alpha3))
+        {
+            fireball.AddEffect<TrackingEffect>();
+            fireball.AddEffect<BounceEffect>();
         }
     }
 
