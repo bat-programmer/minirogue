@@ -3,26 +3,46 @@ using UnityEngine;
 
 public class WavyMovementEffect : FireballEffect
 {
-    [SerializeField] private float waveAmplitude = 2f;
-    [SerializeField] private float waveFrequency = 5f;
+    [SerializeField] private float waveAmplitude = 1f;
+    [SerializeField] private float waveFrequency = 10f;
     private Vector2 originalDirection;
+    private Vector2 basePosition;
     private float timeElapsed = 0f;
+    private Vector2 lastPosition;
 
     public override void ApplyEffect()
     {
         originalDirection = fireball.GetDirection();
+        basePosition = fireball.transform.position;
+        lastPosition = basePosition;
     }
 
     public override void UpdateEffect()
     {
         timeElapsed += Time.deltaTime;
 
+        // Calculate how far we should have moved in the original direction
+        float forwardDistance = fireball.speed * timeElapsed;
+        Vector2 forwardMovement = originalDirection * forwardDistance;
+
         // Create perpendicular vector for wave motion
         Vector2 perpendicular = new Vector2(-originalDirection.y, originalDirection.x);
         float waveOffset = Mathf.Sin(timeElapsed * waveFrequency) * waveAmplitude;
 
-        Vector2 newDirection = originalDirection + perpendicular * waveOffset * Time.deltaTime;
-        fireball.SetDirection(newDirection.normalized);
+        // Calculate new position
+        Vector2 newPosition = basePosition + forwardMovement + perpendicular * waveOffset;
+
+        // Update fireball position directly
+        fireball.transform.position = newPosition;
+
+        // Update direction based on movement (for sprite flipping)
+        Vector2 movementDirection = (newPosition - lastPosition).normalized;
+        if (movementDirection != Vector2.zero)
+        {
+            fireball.SetDirection(movementDirection);
+        }
+
+        lastPosition = newPosition;
     }
 }
 
