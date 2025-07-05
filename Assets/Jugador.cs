@@ -156,7 +156,7 @@ public class Jugador : MonoBehaviour
     private void ApplyFireballEffects(BolaDeFuego fireball)
     {
         // Example: Apply wavy movement        
-        fireball.AddEffect<TrackingEffect>();
+        fireball.AddEffect<WavyMovementEffect>();
         
         // Example: Combine multiple effects
         if (Input.GetKey(KeyCode.Alpha3))
