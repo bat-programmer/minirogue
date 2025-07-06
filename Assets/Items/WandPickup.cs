@@ -102,5 +102,5 @@ public enum FireballEffectType
     WavyMovement,
     Tracking,
     Bounce,
-    SpeedDamageModifier
+    DoubleFireEffect
 }

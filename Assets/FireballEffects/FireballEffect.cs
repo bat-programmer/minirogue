@@ -5,7 +5,7 @@ public abstract class FireballEffect : MonoBehaviour
     protected BolaDeFuego fireball;
     protected float duration;
     protected bool isActive = true;
-
+    public float RemainingDuration => duration;
     public virtual void Initialize(BolaDeFuego fireballRef, float effectDuration = -1f)
     {
         fireball = fireballRef;

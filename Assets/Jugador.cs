@@ -117,8 +117,8 @@ public class Jugador : MonoBehaviour
             case FireballEffectType.Bounce:
                 fireball.AddEffect<BounceEffect>();
                 break;
-            case FireballEffectType.SpeedDamageModifier:
-                fireball.AddEffect<SpeedDamageModifierEffect>();                
+            case FireballEffectType.DoubleFireEffect:
+                fireball.AddEffect<DoubleFireEffect>();                
                 break;
         }
     }
