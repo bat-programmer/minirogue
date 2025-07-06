@@ -44,6 +44,8 @@ public class Bomb : MonoBehaviour
                 Destroy(enemy.gameObject);
             }
         }
+        //destroy the bomb object after explosion
+        Destroy(gameObject);
     }
 
     private RoomEnabler FindClosestRoomEnabler()
