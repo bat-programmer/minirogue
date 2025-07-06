@@ -19,7 +19,8 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 
     private bool activated = false;
     private bool allEnemiesDead = false;
-
+    public Vector2 GetSearchBoxSize() => searchBoxSize;
+    public LayerMask GetSpawnerLayer() => spawnerLayer;
     void Start()
     {
         if (activateOnStart)
@@ -30,7 +31,7 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 
     public void OnPostTeleport()
     {
-    ActivateRoom();
+        ActivateRoom();
     }
 
     public void ActivateRoom()
@@ -102,4 +103,6 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, searchBoxSize);
     }
+
+
 }
