@@ -261,14 +261,12 @@ public class Jugador : MonoBehaviour
 
     public void AddMoney(int amount)
     {
-        // Handle money collection or spending
-        Debug.Log("Money handled: " + amount);
+        GameManager.Instance.AddCoins(amount);
     }
 
     public void RemoveMoney(int amount)
     {
-        // Handle money collection or spending
-        Debug.Log("Money removed: " + amount);
+        GameManager.Instance.RemoveCoins(amount);
     }
 
     public bool IsDead()

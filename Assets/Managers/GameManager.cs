@@ -23,6 +23,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int coinDropEveryXDeaths = 3;
     [SerializeField][Range(0f, 1f)] private float coinDropChance = 0.5f;
 
+    [Header("Player Money")]
+    [SerializeField] private int playerCoins = 0;
+    public int PlayerCoins => playerCoins;
+
     private void Start()
     {
         totalEnemies = FindObjectsOfType<NavEnemyBase>().Length;
@@ -68,6 +72,24 @@ public class GameManager : MonoBehaviour
             potionUISlot.ClearPotion();
             FloatingText.Create(player.transform.position, "Potion used", Color.yellow);
         }
+    }
+
+    public void AddCoins(int amount)
+    {
+        playerCoins += amount;
+        Debug.Log($"[GameManager] Coins: {playerCoins}");
+    }
+
+    public bool RemoveCoins(int amount)
+    {
+        if (playerCoins >= amount)
+        {
+            playerCoins -= amount;
+            Debug.Log($"[GameManager] Coins: {playerCoins}");
+            return true;
+        }
+        Debug.Log("[GameManager] Not enough coins!");
+        return false;
     }
 
     private void OnDestroy()
