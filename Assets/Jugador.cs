@@ -42,6 +42,8 @@ public class Jugador : MonoBehaviour
     [SerializeField] private List<FireballEffectType> permanentEffects = new List<FireballEffectType>();
     [SerializeField] private List<TemporalEffect> temporalEffects = new List<TemporalEffect>();
 
+    [Header("Events")]
+    public System.Action OnDamageTaken;
 
 
     public void AddFireballEffect(FireballEffectType effectType, float duration = -1f)
@@ -321,6 +323,7 @@ public class Jugador : MonoBehaviour
         if (isInvulnerable) return;   
 
         RemoveHealth(damage);
+        OnDamageTaken?.Invoke();
         if (IsDead())
         {
             // Handle player death (e.g., restart level, show game over screen)

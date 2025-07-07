@@ -7,16 +7,22 @@ public class RoomClearRewardSpawner : MonoBehaviour
 
     [Header("Optional")]
     [SerializeField] private GameObject teleporter;
-    public void SpawnTreasure()
+    public void SpawnTreasure(bool perfectClear)
     {
-        if (treasurePrefab == null)
+        GameObject prefabToSpawn = treasurePrefab;
+
+        if (prefabToSpawn == null)
         {
             Debug.LogWarning("Treasure prefab is not assigned.");
             return;
         }
 
-        Instantiate(treasurePrefab, (Vector2)transform.position + spawnOffset, Quaternion.identity);
-        Debug.Log("Treasure spawned!");
+        Instantiate(prefabToSpawn, (Vector2)transform.position + spawnOffset, Quaternion.identity);
+        if ( perfectClear)
+        {
+            Debug.Log($"Treasure spawned! Perfect clear: {perfectClear}");
+        }
+        
 
         if (teleporter != null)
         {

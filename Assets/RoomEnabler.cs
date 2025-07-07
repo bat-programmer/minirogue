@@ -10,17 +10,20 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
     [SerializeField] private LayerMask spawnerLayer;
     [SerializeField] private float enemyCheckInterval = 1f;
 
-
-    [Header("Room Cleared Event")]
-    public UnityEvent onRoomCleared;
+    [Header("Room Cleared Event")]    
+    public UnityEvent<bool> onRoomClearedWithDamageStatus; // New event with damage status
 
     [Header("Room Activation Options")]
     [SerializeField] private bool activateOnStart = false;
 
     private bool activated = false;
     private bool allEnemiesDead = false;
+    private bool playerTookDamageInRoom = false;
+    private Jugador player;
+
     public Vector2 GetSearchBoxSize() => searchBoxSize;
     public LayerMask GetSpawnerLayer() => spawnerLayer;
+
     void Start()
     {
         if (activateOnStart)
@@ -38,8 +41,22 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
     {
         if (activated) return;
 
-        Debug.Log($"Searching for layer mask: {spawnerLayer.value}");
+        // Find the player and subscribe to damage events
+        if (player == null)
+        {
+            player = FindObjectOfType<Jugador>();
+        }
 
+        if (player != null)
+        {
+            // Subscribe to damage events when room activates
+            player.OnDamageTaken += OnPlayerDamageTaken;
+        }
+
+        // Reset damage tracking for this room
+        playerTookDamageInRoom = false;
+
+        Debug.Log($"Searching for layer mask: {spawnerLayer.value}");
         // Find all colliders in the defined box area
         Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, searchBoxSize, 0f, spawnerLayer);
         Debug.Log($"Found {colliders.Length} colliders in the area.");
@@ -51,18 +68,22 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
             {
                 spawner.enabled = true;
             }
-
             NavEnemyBase navEnemy = col.GetComponent<NavEnemyBase>();
             if (navEnemy != null)
             {
                 navEnemy.enabled = true;
                 Debug.Log($"Enabled NavEnemyBase on {col.name}");
             }
-            // Debug.Log($"Enabled spawner/enemy on {col.name}");
         }
 
         activated = true;
         StartCoroutine(CheckIfAllEnemiesDeadCoroutine());
+    }
+
+    private void OnPlayerDamageTaken()
+    {
+        playerTookDamageInRoom = true;
+        Debug.Log("Player took damage in room - perfect clear no longer possible");
     }
 
     private IEnumerator CheckIfAllEnemiesDeadCoroutine()
@@ -70,7 +91,6 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
         while (!allEnemiesDead)
         {
             yield return new WaitForSeconds(enemyCheckInterval);
-
             Collider2D[] colliders = Physics2D.OverlapBoxAll(transform.position, searchBoxSize, 0f, spawnerLayer);
             bool anyAlive = false;
 
@@ -87,14 +107,29 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
             if (!anyAlive)
             {
                 allEnemiesDead = true;
-                Debug.Log($"All enemies in room '{name}' are dead!");
-                onRoomCleared?.Invoke();
+                bool perfectClear = !playerTookDamageInRoom;
 
-                // You can do other things here, like:
-                // - Open a door
-                // - Spawn loot
-                // - Signal LevelManager
+                Debug.Log($"All enemies in room '{name}' are dead! Perfect clear: {perfectClear}");
+
+                // Invoke both events
+                //onRoomCleared?.Invoke();
+                onRoomClearedWithDamageStatus?.Invoke(perfectClear);
+
+                // Unsubscribe from damage events
+                if (player != null)
+                {
+                    player.OnDamageTaken -= OnPlayerDamageTaken;
+                }
             }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Clean up event subscription
+        if (player != null)
+        {
+            player.OnDamageTaken -= OnPlayerDamageTaken;
         }
     }
 
@@ -103,6 +138,4 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(transform.position, searchBoxSize);
     }
-
-
 }
