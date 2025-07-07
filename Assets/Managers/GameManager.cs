@@ -1,4 +1,5 @@
 using Assets.Interfaces;
+using TMPro;
 using UnityEngine;
 
 
@@ -17,6 +18,7 @@ public class GameManager : MonoBehaviour
     public event System.Action OnAllEnemiesDefeated;
     private int deadEnemies = 0;
     private int totalEnemies = 0;
+    public TextMeshProUGUI coinText;
 
     [Header("Coin Drop Settings")]
     [SerializeField] private GameObject coinPrefab;
@@ -78,6 +80,7 @@ public class GameManager : MonoBehaviour
     {
         playerCoins += amount;
         Debug.Log($"[GameManager] Coins: {playerCoins}");
+        UpdateCoinUI();
     }
 
     public bool RemoveCoins(int amount)
@@ -86,10 +89,20 @@ public class GameManager : MonoBehaviour
         {
             playerCoins -= amount;
             Debug.Log($"[GameManager] Coins: {playerCoins}");
+            UpdateCoinUI();
             return true;
         }
+
         Debug.Log("[GameManager] Not enough coins!");
         return false;
+    }
+
+    private void UpdateCoinUI()
+    {
+        if (coinText != null)
+        {
+            coinText.text = $"x {playerCoins}";
+        }
     }
 
     private void OnDestroy()
