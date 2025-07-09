@@ -667,6 +667,8 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   slotMachinePrefab: {fileID: 0}
   coinThreshold: 3
+  healthTraderPrefab: {fileID: 0}
+  healthTraderSpawnChance: 0.5
   teleporter: {fileID: 0}
 --- !u!1001 &128297944
 PrefabInstance:
@@ -2073,6 +2075,8 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   slotMachinePrefab: {fileID: 0}
   coinThreshold: 3
+  healthTraderPrefab: {fileID: 0}
+  healthTraderSpawnChance: 0.5
   teleporter: {fileID: 1898375814}
 --- !u!4 &153450244
 Transform:
@@ -23756,6 +23760,8 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   slotMachinePrefab: {fileID: 0}
   coinThreshold: 3
+  healthTraderPrefab: {fileID: 0}
+  healthTraderSpawnChance: 0.5
   teleporter: {fileID: 845572510}
 --- !u!1001 &578195693
 PrefabInstance:
@@ -28313,6 +28319,8 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   slotMachinePrefab: {fileID: 0}
   coinThreshold: 3
+  healthTraderPrefab: {fileID: 0}
+  healthTraderSpawnChance: 0.5
   teleporter: {fileID: 0}
 --- !u!1001 &1127097016
 PrefabInstance:
@@ -28659,6 +28667,8 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   slotMachinePrefab: {fileID: 0}
   coinThreshold: 3
+  healthTraderPrefab: {fileID: 0}
+  healthTraderSpawnChance: 0.5
   teleporter: {fileID: 0}
 --- !u!1001 &1182085515
 PrefabInstance:
@@ -29215,6 +29225,8 @@ MonoBehaviour:
   spawnOffset: {x: 0, y: 0}
   slotMachinePrefab: {fileID: 8106885513782118432, guid: ec49fd8a7d5c82141b767424d7b82aba, type: 3}
   coinThreshold: 3
+  healthTraderPrefab: {fileID: 1661220154312467852, guid: 373feafd4b4f9af4786735c95ca873d2, type: 3}
+  healthTraderSpawnChance: 1
   teleporter: {fileID: 1524896867}
 --- !u!1 &1385203862
 GameObject:

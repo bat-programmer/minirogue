@@ -6,6 +6,8 @@ public class RoomClearRewardSpawner : MonoBehaviour
     [SerializeField] private Vector2 spawnOffset;
     [SerializeField] private GameObject slotMachinePrefab;
     [SerializeField] private int coinThreshold = 3;
+    [SerializeField] private GameObject healthTraderPrefab;
+    [SerializeField] private float healthTraderSpawnChance = 0.5f;
 
     [Header("Optional")]
     [SerializeField] private GameObject teleporter;
@@ -32,6 +34,15 @@ public class RoomClearRewardSpawner : MonoBehaviour
         {
             teleporter.SetActive(true);
             Debug.Log("Teleporter activated!");
+        }
+
+        // Spawn health trader with chance
+        if (healthTraderPrefab != null && Random.value < healthTraderSpawnChance)
+        {
+            Instantiate(healthTraderPrefab, 
+                (Vector2)transform.position + spawnOffset + Vector2.left * 2f, 
+                Quaternion.identity);
+            Debug.Log("Health trader spawned!");
         }
     }
 
