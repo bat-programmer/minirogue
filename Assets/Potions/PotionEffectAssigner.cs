@@ -1,3 +1,4 @@
+using Assets.Potions;
 using UnityEngine;
 
 public class PotionEffectAssigner : MonoBehaviour
@@ -32,14 +33,20 @@ public class PotionEffectAssigner : MonoBehaviour
 
     private void AssignEffect()
     {
+        // First potion is always beneficial
+        bool isFirstPotion = !GameManager.Instance.HasAssignedFirstPotion;
+        
         System.Type[] goodEffects = { typeof(HealthPotionEffect), typeof(SpeedUpPotionEffect) };
         System.Type[] badEffects = { typeof(DamagePotionEffect), typeof(SpeedDownPotionEffect) };
 
-        var pool = isBeneficial ? goodEffects : badEffects;
-        Debug.Log($"Assigning {(isBeneficial ? "beneficial" : "harmful")} effect from pool of size {pool.Length}.");
+        var pool = isFirstPotion || isBeneficial ? goodEffects : badEffects;
+        Debug.Log($"Assigning {(isFirstPotion ? "first beneficial" : isBeneficial ? "beneficial" : "harmful")} effect");
+        
         int randomIndex = Random.Range(0, pool.Length);
         gameObject.AddComponent(pool[randomIndex]);
-        
 
+        if (isFirstPotion) {
+            GameManager.Instance.HasAssignedFirstPotion = true;
+        }
     }
 }

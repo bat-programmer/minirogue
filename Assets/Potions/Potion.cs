@@ -7,7 +7,6 @@ public class Potion : MonoBehaviour
 
     private void Start()
     {
-        // Get the potion effect from this GameObject
         potionEffect = GetComponent<IPotionEffect>();
     }
 
@@ -18,13 +17,17 @@ public class Potion : MonoBehaviour
             if (GameManager.Instance.currentPotion == null)
             {                
                 IPotionEffect effect = GetComponent<IPotionEffect>();
-                //GetComponent<MonoBehaviour>() as IPotionEffect;
                 RandomPotionColor randomPotionColor = GetComponentInChildren<RandomPotionColor>();
-                SpriteRenderer sr = randomPotionColor.liquidRenderer;             
-                GameManager.Instance.EquipPotion(effect, sr.sprite, sr.color);                
+                SpriteRenderer sr = randomPotionColor.liquidRenderer;
+                
+                // Show "???" for unidentified potions
+                string label = GameManager.Instance.IsPotionDiscovered(effect.GetType()) 
+                    ? effect.GetUILabel() 
+                    : "???";
+                    
+                GameManager.Instance.EquipPotion(effect, label, sr.sprite, sr.color);
                 Destroy(gameObject);
             }
         }
     }
-
 }

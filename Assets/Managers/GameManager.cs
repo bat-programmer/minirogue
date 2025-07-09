@@ -1,6 +1,7 @@
 using Assets.Interfaces;
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 
 public class GameManager : MonoBehaviour
@@ -12,6 +13,11 @@ public class GameManager : MonoBehaviour
 
     public int playerHealth = 100;
 
+    // Track discovered potion types
+    private Dictionary<System.Type, bool> discoveredPotions = new Dictionary<System.Type, bool>();
+
+    // Track first potion assignment
+    public bool HasAssignedFirstPotion { get; set; } = false;
 
     // Reference to the current potion the player is holding
     public GameObject heldPotion;
@@ -53,16 +59,28 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-    public void EquipPotion(IPotionEffect effect, Sprite sprite, Color color)
+    public bool IsPotionDiscovered(System.Type potionType)
+    {
+        return discoveredPotions.ContainsKey(potionType);
+    }
+
+    public void DiscoverPotion(IPotionEffect effect)
+    {
+        discoveredPotions[effect.GetType()] = true;
+    }
+
+    public void EquipPotion(IPotionEffect effect, string label, Sprite sprite, Color color)
     {
         Vector3 textPosition = playerTransform != null ? playerTransform.position : transform.position;
 
         FloatingText.Create(textPosition, "Potion Grabbed!", Color.green);
         Debug.Log("Potion equipped: " + effect.GetType().Name);
         currentPotion = effect;
-        //log potion color
         Debug.Log("Potion color: " + color.ToString());
-        potionUISlot.SetPotion(sprite, color,effect.GetUILabel());
+        potionUISlot.SetPotion(sprite, color, label);
+        
+        // Mark as discovered when equipped
+        DiscoverPotion(effect);
     }
 
     public void UsePotion(Jugador player)
