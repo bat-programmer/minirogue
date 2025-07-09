@@ -87,10 +87,11 @@ public class GameManager : MonoBehaviour
     {
         if (currentPotion != null)
         {
+            string potionName = currentPotion.GetUILabel();
             currentPotion.ApplyEffect(player);
             currentPotion = null;
             potionUISlot.ClearPotion();
-            FloatingText.Create(player.transform.position, "Potion used", Color.yellow);
+            FloatingText.Create(player.transform.position, $"{potionName} used", Color.yellow);
         }
     }
 
