@@ -1,17 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TemporalEffectSystem : MonoBehaviour 
 {
     public static TemporalEffectSystem Instance;
     
-    [Header("Bullet Time Settings")]
-    public float enemySpeedModifier = 0.5f;
-    public float effectDuration = 3f;
+    [Header("Effect Settings")]
+    public float defaultEffectDuration = 3f;
     
-    private float originalAgentSpeed;
-    private bool isEffectActive;
+    private Dictionary<NavMeshAgent, float> originalAgentSpeeds = new Dictionary<NavMeshAgent, float>();
+    private bool isBulletTimeActive;
 
     void Awake()
     {
@@ -26,35 +26,36 @@ public class TemporalEffectSystem : MonoBehaviour
         }
     }
 
-    public void ActivateBulletTime()
+    public void ActivateBulletTime(float duration, float speedModifier = 0.5f)
     {
-        if (isEffectActive) return;
+        if (isBulletTimeActive) return;
         
-        isEffectActive = true;
+        isBulletTimeActive = true;
         var agents = FindObjectsOfType<NavMeshAgent>();
         
-        if (agents.Length > 0)
+        originalAgentSpeeds.Clear();
+        foreach (var agent in agents)
         {
-            originalAgentSpeed = agents[0].speed;
-            foreach (var agent in agents)
-            {
-                agent.speed *= enemySpeedModifier;
-            }
+            originalAgentSpeeds[agent] = agent.speed;
+            agent.speed *= speedModifier;
         }
         
-        StartCoroutine(ResetAfterDuration());
+        StartCoroutine(ResetAfterDuration(duration, speedModifier));
     }
 
-    IEnumerator ResetAfterDuration()
+    IEnumerator ResetAfterDuration(float duration, float speedModifier)
     {
-        yield return new WaitForSeconds(effectDuration);
+        yield return new WaitForSeconds(duration);
         
         var agents = FindObjectsOfType<NavMeshAgent>();
         foreach (var agent in agents)
         {
-            agent.speed = originalAgentSpeed;
+            if (originalAgentSpeeds.TryGetValue(agent, out float originalSpeed))
+            {
+                agent.speed = originalSpeed;
+            }
         }
         
-        isEffectActive = false;
+        isBulletTimeActive = false;
     }
 }

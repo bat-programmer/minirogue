@@ -175,22 +175,24 @@ public class Jugador : MonoBehaviour
 
     void MovH()
     {
+        int input = 0;
         if (Input.GetKey(KeyCode.D))
-            movimientoHorizontal = 1;
+            input = 1;
         else if (Input.GetKey(KeyCode.A))
-            movimientoHorizontal = -1;
-        else
-            movimientoHorizontal = 0;
+            input = -1;
+
+        movimientoHorizontal = GetConfusedMovement(input);
     }
 
     void MovV()
     {
+        int input = 0;
         if (Input.GetKey(KeyCode.W))
-            movimientoVertical = 1;
+            input = 1;
         else if (Input.GetKey(KeyCode.S))
-            movimientoVertical = -1;
-        else
-            movimientoVertical = 0;
+            input = -1;
+
+        movimientoVertical = GetConfusedMovement(input);
     }
 
     private void HandleAttackInput()
@@ -241,9 +243,34 @@ public class Jugador : MonoBehaviour
 
         }
     }
+    private float currentSpeedModifier = 1f;
+    private Coroutine speedModifierCoroutine;
+
     private void Sprint()
     {
-        speed = Input.GetKey(KeyCode.LeftShift) ? speedShift : baseSpeed;
+        float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? speedShift : baseSpeed;
+        speed = targetSpeed * currentSpeedModifier;
+    }
+
+    public void ApplySpeedModifier(float modifier, float duration)
+    {
+        if (speedModifierCoroutine != null)
+        {
+            StopCoroutine(speedModifierCoroutine);
+        }
+        speedModifierCoroutine = StartCoroutine(SpeedModifierCoroutine(modifier, duration));
+    }
+
+    public void ApplyPermanentSpeedModifier(float modifier)
+    {
+        currentSpeedModifier = modifier;
+    }
+
+    private IEnumerator SpeedModifierCoroutine(float modifier, float duration)
+    {
+        currentSpeedModifier = modifier;
+        yield return new WaitForSeconds(duration);
+        currentSpeedModifier = 1f;
     }
 
     // Initialize hearts with full health
@@ -377,6 +404,48 @@ public class Jugador : MonoBehaviour
             StopCoroutine(fireballDamageBoostCoroutine);
 
         fireballDamageBoostCoroutine = StartCoroutine(FireballDamageBoostCoroutine(amount, duration));
+    }
+
+    private bool isConfused = false;
+    private Coroutine confusionCoroutine;
+    private bool invertMovement = false;
+    private bool randomizeMovement = false;
+
+    public void ApplyConfusionEffect(float duration, bool invert, bool randomize)
+    {
+        if (confusionCoroutine != null)
+        {
+            StopCoroutine(confusionCoroutine);
+        }
+
+        invertMovement = invert;
+        randomizeMovement = randomize;
+        isConfused = true;
+        confusionCoroutine = StartCoroutine(ConfusionEffectCoroutine(duration));
+    }
+
+    private IEnumerator ConfusionEffectCoroutine(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        isConfused = false;
+        invertMovement = false;
+        randomizeMovement = false;
+    }
+
+    private int GetConfusedMovement(int input)
+    {
+        if (!isConfused) return input;
+
+        if (randomizeMovement)
+        {
+            return Random.Range(-1, 2); // Returns -1, 0, or 1 randomly
+        }
+        else if (invertMovement)
+        {
+            return -input;
+        }
+
+        return input;
     }
 
     private IEnumerator FireballDamageBoostCoroutine(int amount, float duration)
