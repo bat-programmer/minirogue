@@ -9,12 +9,13 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
     [SerializeField] private Vector2 searchBoxSize = new Vector2(10f, 10f);
     [SerializeField] private LayerMask spawnerLayer;
     [SerializeField] private float enemyCheckInterval = 1f;
+    private RoomClearRewardSpawner rewardSpawner;
 
     [Header("Room Cleared Event")]    
     public UnityEvent<bool> onRoomClearedWithDamageStatus; // New event with damage status
 
-    [Header("Room Activation Options")]
-    [SerializeField] private bool activateOnStart = false;
+    [Header("Room Activation")]
+    [SerializeField] private BoxCollider2D triggerCollider;
 
     private bool activated = false;
     private bool allEnemiesDead = false;
@@ -24,9 +25,25 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
     public Vector2 GetSearchBoxSize() => searchBoxSize;
     public LayerMask GetSpawnerLayer() => spawnerLayer;
 
-    void Start()
+    private void Awake()
     {
-        if (activateOnStart)
+        if (triggerCollider == null)
+        {
+            triggerCollider = gameObject.AddComponent<BoxCollider2D>();
+            triggerCollider.size = searchBoxSize;
+            triggerCollider.isTrigger = true;
+        }
+           rewardSpawner = GetComponentInChildren<RoomClearRewardSpawner>();
+
+        if (rewardSpawner != null)
+        {
+            onRoomClearedWithDamageStatus.AddListener(rewardSpawner.SpawnTreasure);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (!activated && other.CompareTag("Player"))
         {
             ActivateRoom();
         }

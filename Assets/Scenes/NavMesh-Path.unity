@@ -477,7 +477,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  activateOnStart: 0
+  triggerCollider: {fileID: 0}
 --- !u!4 &87513100
 Transform:
   m_ObjectHideFlags: 0
@@ -23298,7 +23298,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  activateOnStart: 1
+  triggerCollider: {fileID: 0}
 --- !u!1 &522705134
 GameObject:
   m_ObjectHideFlags: 0
@@ -23336,7 +23336,7 @@ MonoBehaviour:
   onRoomClearedWithDamageStatus:
     m_PersistentCalls:
       m_Calls: []
-  activateOnStart: 0
+  triggerCollider: {fileID: 0}
 --- !u!4 &522705136
 Transform:
   m_ObjectHideFlags: 0
@@ -27338,7 +27338,7 @@ MonoBehaviour:
   onRoomClearedWithDamageStatus:
     m_PersistentCalls:
       m_Calls: []
-  activateOnStart: 1
+  triggerCollider: {fileID: 0}
 --- !u!4 &787163681
 Transform:
   m_ObjectHideFlags: 0
@@ -27786,6 +27786,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyNavMesh (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 121431510520592481, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 272092401382084852, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -41.384598
@@ -27894,6 +27898,10 @@ PrefabInstance:
     - target: {fileID: 52882689625582633, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
       propertyPath: m_Name
       value: EnemyNavMesh (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 121431510520592481, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 272092401382084852, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -28602,7 +28610,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  activateOnStart: 1
+  triggerCollider: {fileID: 0}
 --- !u!1 &1180419567
 GameObject:
   m_ObjectHideFlags: 0
@@ -29717,7 +29725,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  activateOnStart: 0
+  triggerCollider: {fileID: 0}
 --- !u!4 &1546575893
 Transform:
   m_ObjectHideFlags: 0
@@ -44532,6 +44540,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyNavMesh (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 121431510520592481, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 272092401382084852, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -13.594596
@@ -44656,11 +44668,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1857147859377579539, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.64
+      value: -2.29
       objectReference: {fileID: 0}
     - target: {fileID: 1857147859377579539, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.26
+      value: 3.35
       objectReference: {fileID: 0}
     - target: {fileID: 1857147859377579539, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
       propertyPath: m_LocalPosition.z
@@ -44784,20 +44796,8 @@ MonoBehaviour:
   enemyCheckInterval: 1
   onRoomClearedWithDamageStatus:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1368217650}
-        m_TargetAssemblyTypeName: RoomClearRewardSpawner, Assembly-CSharp
-        m_MethodName: SpawnTreasure
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  activateOnStart: 1
+      m_Calls: []
+  triggerCollider: {fileID: 0}
 --- !u!1 &1971159139
 GameObject:
   m_ObjectHideFlags: 0
@@ -54130,6 +54130,10 @@ PrefabInstance:
     - target: {fileID: 52882689625582633, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
       propertyPath: m_Name
       value: EnemyNavMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 121431510520592481, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 272092401382084852, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
       propertyPath: m_LocalPosition.x
