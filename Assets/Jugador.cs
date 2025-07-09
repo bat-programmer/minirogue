@@ -11,7 +11,6 @@ public class Jugador : MonoBehaviour
 
     [SerializeField] private float speed = 100;
     public float baseSpeed;
-    float speedShift;
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer sr;
@@ -144,8 +143,6 @@ public class Jugador : MonoBehaviour
         poolBolaDeFuego = FindObjectOfType<PoolBolaDeFuego>();
 
         baseSpeed = speed;
-        speedShift = speed * 10;
-
         InitializeHearts(maxHearts);
         UpdateHeartUI();
         GameManager.Instance.playerTransform= transform; // Set player transform in GameManager
@@ -155,7 +152,6 @@ public class Jugador : MonoBehaviour
     {
         MovH();
         MovV();
-        Sprint();
         HandleAttackInput();
         usePotion();
         UpdateTemporalEffects();
@@ -173,12 +169,22 @@ public class Jugador : MonoBehaviour
         transform.Translate(mov * speed * Time.deltaTime);
     }
 
+    private KeyCode GetKeyBinding(string prefKey, KeyCode defaultKey)
+    {
+        if (PlayerPrefs.HasKey(prefKey))
+            return (KeyCode)PlayerPrefs.GetInt(prefKey);
+        return defaultKey;
+    }
+
     void MovH()
     {
         int input = 0;
-        if (Input.GetKey(KeyCode.D))
+        KeyCode rightKey = GetKeyBinding("MoveRight", KeyCode.D);
+        KeyCode leftKey = GetKeyBinding("MoveLeft", KeyCode.A);
+
+        if (Input.GetKey(rightKey) || Input.GetAxis("Horizontal") > 0.5f)
             input = 1;
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(leftKey) || Input.GetAxis("Horizontal") < -0.5f)
             input = -1;
 
         movimientoHorizontal = GetConfusedMovement(input);
@@ -187,9 +193,12 @@ public class Jugador : MonoBehaviour
     void MovV()
     {
         int input = 0;
-        if (Input.GetKey(KeyCode.W))
+        KeyCode upKey = GetKeyBinding("MoveUp", KeyCode.W);
+        KeyCode downKey = GetKeyBinding("MoveDown", KeyCode.S);
+
+        if (Input.GetKey(upKey) || Input.GetAxis("Vertical") > 0.5f)
             input = 1;
-        else if (Input.GetKey(KeyCode.S))
+        else if (Input.GetKey(downKey) || Input.GetAxis("Vertical") < -0.5f)
             input = -1;
 
         movimientoVertical = GetConfusedMovement(input);
@@ -197,14 +206,19 @@ public class Jugador : MonoBehaviour
 
     private void HandleAttackInput()
     {
+        KeyCode upKey = GetKeyBinding("AttackUp", KeyCode.UpArrow);
+        KeyCode downKey = GetKeyBinding("AttackDown", KeyCode.DownArrow);
+        KeyCode leftKey = GetKeyBinding("AttackLeft", KeyCode.LeftArrow);
+        KeyCode rightKey = GetKeyBinding("AttackRight", KeyCode.RightArrow);
+
         // Detect if any attack key is held and set the direction
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(upKey))
             heldFireDirection = Vector2.up;
-        else if (Input.GetKey(KeyCode.DownArrow))
+        else if (Input.GetKey(downKey))
             heldFireDirection = Vector2.down;
-        else if (Input.GetKey(KeyCode.LeftArrow))
+        else if (Input.GetKey(leftKey))
             heldFireDirection = Vector2.left;
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(rightKey))
             heldFireDirection = Vector2.right;
         else
             heldFireDirection = null;
@@ -227,7 +241,8 @@ public class Jugador : MonoBehaviour
 
     private void usePotion()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        KeyCode potionKey = GetKeyBinding("UsePotion", KeyCode.E);
+        if (Input.GetKeyDown(potionKey))
         {
             GameManager.Instance.UsePotion(this); 
         }
@@ -240,17 +255,10 @@ public class Jugador : MonoBehaviour
             GameObject fireballObj = poolBolaDeFuego.GetFireball(firePoint.position, direction.normalized, fireballDamage);
             BolaDeFuego fireball = fireballObj.GetComponent<BolaDeFuego>();
             ApplyFireballEffects(fireball);
-
         }
     }
     private float currentSpeedModifier = 1f;
     private Coroutine speedModifierCoroutine;
-
-    private void Sprint()
-    {
-        float targetSpeed = Input.GetKey(KeyCode.LeftShift) ? speedShift : baseSpeed;
-        speed = targetSpeed * currentSpeedModifier;
-    }
 
     public void ApplySpeedModifier(float modifier, float duration)
     {
