@@ -11,8 +11,8 @@ public class MainMenu : MonoBehaviour
 
     public void OpenOptions()
     {
-        // For now, just log or do nothing
-        Debug.Log("Options menu opened (not implemented).");
+        
+        SceneManager.LoadScene("ControlsRemap");
     }
 
     public void QuitGame()

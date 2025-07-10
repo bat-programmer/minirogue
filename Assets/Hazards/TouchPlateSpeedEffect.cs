@@ -13,6 +13,7 @@ public class TouchPlateSpeedEffect : TouchPlateBaseEffect
         if (isTemporary)
         {
             player.ApplySpeedModifier(speedMultiplier, GetDuration());
+            Debug.Log($"Applying temporary speed modifier: {speedMultiplier} for {GetDuration()} seconds.");
         }
         else
         {
