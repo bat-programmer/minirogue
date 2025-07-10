@@ -34289,6 +34289,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 173961320421414008, guid: 0d165f39e9ef8c049ae4ce72588d19b1, type: 3}
+      propertyPath: chaseRange
+      value: 16.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 173961320421414008, guid: 0d165f39e9ef8c049ae4ce72588d19b1, type: 3}
       propertyPath: attackRange
       value: 16.11
       objectReference: {fileID: 0}
@@ -34296,6 +34300,10 @@ PrefabInstance:
       propertyPath: minionPrefab
       value: 
       objectReference: {fileID: 52882689625582633, guid: 3f7593b379433c346990a1ea55d221e6, type: 3}
+    - target: {fileID: 173961320421414008, guid: 0d165f39e9ef8c049ae4ce72588d19b1, type: 3}
+      propertyPath: firePatchPrefab
+      value: 
+      objectReference: {fileID: 5693240306657078265, guid: d8a800bee741a544f8800b61acb1d43d, type: 3}
     - target: {fileID: 173961320421414008, guid: 0d165f39e9ef8c049ae4ce72588d19b1, type: 3}
       propertyPath: projectilePrefab
       value: 
