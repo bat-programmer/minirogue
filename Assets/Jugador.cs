@@ -359,6 +359,8 @@ public class Jugador : MonoBehaviour
 
         RemoveHealth(damage);
         OnDamageTaken?.Invoke();
+        GameManager.Instance.IncrementStat("damageTaken", damage);
+        
         if (IsDead())
         {
             // Handle player death (e.g., restart level, show game over screen)

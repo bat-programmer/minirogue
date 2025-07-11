@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         // Load scene 1 (make sure it's added to Build Settings)
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("NavMesh-Path");
     }
 
     public void OpenOptions()

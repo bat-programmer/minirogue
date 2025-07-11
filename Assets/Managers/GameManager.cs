@@ -25,6 +25,17 @@ public class GameManager : MonoBehaviour
     private int deadEnemies = 0;
     private int totalEnemies = 0;
     public TextMeshProUGUI coinText;
+    
+    // Lifetime game statistics
+    private Dictionary<string, int> lifetimeStats = new Dictionary<string, int>()
+    {
+        {"totalEnemiesKilled", 0},
+        {"totalCoinsCollected", 0},
+        {"potionsUsed", 0},
+        {"heartsSacrificed", 0},
+        {"damageTaken", 0}
+    };
+    public event System.Action<Dictionary<string, int>> OnStatsUpdated;
 
     [Header("Coin Drop Settings")]
     [SerializeField] private GameObject coinPrefab;
@@ -92,12 +103,14 @@ public class GameManager : MonoBehaviour
             currentPotion = null;
             potionUISlot.ClearPotion();
             FloatingText.Create(player.transform.position, $"{potionName} used", Color.yellow);
+            IncrementStat("potionsUsed");
         }
     }
 
     public void AddCoins(int amount)
     {
         playerCoins += amount;
+        IncrementStat("totalCoinsCollected", amount);
         Debug.Log($"[GameManager] Coins: {playerCoins}");
         UpdateCoinUI();
     }
@@ -116,6 +129,20 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public void IncrementStat(string statName, int amount = 1)
+    {
+        if (lifetimeStats.ContainsKey(statName))
+        {
+            lifetimeStats[statName] += amount;
+            OnStatsUpdated?.Invoke(lifetimeStats);
+        }
+    }
+
+    public Dictionary<string, int> GetStats()
+    {
+        return new Dictionary<string, int>(lifetimeStats);
+    }
+
     private void UpdateCoinUI()
     {
         if (coinText != null)
@@ -131,6 +158,7 @@ public class GameManager : MonoBehaviour
     private void HandleEnemyDeath()
     {
         deadEnemies++;
+        IncrementStat("totalEnemiesKilled");
 
         if (deadEnemies >= totalEnemies)
         {

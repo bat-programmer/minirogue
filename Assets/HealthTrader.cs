@@ -27,6 +27,9 @@ public class HealthTrader : MonoBehaviour
             // Give coin reward
             GameManager.Instance.AddCoins(coinReward);
             
+            // Track sacrifice
+            GameManager.Instance.IncrementStat("heartsSacrificed", healthCost);
+            
             // Visual feedback
             if (tradeEffect != null) tradeEffect.Play();
             FloatingText.Create(transform.position, string.Format(tradeMessage, coinReward), messageColor);
