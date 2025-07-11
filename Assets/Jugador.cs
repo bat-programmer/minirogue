@@ -182,9 +182,9 @@ public class Jugador : MonoBehaviour
         KeyCode rightKey = GetKeyBinding("MoveRight", KeyCode.D);
         KeyCode leftKey = GetKeyBinding("MoveLeft", KeyCode.A);
 
-        if (Input.GetKey(rightKey) || Input.GetAxis("Horizontal") > 0.5f)
+        if (Input.GetKey(rightKey) )
             input = 1;
-        else if (Input.GetKey(leftKey) || Input.GetAxis("Horizontal") < -0.5f)
+        else if (Input.GetKey(leftKey) )
             input = -1;
 
         movimientoHorizontal = GetConfusedMovement(input);
@@ -196,9 +196,9 @@ public class Jugador : MonoBehaviour
         KeyCode upKey = GetKeyBinding("MoveUp", KeyCode.W);
         KeyCode downKey = GetKeyBinding("MoveDown", KeyCode.S);
 
-        if (Input.GetKey(upKey) || Input.GetAxis("Vertical") > 0.5f)
+        if (Input.GetKey(upKey))
             input = 1;
-        else if (Input.GetKey(downKey) || Input.GetAxis("Vertical") < -0.5f)
+        else if (Input.GetKey(downKey) )
             input = -1;
 
         movimientoVertical = GetConfusedMovement(input);
