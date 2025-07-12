@@ -45,7 +45,7 @@ public class WandPickup : MonoBehaviour
                 FireballEffectType effectToApply = useOverrides ? overrideEffectType : wandData.effectType;
                 float duration = GetDuration();
 
-                player.AddFireballEffect(effectToApply, duration);
+                player.GetComponent<PlayerAttackController>().AddFireballEffect(effectToApply, duration);
 
                 // Show pickup message
                 Debug.Log(GetPickupMessage());
