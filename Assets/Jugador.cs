@@ -5,16 +5,11 @@ using UnityEngine.UI;
 
 public class Jugador : MonoBehaviour
 {
-    int movimientoHorizontal = 0;
-    int movimientoVertical = 0;
-    Vector2 mov = new Vector2(0, 0);
-
-    [SerializeField] private float speed = 100;
-    public float baseSpeed;
-    private Rigidbody2D rb;
+    private MovementController movementController;
     private Animator anim;
     private SpriteRenderer sr;
-    public Transform firePoint;    
+    public Transform firePoint;
+    [SerializeField] private float speed = 100f;
     [SerializeField] private int fireballDamage = 1000; // Default damage
     private Coroutine fireballDamageBoostCoroutine;
 
@@ -36,14 +31,12 @@ public class Jugador : MonoBehaviour
     public float fireCooldown = 1f;
     private Vector2? heldFireDirection = null;
 
-
     [Header("Wand Effects")]
     [SerializeField] private List<FireballEffectType> permanentEffects = new List<FireballEffectType>();
     [SerializeField] private List<TemporalEffect> temporalEffects = new List<TemporalEffect>();
 
     [Header("Events")]
     public System.Action OnDamageTaken;
-
 
     public void AddFireballEffect(FireballEffectType effectType, float duration = -1f)
     {
@@ -75,7 +68,6 @@ public class Jugador : MonoBehaviour
             }
         }
     }
-
 
     public void RemovePermanentEffect(FireballEffectType effectType)
     {
@@ -119,7 +111,7 @@ public class Jugador : MonoBehaviour
                 fireball.AddEffect<BounceEffect>();
                 break;
             case FireballEffectType.DoubleFireEffect:
-                fireball.AddEffect<DoubleFireEffect>();                
+                fireball.AddEffect<DoubleFireEffect>();
                 break;
         }
     }
@@ -137,12 +129,14 @@ public class Jugador : MonoBehaviour
     }
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         poolBolaDeFuego = FindObjectOfType<PoolBolaDeFuego>();
 
-        baseSpeed = speed;
+        movementController = gameObject.AddComponent<MovementController>();
+        movementController.Initialize(GetComponent<Rigidbody2D>());
+        movementController.Speed = speed;
+
         InitializeHearts(maxHearts);
         UpdateHeartUI();
         GameManager.Instance.playerTransform= transform; // Set player transform in GameManager
@@ -150,23 +144,10 @@ public class Jugador : MonoBehaviour
 
     void Update()
     {
-        MovH();
-        MovV();
+        movementController.UpdateMovement();
         HandleAttackInput();
         usePotion();
         UpdateTemporalEffects();
-        mov = new Vector2(movimientoHorizontal, movimientoVertical).normalized;
-        if (mov != Vector2.zero)
-        {
-            lastDirection = mov;
-        }
-
-        if (mov.x < 0)
-            sr.flipX = true;
-        else if (mov.x > 0)
-            sr.flipX = false;
-
-        transform.Translate(mov * speed * Time.deltaTime);
     }
 
     private KeyCode GetKeyBinding(string prefKey, KeyCode defaultKey)
@@ -174,34 +155,6 @@ public class Jugador : MonoBehaviour
         if (PlayerPrefs.HasKey(prefKey))
             return (KeyCode)PlayerPrefs.GetInt(prefKey);
         return defaultKey;
-    }
-
-    void MovH()
-    {
-        int input = 0;
-        KeyCode rightKey = GetKeyBinding("MoveRight", KeyCode.D);
-        KeyCode leftKey = GetKeyBinding("MoveLeft", KeyCode.A);
-
-        if (Input.GetKey(rightKey) )
-            input = 1;
-        else if (Input.GetKey(leftKey) )
-            input = -1;
-
-        movimientoHorizontal = GetConfusedMovement(input);
-    }
-
-    void MovV()
-    {
-        int input = 0;
-        KeyCode upKey = GetKeyBinding("MoveUp", KeyCode.W);
-        KeyCode downKey = GetKeyBinding("MoveDown", KeyCode.S);
-
-        if (Input.GetKey(upKey))
-            input = 1;
-        else if (Input.GetKey(downKey) )
-            input = -1;
-
-        movimientoVertical = GetConfusedMovement(input);
     }
 
     private void HandleAttackInput()
@@ -244,7 +197,7 @@ public class Jugador : MonoBehaviour
         KeyCode potionKey = GetKeyBinding("UsePotion", KeyCode.E);
         if (Input.GetKeyDown(potionKey))
         {
-            GameManager.Instance.UsePotion(this); 
+            GameManager.Instance.UsePotion(this);
         }
     }
 
@@ -257,28 +210,24 @@ public class Jugador : MonoBehaviour
             ApplyFireballEffects(fireball);
         }
     }
-    private float currentSpeedModifier = 1f;
-    private Coroutine speedModifierCoroutine;
 
-    public void ApplySpeedModifier(float modifier, float duration)
+    public void ApplyFireballDamageBoost(int amount, float duration)
     {
-        if (speedModifierCoroutine != null)
-        {
-            StopCoroutine(speedModifierCoroutine);
-        }
-        speedModifierCoroutine = StartCoroutine(SpeedModifierCoroutine(modifier, duration));
+        if (fireballDamageBoostCoroutine != null)
+            StopCoroutine(fireballDamageBoostCoroutine);
+
+        fireballDamageBoostCoroutine = StartCoroutine(FireballDamageBoostCoroutine(amount, duration));
     }
 
-    public void ApplyPermanentSpeedModifier(float modifier)
+    private IEnumerator FireballDamageBoostCoroutine(int amount, float duration)
     {
-        currentSpeedModifier = modifier;
-    }
+        fireballDamage += amount;
+        Debug.Log($"Fireball damage increased by {amount} for {duration} seconds.");
 
-    private IEnumerator SpeedModifierCoroutine(float modifier, float duration)
-    {
-        currentSpeedModifier = modifier;
         yield return new WaitForSeconds(duration);
-        currentSpeedModifier = 1f;
+
+        fireballDamage -= amount;
+        Debug.Log("Fireball damage boost ended.");
     }
 
     // Initialize hearts with full health
@@ -355,12 +304,12 @@ public class Jugador : MonoBehaviour
 
     public void ApplyDamage(int damage)
     {
-        if (isInvulnerable) return;   
-        
+        if (isInvulnerable) return;
+
         RemoveHealth(damage);
         OnDamageTaken?.Invoke();
             StatsManager.Instance.IncrementStat("damageTaken", damage);
-        
+
         if (IsDead())
         {
             TriggerDeathEffect();
@@ -376,11 +325,11 @@ public class Jugador : MonoBehaviour
         // Disable player components
         GetComponent<Collider2D>().enabled = false;
         enabled = false; // Disable this script
-        
+
         // Trigger death effect
         PlayerDeathEffect deathEffect = gameObject.AddComponent<PlayerDeathEffect>();
         deathEffect.TriggerDeathEffect(GetComponent<SpriteRenderer>());
-        
+
         // Show defeat screen
         GameManager.Instance.ShowDefeatScreen();
     }
@@ -419,67 +368,6 @@ public class Jugador : MonoBehaviour
 
         sr.enabled = true; // Make sure sprite is visible at end
         isInvulnerable = false;
-    }
-
-    public void ApplyFireballDamageBoost(int amount, float duration)
-    {
-        if (fireballDamageBoostCoroutine != null)
-            StopCoroutine(fireballDamageBoostCoroutine);
-
-        fireballDamageBoostCoroutine = StartCoroutine(FireballDamageBoostCoroutine(amount, duration));
-    }
-
-    private bool isConfused = false;
-    private Coroutine confusionCoroutine;
-    private bool invertMovement = false;
-    private bool randomizeMovement = false;
-
-    public void ApplyConfusionEffect(float duration, bool invert, bool randomize)
-    {
-        if (confusionCoroutine != null)
-        {
-            StopCoroutine(confusionCoroutine);
-        }
-
-        invertMovement = invert;
-        randomizeMovement = randomize;
-        isConfused = true;
-        confusionCoroutine = StartCoroutine(ConfusionEffectCoroutine(duration));
-    }
-
-    private IEnumerator ConfusionEffectCoroutine(float duration)
-    {
-        yield return new WaitForSeconds(duration);
-        isConfused = false;
-        invertMovement = false;
-        randomizeMovement = false;
-    }
-
-    private int GetConfusedMovement(int input)
-    {
-        if (!isConfused) return input;
-
-        if (randomizeMovement)
-        {
-            return Random.Range(-1, 2); // Returns -1, 0, or 1 randomly
-        }
-        else if (invertMovement)
-        {
-            return -input;
-        }
-
-        return input;
-    }
-
-    private IEnumerator FireballDamageBoostCoroutine(int amount, float duration)
-    {
-        fireballDamage += amount;
-        Debug.Log($"Fireball damage increased by {amount} for {duration} seconds.");
-
-        yield return new WaitForSeconds(duration);
-
-        fireballDamage -= amount;
-        Debug.Log("Fireball damage boost ended.");
     }
 
     public List<FireballEffectType> GetPermanentEffects()

@@ -5,7 +5,7 @@ public class SpeedUpPotionEffect : MonoBehaviour, IPotionEffect
 {
     public void ApplyEffect(Jugador player)
     {
-        player.baseSpeed += 1; // adjust as needed
+        player.GetComponent<MovementController>().ApplyPermanentSpeedModifier(1); // adjust as needed
         Debug.Log("Permanent speed up applied");
     }
 

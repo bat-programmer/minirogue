@@ -10,14 +10,15 @@ public class TouchPlateSpeedEffect : TouchPlateBaseEffect
 
     public override void ApplyEffect(Jugador player)
     {
+        var movementController = player.GetComponent<MovementController>();
         if (isTemporary)
         {
-            player.ApplySpeedModifier(speedMultiplier, GetDuration());
+            movementController.ApplySpeedModifier(speedMultiplier, GetDuration());
             Debug.Log($"Applying temporary speed modifier: {speedMultiplier} for {GetDuration()} seconds.");
         }
         else
         {
-            player.ApplyPermanentSpeedModifier(speedMultiplier);
+            movementController.ApplyPermanentSpeedModifier(speedMultiplier);
         }
 
         if (affectsEnemies)

@@ -9,6 +9,6 @@ public class TouchPlateConfusionEffect : TouchPlateBaseEffect
 
     public override void ApplyEffect(Jugador player)
     {
-        player.ApplyConfusionEffect(confusionDuration, invertControls, randomizeControls);
+        player.GetComponent<MovementController>().ApplyConfusionEffect(confusionDuration, invertControls, randomizeControls);
     }
 }
