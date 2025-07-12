@@ -26,11 +26,11 @@ public class FlechaMover : MonoBehaviour
         
         if (collision.CompareTag("Player"))
         {
-            // Assuming the player has a method to take damage
-            Jugador jugador = collision.GetComponent<Jugador>();
-            if (jugador != null)
+            // Get PlayerHealth component to apply damage
+            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
             {
-                jugador.ApplyDamage(50); // Adjust damage value as needed
+                playerHealth.ApplyDamage(1); // 1 = half heart damage
             }
         }
 

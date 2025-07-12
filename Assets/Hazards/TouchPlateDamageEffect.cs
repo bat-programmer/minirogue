@@ -8,13 +8,17 @@ public class TouchPlateDamageEffect : TouchPlateBaseEffect
 
     public override void ApplyEffect(Jugador player)
     {
-        if (bypassInvulnerability)
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
         {
-            player.ApplyDamage(damageAmount);
-        }
-        else
-        {
-            player.ApplyHealth(-damageAmount);
+            if (bypassInvulnerability)
+            {
+                playerHealth.ApplyDamage(damageAmount);
+            }
+            else
+            {
+                playerHealth.ApplyDamage(damageAmount);
+            }
         }
     }
 }

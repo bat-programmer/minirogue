@@ -36,7 +36,11 @@ public class FirePatchEffect : FireballEffect
         {
             if (hit.CompareTag("Player"))
             {
-                hit.GetComponent<Jugador>()?.ApplyDamage(damage);
+            PlayerHealth playerHealth = hit.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.ApplyDamage(damage);
+            }
             }
         }
     }

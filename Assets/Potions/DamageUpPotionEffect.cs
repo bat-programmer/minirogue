@@ -8,7 +8,11 @@ namespace Assets.Potions
     {
         public void ApplyEffect(Jugador player)
         {
-            player.ApplyDamage(2); // Deal 1 full heart of damage
+        PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+        if (playerHealth != null)
+        {
+            playerHealth.ApplyDamage(2); // Deal 1 full heart of damage
+        }
             Debug.Log("Damage potion applied");
         }
 

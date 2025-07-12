@@ -20,7 +20,11 @@ public class EnemyProjectile : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             // Apply damage if needed
-            collision.GetComponent<Jugador>()?.ApplyDamage(1);
+            var playerHealth = collision.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.ApplyDamage(1);
+            }
             Destroy(gameObject);
         }
         else if (collision.CompareTag("Wall"))

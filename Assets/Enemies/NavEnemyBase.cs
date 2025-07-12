@@ -240,8 +240,11 @@ public abstract class NavEnemyBase : MonoBehaviour
         {
             if (hit.CompareTag("Player"))
             {
-                Jugador jugador = hit.GetComponent<Jugador>();
-                jugador?.ApplyDamage(1);
+                var playerHealth = hit.GetComponent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.ApplyDamage(1);
+                }
             }
         }
     }
@@ -275,7 +278,7 @@ public abstract class NavEnemyBase : MonoBehaviour
     protected virtual bool IsPathBlocked(Vector2 direction)
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, 0.5f);
-        return hit.collider != null && !hit.collider.CompareTag("Player") && hit.collider.CompareTag("Wall");
+        return hit.collider != null && hit.collider.CompareTag("Wall");
     }
 
     protected virtual Vector2 GetRandomCardinalDirection()

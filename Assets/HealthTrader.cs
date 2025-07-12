@@ -21,8 +21,12 @@ public class HealthTrader : MonoBehaviour
         Jugador player = other.GetComponent<Jugador>();
         if (player != null)
         {
-            // Apply health cost
-            player.ApplyDamage(healthCost);
+            // Apply health cost through PlayerHealth
+            PlayerHealth playerHealth = player.GetComponent<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.ApplyDamage(healthCost);
+            }
             
             // Give coin reward
             GameManager.Instance.AddCoins(coinReward);

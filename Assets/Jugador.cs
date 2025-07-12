@@ -12,19 +12,12 @@ public class Jugador : MonoBehaviour
     [SerializeField] private float speed = 100f;
     [SerializeField] private int fireballDamage = 1000; // Default damage
     private Coroutine fireballDamageBoostCoroutine;
+    private Vector2 lastDirection = Vector2.right; // Default direction
+    private PoolBolaDeFuego poolBolaDeFuego;
+    private PlayerHealth playerHealth;
 
     [Header("UI")]
     public Transform heartsContainer; // Drag your container here in the Inspector
-
-    [Header("Health System")]
-    public List<int> hearts = new List<int>(); // Each heart can have values: 2 (full), 1 (half), 0 (empty)
-    public int maxHearts = 3; // Maximum number of hearts
-
-    private bool isInvulnerable = false;
-    [SerializeField] private float invulnerabilityDuration = 5f;
-    [SerializeField] private float blinkInterval = 0.2f;
-    private Vector2 lastDirection = Vector2.right; // Default direction
-    private PoolBolaDeFuego poolBolaDeFuego;
 
     [Header("Attack Settings")]
     [SerializeField] public float fireRate = 0.1f; // Seconds between shots
@@ -137,8 +130,13 @@ public class Jugador : MonoBehaviour
         movementController.Initialize(GetComponent<Rigidbody2D>());
         movementController.Speed = speed;
 
-        InitializeHearts(maxHearts);
-        UpdateHeartUI();
+        playerHealth = gameObject.GetComponent<PlayerHealth>();
+        if (playerHealth == null)
+        {
+            playerHealth = gameObject.AddComponent<PlayerHealth>();
+            playerHealth.heartsContainer = heartsContainer;
+            playerHealth.maxHearts = 3;
+        }
         GameManager.Instance.playerTransform= transform; // Set player transform in GameManager
     }
 
@@ -230,110 +228,6 @@ public class Jugador : MonoBehaviour
         Debug.Log("Fireball damage boost ended.");
     }
 
-    // Initialize hearts with full health
-    private void InitializeHearts(int count)
-    {
-        hearts.Clear();
-        for (int i = 0; i < count; i++)
-        {
-            hearts.Add(2); // Full heart
-        }
-    }
-
-    // Add health (1 = half heart, 2 = full heart)
-    public void AddHealth(int amount)
-    {
-        for (int i = 0; i < hearts.Count; i++)
-        {
-            if (hearts[i] < 2)
-            {
-                hearts[i] += amount;
-                if (hearts[i] > 2) hearts[i] = 2; // Cap at full heart
-                amount -= 1;
-                if (amount <= 0) break;
-            }
-        }
-
-        UpdateHeartUI();
-        Debug.Log("Health added. Current hearts: " + string.Join(", ", hearts));
-    }
-
-    // Remove health (1 = half heart, 2 = full heart)
-    public void RemoveHealth(int amount)
-    {
-        for (int i = hearts.Count - 1; i >= 0; i--)
-        {
-            if (hearts[i] > 0)
-            {
-                hearts[i] -= amount;
-                if (hearts[i] < 0) hearts[i] = 0; // Cap at empty heart
-                amount -= 1;
-                if (amount <= 0) break;
-            }
-        }
-        UpdateHeartUI();
-        Debug.Log("Health removed. Current hearts: " + string.Join(", ", hearts));
-    }
-
-    void UpdateHeartUI()
-    {
-        for (int i = 0; i < heartsContainer.childCount; i++)
-        {
-            var heartUI = heartsContainer.GetChild(i).GetComponent<HeartImage>();
-
-            if (i < hearts.Count)
-            {
-                heartUI.SetState(hearts[i]);
-            }
-            else
-            {
-                heartUI.gameObject.SetActive(false); // Optional: hide extra hearts
-            }
-        }
-    }
-
-    public void ApplyHealth(int amount)
-    {
-        AddHealth(amount);
-        if (IsDead())
-        {
-            // Handle player death (e.g., restart level, show game over screen)
-            Debug.Log("Player is dead!");
-        }
-    }
-
-    public void ApplyDamage(int damage)
-    {
-        if (isInvulnerable) return;
-
-        RemoveHealth(damage);
-        OnDamageTaken?.Invoke();
-            StatsManager.Instance.IncrementStat("damageTaken", damage);
-
-        if (IsDead())
-        {
-            TriggerDeathEffect();
-        }
-        else
-        {
-            StartCoroutine(InvulnerabilityCoroutine());
-        }
-    }
-
-    private void TriggerDeathEffect()
-    {
-        // Disable player components
-        GetComponent<Collider2D>().enabled = false;
-        enabled = false; // Disable this script
-
-        // Trigger death effect
-        PlayerDeathEffect deathEffect = gameObject.AddComponent<PlayerDeathEffect>();
-        deathEffect.TriggerDeathEffect(GetComponent<SpriteRenderer>());
-
-        // Show defeat screen
-        GameManager.Instance.ShowDefeatScreen();
-    }
-
     public void AddMoney(int amount)
     {
         GameManager.Instance.AddCoins(amount);
@@ -342,32 +236,6 @@ public class Jugador : MonoBehaviour
     public void RemoveMoney(int amount)
     {
         GameManager.Instance.RemoveCoins(amount);
-    }
-
-    public bool IsDead()
-    {
-        foreach (int heart in hearts)
-        {
-            if (heart > 0)
-                return false; // Player is alive
-        }
-        return true; // Player is dead
-    }
-
-    private IEnumerator InvulnerabilityCoroutine()
-    {
-        isInvulnerable = true;
-
-        float elapsed = 0f;
-        while (elapsed < invulnerabilityDuration)
-        {
-            sr.enabled = !sr.enabled;
-            yield return new WaitForSeconds(blinkInterval);
-            elapsed += blinkInterval;
-        }
-
-        sr.enabled = true; // Make sure sprite is visible at end
-        isInvulnerable = false;
     }
 
     public List<FireballEffectType> GetPermanentEffects()
@@ -384,5 +252,27 @@ public class Jugador : MonoBehaviour
     {
         return permanentEffects.Contains(effectType) ||
                temporalEffects.Exists(e => e.effectType == effectType);
+    }
+
+    // Health management methods - delegate to PlayerHealth
+    public void ApplyDamage(int damage)
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.ApplyDamage(damage);
+        }
+    }
+
+    public void ApplyHealth(int amount)
+    {
+        if (playerHealth != null)
+        {
+            playerHealth.ApplyHealth(amount);
+        }
+    }
+
+    public bool IsDead()
+    {
+        return playerHealth != null && playerHealth.IsDead();
     }
 }

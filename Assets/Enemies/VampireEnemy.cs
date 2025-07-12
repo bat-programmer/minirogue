@@ -79,7 +79,11 @@ public class VampireEnemy : NavEnemyBase
         {
             if (hit.CompareTag("Player"))
             {
-                hit.GetComponent<Jugador>()?.ApplyDamage(1);
+                var playerHealth = hit.GetComponent<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.ApplyDamage(1);
+                }
             }
         }
     }
