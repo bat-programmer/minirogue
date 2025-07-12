@@ -159,12 +159,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2531137}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 44.859097, y: 35.174088, z: -0.13673264}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.9012909, y: -0.2463646, z: 0.010101005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1443229835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &11584408
 PrefabInstance:
@@ -23259,15 +23259,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3878b74164777784fb765f4862c050a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  potionUISlot: {fileID: 939560554}
   playerTransform: {fileID: 0}
   playerHealth: 100
-  heldPotion: {fileID: 0}
-  coinText: {fileID: 437924847}
-  coinPrefab: {fileID: 803591683841211928, guid: ce2e7d208ce80584aba096035e2fcaf5, type: 3}
-  coinDropEveryXDeaths: 3
-  coinDropChance: 0.5
-  playerCoins: 10
+  potionManager: {fileID: 1809629197}
+  economyManager: {fileID: 2132623121}
+  enemyCombatManager: {fileID: 852142693}
 --- !u!4 &496479008
 Transform:
   m_ObjectHideFlags: 0
@@ -23276,12 +23272,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 496479006}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9494251, y: 0.061084896, z: 0.052131016}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -46.709812, y: -35.359367, z: 0.19896466}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1443229835}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &509888674
 GameObject:
@@ -34639,6 +34635,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 371448742305281376, guid: c4780bb77a2884941bd686bab9fba5c5, type: 3}
   m_PrefabInstance: {fileID: 128297944}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &852142691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 852142692}
+  - component: {fileID: 852142693}
+  m_Layer: 0
+  m_Name: EnemyCombatManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &852142692
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852142691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1443229835}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &852142693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852142691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b21f84a7ba79334194be5197e9513c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &853380817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36647,6 +36687,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1878533415558552262, guid: f6a4668dfaeb20849aade17597004b63, type: 3}
   m_PrefabInstance: {fileID: 656274207}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1443229834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1443229835}
+  m_Layer: 0
+  m_Name: Singletons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1443229835
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443229834}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 45.760387, y: 35.420452, z: -0.14683364}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 496479008}
+  - {fileID: 2531139}
+  - {fileID: 1809629196}
+  - {fileID: 2132623120}
+  - {fileID: 852142692}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1452551044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46047,6 +46123,51 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1809629195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1809629196}
+  - component: {fileID: 1809629197}
+  m_Layer: 0
+  m_Name: PotionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1809629196
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809629195}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1443229835}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1809629197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809629195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 118d2cc25e2161e4eb2ffba15db68873, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  potionUISlot: {fileID: 939560554}
 --- !u!1001 &1821343435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51872,11 +51993,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1857147859377579539, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 57.94
+      value: 28.57
       objectReference: {fileID: 0}
     - target: {fileID: 1857147859377579539, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 38.32
+      value: 24.02
       objectReference: {fileID: 0}
     - target: {fileID: 1857147859377579539, guid: 44763ca9f560060429ed8c4e05d6df07, type: 3}
       propertyPath: m_LocalPosition.z
@@ -61263,6 +61384,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1878533415558552262, guid: f6a4668dfaeb20849aade17597004b63, type: 3}
   m_PrefabInstance: {fileID: 2080547931}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2132623119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2132623120}
+  - component: {fileID: 2132623121}
+  m_Layer: 0
+  m_Name: EconomyManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2132623120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132623119}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1443229835}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2132623121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132623119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e81ea74278c1e84d8a41f22967c4314, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinPrefab: {fileID: 803591683841211928, guid: ce2e7d208ce80584aba096035e2fcaf5, type: 3}
+  coinDropEveryXDeaths: 3
+  coinDropChance: 0.5
+  playerCoins: 0
+  coinText: {fileID: 437924847}
 --- !u!1001 &2135922515
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61591,7 +61761,6 @@ SceneRoots:
   - {fileID: 1139577261}
   - {fileID: 679504555}
   - {fileID: 1543351839}
-  - {fileID: 496479008}
   - {fileID: 43615837}
   - {fileID: 384786403}
   - {fileID: 1477086773}
@@ -61609,4 +61778,4 @@ SceneRoots:
   - {fileID: 794486929}
   - {fileID: 2001871397}
   - {fileID: 303751444}
-  - {fileID: 2531139}
+  - {fileID: 1443229835}

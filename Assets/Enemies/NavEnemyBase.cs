@@ -23,6 +23,7 @@ public abstract class NavEnemyBase : MonoBehaviour
     // Components
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
+    protected Collider2D enemyCollider;
 
     protected Vector2[] directions = new Vector2[]
     {
@@ -40,6 +41,7 @@ public abstract class NavEnemyBase : MonoBehaviour
         currentDirection = GetRandomCardinalDirection();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        enemyCollider = GetComponent<Collider2D>();
 
         if (useNavMesh)
         {
@@ -200,6 +202,7 @@ public abstract class NavEnemyBase : MonoBehaviour
             animator.ResetTrigger("IsAttacking");
             animator.ResetTrigger("takeDamage");
             animator.SetBool("isMoving", false);
+            enemyCollider.enabled = false; // Disable collider on death
             animator.SetTrigger("Death");
         }
     }
