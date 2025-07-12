@@ -8,12 +8,12 @@ public class FireballDamageUpPotionEffect : MonoBehaviour, IPotionEffect
 
     public void ApplyEffect(Jugador player)
     {
-        player.ApplyFireballDamageBoost(damageIncrease, duration);
+        player.GetComponent<PlayerAttackController>().ApplyFireballDamageBoost(damageIncrease, duration);
         Debug.Log("Fireball damage up applied!");
     }
 
     public string GetUILabel()
     {
-        return "Pocion de Daño de Bola de Fuego";
+        return "Pocion de DaÃ±o de Bola de Fuego";
     }
 }
