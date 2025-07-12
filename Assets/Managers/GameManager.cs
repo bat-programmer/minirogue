@@ -48,15 +48,9 @@ public class GameManager : MonoBehaviour
 
         defeatScreenManager = gameObject.AddComponent<DefeatScreenManager>();
         winScreenManager = gameObject.AddComponent<WinScreenManager>();
-        // PotionManager should be a separate GameObject in the scene with its PotionUISlot assigned.
-        // We find its instance here.
-        potionManager = PotionManager.Instance; 
-        if (potionManager == null)
-        {
-            Debug.LogError("PotionManager instance not found in scene. Please ensure it exists as a GameObject and has a PotionManager component.");
-        }
         economyManager = gameObject.AddComponent<EconomyManager>(); // Initialize EconomyManager
         enemyCombatManager = gameObject.AddComponent<EnemyCombatManager>(); // Initialize EnemyCombatManager
+        gameObject.AddComponent<StatsManager>(); // Initialize StatsManager
     }
 
     public void EquipPotion(IPotionEffect effect, string label, Sprite sprite, Color color)
