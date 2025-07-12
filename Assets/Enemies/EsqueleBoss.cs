@@ -195,4 +195,12 @@ public class EsqueleBoss : NavEnemyBase
         }
         spriteRenderer.color = originalColor;
     }
+
+    protected override void Die()
+    {
+        // Show win screen when EsqueleBoss is defeated
+        GameManager.Instance.ShowWinScreen();
+        // Call base implementation to maintain existing death functionality
+        base.Die();
+    }
 }
