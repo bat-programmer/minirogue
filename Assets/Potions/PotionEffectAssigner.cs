@@ -34,7 +34,7 @@ public class PotionEffectAssigner : MonoBehaviour
     private void AssignEffect()
     {
         // First potion is always beneficial
-        bool isFirstPotion = !GameManager.Instance.HasAssignedFirstPotion;
+        bool isFirstPotion = !GameManager.Instance.potionManager.HasAssignedFirstPotion;
         
         System.Type[] goodEffects = { typeof(HealthPotionEffect), typeof(SpeedUpPotionEffect) };
         System.Type[] badEffects = { typeof(DamagePotionEffect), typeof(SpeedDownPotionEffect) };
@@ -46,7 +46,7 @@ public class PotionEffectAssigner : MonoBehaviour
         gameObject.AddComponent(pool[randomIndex]);
 
         if (isFirstPotion) {
-            GameManager.Instance.HasAssignedFirstPotion = true;
+            GameManager.Instance.potionManager.HasAssignedFirstPotion = true;
         }
     }
 }

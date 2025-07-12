@@ -21,7 +21,7 @@ public class RoomClearRewardSpawner : MonoBehaviour
         }
 
         // Spawn slot machine if player has enough coins
-        if (GameManager.Instance != null && GameManager.Instance.PlayerCoins >= coinThreshold && slotMachinePrefab != null)
+        if (GameManager.Instance != null && GameManager.Instance.economyManager.PlayerCoins >= coinThreshold && slotMachinePrefab != null)
         {
             Instantiate(slotMachinePrefab, 
                 (Vector2)transform.position + spawnOffset + Vector2.right * 2f, 
