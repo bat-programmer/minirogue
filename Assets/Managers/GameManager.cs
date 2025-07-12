@@ -7,13 +7,15 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
-    private GameObject defeatScreen;
     public IPotionEffect currentPotion;
     public PotionUISlot potionUISlot; // Assign in the Inspector
     public static GameManager Instance;
     public Transform playerTransform;
 
     public int playerHealth = 100;
+
+    private DefeatScreenManager defeatScreenManager;
+    private WinScreenManager winScreenManager;
 
     // Track discovered potion types
     private Dictionary<System.Type, bool> discoveredPotions = new Dictionary<System.Type, bool>();
@@ -28,19 +30,15 @@ public class GameManager : MonoBehaviour
     private int totalEnemies = 0;
     public TextMeshProUGUI coinText;
     
-    // Lifetime game statistics
-    private Dictionary<string, int> lifetimeStats = new Dictionary<string, int>()
+    // Stats now handled by StatsManager
+    public event System.Action<Dictionary<string, int>> OnStatsUpdated
     {
-        {"totalEnemiesKilled", 0},
-        {"totalCoinsCollected", 0},
-        {"potionsUsed", 0},
-        {"heartsSacrificed", 0},
-        {"damageTaken", 0}
-    };
-    public event System.Action<Dictionary<string, int>> OnStatsUpdated;
+        add => StatsManager.Instance.OnStatsUpdated += value;
+        remove => StatsManager.Instance.OnStatsUpdated -= value;
+    }
 
     [Header("Coin Drop Settings")]
-    [SerializeField] private GameObject coinPrefab;
+    public GameObject coinPrefab;
     [SerializeField] private int coinDropEveryXDeaths = 3;
     [SerializeField][Range(0f, 1f)] private float coinDropChance = 0.5f;
 
@@ -71,6 +69,9 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        defeatScreenManager = gameObject.AddComponent<DefeatScreenManager>();
+        winScreenManager = gameObject.AddComponent<WinScreenManager>();
     }
     public bool IsPotionDiscovered(System.Type potionType)
     {
@@ -133,16 +134,12 @@ public class GameManager : MonoBehaviour
 
     public void IncrementStat(string statName, int amount = 1)
     {
-        if (lifetimeStats.ContainsKey(statName))
-        {
-            lifetimeStats[statName] += amount;
-            OnStatsUpdated?.Invoke(lifetimeStats);
-        }
+        StatsManager.Instance.IncrementStat(statName, amount);
     }
 
     public Dictionary<string, int> GetStats()
     {
-        return new Dictionary<string, int>(lifetimeStats);
+        return StatsManager.Instance.GetStats();
     }
 
     private void UpdateCoinUI()
@@ -157,7 +154,7 @@ public class GameManager : MonoBehaviour
     {
         NavEnemyBase.OnAnyEnemyDied -= HandleEnemyDeath;
     }
-    private void HandleEnemyDeath()
+    public void HandleEnemyDeath()
     {
         deadEnemies++;
         IncrementStat("totalEnemiesKilled");
@@ -197,240 +194,12 @@ public class GameManager : MonoBehaviour
 
     public void ShowDefeatScreen()
     {
-        Debug.Log("Showing defeat screen");
-        // Get game stats
-        Dictionary<string, int> stats = GetStats();
-        
-        // Create UI elements to display stats
-        GameObject defeatScreen = new GameObject("DefeatScreen");
-        Canvas canvas = defeatScreen.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        defeatScreen.AddComponent<CanvasScaler>();
-        defeatScreen.AddComponent<GraphicRaycaster>();
-        
-        // Create background
-        GameObject background = new GameObject("Background");
-        background.transform.SetParent(defeatScreen.transform);
-        Image bgImage = background.AddComponent<Image>();
-        bgImage.color = new Color(0, 0, 0, 0.7f);
-        RectTransform bgRect = background.GetComponent<RectTransform>();
-        bgRect.anchorMin = Vector2.zero;
-        bgRect.anchorMax = Vector2.one;
-        bgRect.offsetMin = Vector2.zero;
-        bgRect.offsetMax = Vector2.zero;
-        
-        // Create title
-        GameObject titleObj = new GameObject("Title");
-        titleObj.transform.SetParent(defeatScreen.transform);
-        TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
-        titleText.text = "GAME OVER";
-        titleText.fontSize = 48;
-        titleText.alignment = TextAlignmentOptions.Center;
-        RectTransform titleRect = titleObj.GetComponent<RectTransform>();
-        titleRect.anchorMin = new Vector2(0.5f, 0.8f);
-        titleRect.anchorMax = new Vector2(0.5f, 0.8f);
-        titleRect.anchoredPosition = Vector2.zero;
-        titleRect.sizeDelta = new Vector2(400, 100);
-        
-        // Create stats panel
-        GameObject statsPanel = new GameObject("StatsPanel");
-        statsPanel.transform.SetParent(defeatScreen.transform);
-        RectTransform statsRect = statsPanel.AddComponent<RectTransform>();
-        statsRect.anchorMin = new Vector2(0.5f, 0.5f);
-        statsRect.anchorMax = new Vector2(0.5f, 0.5f);
-        statsRect.anchoredPosition = Vector2.zero;
-        statsRect.sizeDelta = new Vector2(400, 300);
-        
-        // Create stat entries
-        float yPos = 100;
-        foreach (var stat in stats)
-        {
-            GameObject statObj = new GameObject(stat.Key);
-            statObj.transform.SetParent(statsPanel.transform);
-            TextMeshProUGUI statText = statObj.AddComponent<TextMeshProUGUI>();
-            statText.text = $"{stat.Key}: {stat.Value}";
-            statText.fontSize = 24;
-            RectTransform statRect = statObj.GetComponent<RectTransform>();
-            statRect.anchorMin = new Vector2(0.5f, 0.5f);
-            statRect.anchorMax = new Vector2(0.5f, 0.5f);
-            statRect.anchoredPosition = new Vector2(0, yPos);
-            statRect.sizeDelta = new Vector2(300, 30);
-            yPos -= 30;
-        }
-        
-        // Create restart button
-        GameObject buttonObj = new GameObject("RestartButton");
-        buttonObj.transform.SetParent(defeatScreen.transform);
-        Button button = buttonObj.AddComponent<Button>();
-        TextMeshProUGUI buttonText = buttonObj.AddComponent<TextMeshProUGUI>();
-        buttonText.text = "RESTART";
-        buttonText.fontSize = 36;
-        buttonText.alignment = TextAlignmentOptions.Center;
-        RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
-        buttonRect.anchorMin = new Vector2(0.5f, 0.2f);
-        buttonRect.anchorMax = new Vector2(0.5f, 0.2f);
-        buttonRect.anchoredPosition = Vector2.zero;
-        buttonRect.sizeDelta = new Vector2(200, 60);
-        
-        // Add restart functionality
-        // Create "Press Enter" message
-        GameObject enterTextObj = new GameObject("EnterText");
-        enterTextObj.transform.SetParent(defeatScreen.transform);
-        TextMeshProUGUI enterText = enterTextObj.AddComponent<TextMeshProUGUI>();
-        enterText.text = "Press Enter to restart";
-        enterText.fontSize = 24;
-        enterText.alignment = TextAlignmentOptions.Center;
-        RectTransform enterRect = enterTextObj.GetComponent<RectTransform>();
-        enterRect.anchorMin = new Vector2(0.5f, 0.9f);
-        enterRect.anchorMax = new Vector2(0.5f, 0.9f);
-        enterRect.anchoredPosition = Vector2.zero;
-        enterRect.sizeDelta = new Vector2(400, 50);
-
-        // Set button colors
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.red;
-        colors.highlightedColor = new Color(1f, 0.5f, 0.5f);
-        button.colors = colors;
-
-        button.onClick.AddListener(() => {
-            Debug.Log("Restarting game...");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        });
-
-        this.defeatScreen = defeatScreen;
+        defeatScreenManager.ShowDefeatScreen(GetStats());
     }
 
     public void ShowWinScreen()
     {
-        Debug.Log("Showing win screen");
-        // Get game stats
-        Dictionary<string, int> stats = GetStats();
-        
-        // Create UI elements to display stats
-        GameObject winScreen = new GameObject("WinScreen");
-        Canvas canvas = winScreen.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-        winScreen.AddComponent<CanvasScaler>();
-        winScreen.AddComponent<GraphicRaycaster>();
-        
-        // Create background
-        GameObject background = new GameObject("Background");
-        background.transform.SetParent(winScreen.transform);
-        Image bgImage = background.AddComponent<Image>();
-        bgImage.color = new Color(0, 0, 0, 0.7f);
-        RectTransform bgRect = background.GetComponent<RectTransform>();
-        bgRect.anchorMin = Vector2.zero;
-        bgRect.anchorMax = Vector2.one;
-        bgRect.offsetMin = Vector2.zero;
-        bgRect.offsetMax = Vector2.zero;
-        
-        // Create title
-        GameObject titleObj = new GameObject("Title");
-        titleObj.transform.SetParent(winScreen.transform);
-        TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
-        titleText.text = "YOU WIN!";
-        titleText.fontSize = 48;
-        titleText.alignment = TextAlignmentOptions.Center;
-        RectTransform titleRect = titleObj.GetComponent<RectTransform>();
-        titleRect.anchorMin = new Vector2(0.5f, 0.8f);
-        titleRect.anchorMax = new Vector2(0.5f, 0.8f);
-        titleRect.anchoredPosition = Vector2.zero;
-        titleRect.sizeDelta = new Vector2(400, 100);
-        
-        // Create stats panel
-        GameObject statsPanel = new GameObject("StatsPanel");
-        statsPanel.transform.SetParent(winScreen.transform);
-        RectTransform statsRect = statsPanel.AddComponent<RectTransform>();
-        statsRect.anchorMin = new Vector2(0.5f, 0.5f);
-        statsRect.anchorMax = new Vector2(0.5f, 0.5f);
-        statsRect.anchoredPosition = Vector2.zero;
-        statsRect.sizeDelta = new Vector2(400, 300);
-        
-        // Create stat entries
-        float yPos = 100;
-        foreach (var stat in stats)
-        {
-            GameObject statObj = new GameObject(stat.Key);
-            statObj.transform.SetParent(statsPanel.transform);
-            TextMeshProUGUI statText = statObj.AddComponent<TextMeshProUGUI>();
-            statText.text = $"{stat.Key}: {stat.Value}";
-            statText.fontSize = 24;
-            RectTransform statRect = statObj.GetComponent<RectTransform>();
-            statRect.anchorMin = new Vector2(0.5f, 0.5f);
-            statRect.anchorMax = new Vector2(0.5f, 0.5f);
-            statRect.anchoredPosition = new Vector2(0, yPos);
-            statRect.sizeDelta = new Vector2(300, 30);
-            yPos -= 30;
-        }
-        
-        // Create restart button
-        GameObject buttonObj = new GameObject("RestartButton");
-        buttonObj.transform.SetParent(winScreen.transform);
-        Button button = buttonObj.AddComponent<Button>();
-        TextMeshProUGUI buttonText = buttonObj.AddComponent<TextMeshProUGUI>();
-        buttonText.text = "RESTART";
-        buttonText.fontSize = 36;
-        buttonText.alignment = TextAlignmentOptions.Center;
-        RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
-        buttonRect.anchorMin = new Vector2(0.5f, 0.2f);
-        buttonRect.anchorMax = new Vector2(0.5f, 0.2f);
-        buttonRect.anchoredPosition = Vector2.zero;
-        buttonRect.sizeDelta = new Vector2(200, 60);
-        
-        // Add restart functionality
-        // Create "Press Enter" message
-        GameObject enterTextObj = new GameObject("EnterText");
-        enterTextObj.transform.SetParent(winScreen.transform);
-        TextMeshProUGUI enterText = enterTextObj.AddComponent<TextMeshProUGUI>();
-        enterText.text = "Press Enter to restart";
-        enterText.fontSize = 24;
-        enterText.alignment = TextAlignmentOptions.Center;
-        RectTransform enterRect = enterTextObj.GetComponent<RectTransform>();
-        enterRect.anchorMin = new Vector2(0.5f, 0.9f);
-        enterRect.anchorMax = new Vector2(0.5f, 0.9f);
-        enterRect.anchoredPosition = Vector2.zero;
-        enterRect.sizeDelta = new Vector2(400, 50);
-
-        // Create "Press Escape" message
-        GameObject escapeTextObj = new GameObject("EscapeText");
-        escapeTextObj.transform.SetParent(winScreen.transform);
-        TextMeshProUGUI escapeText = escapeTextObj.AddComponent<TextMeshProUGUI>();
-        escapeText.text = "Press Escape to return to main menu";
-        escapeText.fontSize = 24;
-        escapeText.alignment = TextAlignmentOptions.Center;
-        RectTransform escapeRect = escapeTextObj.GetComponent<RectTransform>();
-        escapeRect.anchorMin = new Vector2(0.5f, 0.1f); // Position it below the restart button
-        escapeRect.anchorMax = new Vector2(0.5f, 0.1f);
-        escapeRect.anchoredPosition = Vector2.zero;
-        escapeRect.sizeDelta = new Vector2(400, 50);
-
-        // Set button colors
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.red;
-        colors.highlightedColor = new Color(1f, 0.5f, 0.5f);
-        button.colors = colors;
-
-        button.onClick.AddListener(() => {
-            Debug.Log("Restarting game...");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        });
-
-        this.defeatScreen = winScreen; // Re-using defeatScreen variable for simplicity, could be a separate winScreen variable
+        winScreenManager.ShowWinScreen(GetStats());
     }
 
-    private void Update()
-    {
-        if (defeatScreen != null && Input.GetKeyDown(KeyCode.Return))
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        }
-        if (defeatScreen != null && Input.GetKeyDown(KeyCode.Escape))
-        {
-            Debug.Log("Returning to main menu...");
-            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu"); // Assuming "MainMenu" is the scene name
-        }
-    }
 }

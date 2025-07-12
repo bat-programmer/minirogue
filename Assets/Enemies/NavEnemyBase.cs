@@ -211,7 +211,8 @@ public abstract class NavEnemyBase : MonoBehaviour
 
     protected virtual void Die()
     {
-        OnAnyEnemyDied?.Invoke(); // Fire event
+        StatsManager.Instance.IncrementStat("totalEnemiesKilled");
+        GameManager.Instance.HandleEnemyDeath(); // Still let GameManager handle enemy count logic
         Destroy(this.gameObject);
     }
 
