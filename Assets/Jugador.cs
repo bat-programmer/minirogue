@@ -275,4 +275,33 @@ public class Jugador : MonoBehaviour
     {
         return playerHealth != null && playerHealth.IsDead();
     }
+
+    public void StartVictoryDance()
+    {
+        StartCoroutine(VictoryDance());
+    }
+
+    private IEnumerator VictoryDance()
+    {
+        // Disable movement
+        if (movementController != null)
+        {
+            movementController.enabled = false;
+        }
+
+        // Get initial values
+        Vector3 originalScale = transform.localScale;
+
+        while (true)
+        {
+            // Rotate
+            transform.Rotate(0f, 0f, 360f * Time.deltaTime);
+
+            // Pulse size
+            float pulse = Mathf.PingPong(Time.time * 2f, 0.5f) + 0.5f;
+            transform.localScale = originalScale * pulse;
+
+            yield return null;
+        }
+    }
 }

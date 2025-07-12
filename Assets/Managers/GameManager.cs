@@ -102,6 +102,16 @@ public class GameManager : MonoBehaviour
     public void ShowWinScreen()
     {
         winScreenManager.ShowWinScreen(GetStats());
+        StartVictoryDance();
+    }
+
+    public void StartVictoryDance()
+    {
+        Jugador player = playerTransform.GetComponent<Jugador>();
+        if (player != null)
+        {
+            player.StartVictoryDance();
+        }
     }
 
 }
