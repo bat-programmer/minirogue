@@ -48,9 +48,7 @@ public class GameManager : MonoBehaviour
 
         defeatScreenManager = gameObject.AddComponent<DefeatScreenManager>();
         winScreenManager = gameObject.AddComponent<WinScreenManager>();
-        economyManager = gameObject.AddComponent<EconomyManager>(); // Initialize EconomyManager
-        enemyCombatManager = gameObject.AddComponent<EnemyCombatManager>(); // Initialize EnemyCombatManager
-        gameObject.AddComponent<StatsManager>(); // Initialize StatsManager
+       //gameObject.AddComponent<StatsManager>(); // Initialize StatsManager
     }
 
     public void EquipPotion(IPotionEffect effect, string label, Sprite sprite, Color color)
