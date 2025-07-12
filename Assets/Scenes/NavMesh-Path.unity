@@ -160,11 +160,11 @@ Transform:
   m_GameObject: {fileID: 2531137}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.9012909, y: -0.2463646, z: 0.010101005}
+  m_LocalPosition: {x: 44.859097, y: 35.174088, z: -0.13673264}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1443229835}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &11584408
 PrefabInstance:
@@ -23273,11 +23273,11 @@ Transform:
   m_GameObject: {fileID: 496479006}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -46.709812, y: -35.359367, z: 0.19896466}
+  m_LocalPosition: {x: -0.94942474, y: 0.061084747, z: 0.052131012}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1443229835}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &509888674
 GameObject:
@@ -34646,7 +34646,7 @@ GameObject:
   - component: {fileID: 852142692}
   - component: {fileID: 852142693}
   m_Layer: 0
-  m_Name: EnemyCombatManager
+  m_Name: EnemyCombatManagerSingleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34660,12 +34660,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 852142691}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 45.760387, y: 35.420452, z: -0.14683364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1443229835}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &852142693
 MonoBehaviour:
@@ -36687,42 +36687,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1878533415558552262, guid: f6a4668dfaeb20849aade17597004b63, type: 3}
   m_PrefabInstance: {fileID: 656274207}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1443229834
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1443229835}
-  m_Layer: 0
-  m_Name: Singletons
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1443229835
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1443229834}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 45.760387, y: 35.420452, z: -0.14683364}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 496479008}
-  - {fileID: 2531139}
-  - {fileID: 1809629196}
-  - {fileID: 2132623120}
-  - {fileID: 852142692}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1452551044
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46134,7 +46098,7 @@ GameObject:
   - component: {fileID: 1809629196}
   - component: {fileID: 1809629197}
   m_Layer: 0
-  m_Name: PotionManager
+  m_Name: PotionManagerSingleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46148,12 +46112,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1809629195}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 45.760387, y: 35.420452, z: -0.14683364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1443229835}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1809629197
 MonoBehaviour:
@@ -61395,7 +61359,7 @@ GameObject:
   - component: {fileID: 2132623120}
   - component: {fileID: 2132623121}
   m_Layer: 0
-  m_Name: EconomyManager
+  m_Name: EconomyManagerSingleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61409,12 +61373,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2132623119}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 45.760387, y: 35.420452, z: -0.14683364}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1443229835}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2132623121
 MonoBehaviour:
@@ -61778,4 +61742,8 @@ SceneRoots:
   - {fileID: 794486929}
   - {fileID: 2001871397}
   - {fileID: 303751444}
-  - {fileID: 1443229835}
+  - {fileID: 496479008}
+  - {fileID: 2531139}
+  - {fileID: 1809629196}
+  - {fileID: 2132623120}
+  - {fileID: 852142692}
