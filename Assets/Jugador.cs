@@ -356,20 +356,33 @@ public class Jugador : MonoBehaviour
     public void ApplyDamage(int damage)
     {
         if (isInvulnerable) return;   
-
+        
         RemoveHealth(damage);
         OnDamageTaken?.Invoke();
         GameManager.Instance.IncrementStat("damageTaken", damage);
         
         if (IsDead())
         {
-            // Handle player death (e.g., restart level, show game over screen)
-            Debug.Log("Player is dead!");
+            TriggerDeathEffect();
         }
         else
         {
             StartCoroutine(InvulnerabilityCoroutine());
         }
+    }
+
+    private void TriggerDeathEffect()
+    {
+        // Disable player components
+        GetComponent<Collider2D>().enabled = false;
+        enabled = false; // Disable this script
+        
+        // Trigger death effect
+        PlayerDeathEffect deathEffect = gameObject.AddComponent<PlayerDeathEffect>();
+        deathEffect.TriggerDeathEffect(GetComponent<SpriteRenderer>());
+        
+        // Show defeat screen
+        GameManager.Instance.ShowDefeatScreen();
     }
 
     public void AddMoney(int amount)

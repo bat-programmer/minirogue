@@ -1,6 +1,7 @@
 using Assets.Interfaces;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 
 
@@ -193,4 +194,88 @@ public class GameManager : MonoBehaviour
         Instantiate(coinPrefab, spawnPos, Quaternion.identity);
     }
 
+    public void ShowDefeatScreen()
+    {
+        Debug.Log("Showing defeat screen");
+        // Get game stats
+        Dictionary<string, int> stats = GetStats();
+        
+        // Create UI elements to display stats
+        GameObject defeatScreen = new GameObject("DefeatScreen");
+        Canvas canvas = defeatScreen.AddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        defeatScreen.AddComponent<CanvasScaler>();
+        defeatScreen.AddComponent<GraphicRaycaster>();
+        
+        // Create background
+        GameObject background = new GameObject("Background");
+        background.transform.SetParent(defeatScreen.transform);
+        Image bgImage = background.AddComponent<Image>();
+        bgImage.color = new Color(0, 0, 0, 0.7f);
+        RectTransform bgRect = background.GetComponent<RectTransform>();
+        bgRect.anchorMin = Vector2.zero;
+        bgRect.anchorMax = Vector2.one;
+        bgRect.offsetMin = Vector2.zero;
+        bgRect.offsetMax = Vector2.zero;
+        
+        // Create title
+        GameObject titleObj = new GameObject("Title");
+        titleObj.transform.SetParent(defeatScreen.transform);
+        TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
+        titleText.text = "GAME OVER";
+        titleText.fontSize = 48;
+        titleText.alignment = TextAlignmentOptions.Center;
+        RectTransform titleRect = titleObj.GetComponent<RectTransform>();
+        titleRect.anchorMin = new Vector2(0.5f, 0.8f);
+        titleRect.anchorMax = new Vector2(0.5f, 0.8f);
+        titleRect.anchoredPosition = Vector2.zero;
+        titleRect.sizeDelta = new Vector2(400, 100);
+        
+        // Create stats panel
+        GameObject statsPanel = new GameObject("StatsPanel");
+        statsPanel.transform.SetParent(defeatScreen.transform);
+        RectTransform statsRect = statsPanel.AddComponent<RectTransform>();
+        statsRect.anchorMin = new Vector2(0.5f, 0.5f);
+        statsRect.anchorMax = new Vector2(0.5f, 0.5f);
+        statsRect.anchoredPosition = Vector2.zero;
+        statsRect.sizeDelta = new Vector2(400, 300);
+        
+        // Create stat entries
+        float yPos = 100;
+        foreach (var stat in stats)
+        {
+            GameObject statObj = new GameObject(stat.Key);
+            statObj.transform.SetParent(statsPanel.transform);
+            TextMeshProUGUI statText = statObj.AddComponent<TextMeshProUGUI>();
+            statText.text = $"{stat.Key}: {stat.Value}";
+            statText.fontSize = 24;
+            RectTransform statRect = statObj.GetComponent<RectTransform>();
+            statRect.anchorMin = new Vector2(0.5f, 0.5f);
+            statRect.anchorMax = new Vector2(0.5f, 0.5f);
+            statRect.anchoredPosition = new Vector2(0, yPos);
+            statRect.sizeDelta = new Vector2(300, 30);
+            yPos -= 30;
+        }
+        
+        // Create restart button
+        GameObject buttonObj = new GameObject("RestartButton");
+        buttonObj.transform.SetParent(defeatScreen.transform);
+        Button button = buttonObj.AddComponent<Button>();
+        TextMeshProUGUI buttonText = buttonObj.AddComponent<TextMeshProUGUI>();
+        buttonText.text = "RESTART";
+        buttonText.fontSize = 36;
+        buttonText.alignment = TextAlignmentOptions.Center;
+        RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
+        buttonRect.anchorMin = new Vector2(0.5f, 0.2f);
+        buttonRect.anchorMax = new Vector2(0.5f, 0.2f);
+        buttonRect.anchoredPosition = Vector2.zero;
+        buttonRect.sizeDelta = new Vector2(200, 60);
+        
+        // Add restart functionality
+        button.onClick.AddListener(() => {
+            Debug.Log("Restarting game...");
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        });
+    }
 }
