@@ -26,8 +26,11 @@ public class GameManager : MonoBehaviour
         remove => StatsManager.Instance.OnStatsUpdated -= value;
     }
 
+    public HashSet<FireballEffectType> PickedUpWands { get; private set; }
+
     private void Start()
     {
+        PickedUpWands = new HashSet<FireballEffectType>();
         // EnemyCombatManager now handles enemy initialization and death events
     }
     public void RegisterEnemy()
@@ -114,4 +117,8 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void RegisterPickedUpWand(FireballEffectType wandType)
+    {
+        PickedUpWands.Add(wandType);
+    }
 }

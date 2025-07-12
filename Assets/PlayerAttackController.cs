@@ -16,7 +16,7 @@ public class PlayerAttackController : MonoBehaviour
     [SerializeField] private List<TemporalEffect> temporalEffects = new List<TemporalEffect>();
 
     [Header("Attack Settings")]
-    [SerializeField] public float fireRate = 0.1f; // Seconds between shots
+    [SerializeField] public float fireRate = 0.5f; // Seconds between shots
 
     public void Initialize(Animator animator, Transform firePointTransform, PoolBolaDeFuego pool)
     {

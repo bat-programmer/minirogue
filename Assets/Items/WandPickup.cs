@@ -53,6 +53,12 @@ public class WandPickup : MonoBehaviour
                 if (pickupEffect)
                     Instantiate(pickupEffect, transform.position, Quaternion.identity);
 
+                // Notify GameManager about the picked up wand
+                if (GameManager.Instance != null)
+                {
+                    GameManager.Instance.RegisterPickedUpWand(wandData.effectType);
+                }
+
                 Destroy(gameObject);
             }
             else
