@@ -7,6 +7,7 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    private GameObject defeatScreen;
     public IPotionEffect currentPotion;
     public PotionUISlot potionUISlot; // Assign in the Inspector
     public static GameManager Instance;
@@ -272,10 +273,40 @@ public class GameManager : MonoBehaviour
         buttonRect.sizeDelta = new Vector2(200, 60);
         
         // Add restart functionality
+        // Create "Press Enter" message
+        GameObject enterTextObj = new GameObject("EnterText");
+        enterTextObj.transform.SetParent(defeatScreen.transform);
+        TextMeshProUGUI enterText = enterTextObj.AddComponent<TextMeshProUGUI>();
+        enterText.text = "Press Enter to restart";
+        enterText.fontSize = 24;
+        enterText.alignment = TextAlignmentOptions.Center;
+        RectTransform enterRect = enterTextObj.GetComponent<RectTransform>();
+        enterRect.anchorMin = new Vector2(0.5f, 0.9f);
+        enterRect.anchorMax = new Vector2(0.5f, 0.9f);
+        enterRect.anchoredPosition = Vector2.zero;
+        enterRect.sizeDelta = new Vector2(400, 50);
+
+        // Set button colors
+        ColorBlock colors = button.colors;
+        colors.normalColor = Color.red;
+        colors.highlightedColor = new Color(1f, 0.5f, 0.5f);
+        button.colors = colors;
+
         button.onClick.AddListener(() => {
             Debug.Log("Restarting game...");
             UnityEngine.SceneManagement.SceneManager.LoadScene(
                 UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
         });
+
+        this.defeatScreen = defeatScreen;
+    }
+
+    private void Update()
+    {
+        if (defeatScreen != null && Input.GetKeyDown(KeyCode.Return))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(
+                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
     }
 }
