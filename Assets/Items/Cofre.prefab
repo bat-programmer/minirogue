@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4425674655704230776}
   - component: {fileID: 3915749486059398877}
   - component: {fileID: 9086218203411231104}
-  - component: {fileID: 641923387813424431}
   - component: {fileID: -4383779968627134488}
+  - component: {fileID: 1248288464153074936}
   m_Layer: 0
   m_Name: Cofre
   m_TagString: Untagged
@@ -101,20 +101,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &641923387813424431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4748041705917666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f85822dd91854d04c8b08014a3e4d299, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemPrefabs:
-  - {fileID: 5477635131080504617, guid: de83dc12dc6a300419b0318c665c5fff, type: 3}
 --- !u!212 &-4383779968627134488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -167,3 +153,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1248288464153074936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4748041705917666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f85822dd91854d04c8b08014a3e4d299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemPrefabs:
+  - {fileID: 5477635131080504617, guid: de83dc12dc6a300419b0318c665c5fff, type: 3}
+  wandPrefabs:
+  - {fileID: 7332772794712393183, guid: 29712a4e4ef7a8a49bc6d7b1ca479808, type: 3}
+  - {fileID: 7332772794712393183, guid: a6179e7d70b910e4087d07d046177098, type: 3}
+  - {fileID: 7332772794712393183, guid: b013ac6bd94faa34d8fff92040ff181b, type: 3}
+  - {fileID: 7332772794712393183, guid: d1121cd240c3d0d478eb4d0982eb0f9c, type: 3}
