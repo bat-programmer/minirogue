@@ -18,13 +18,18 @@ public class RoomClearRewardSpawner : MonoBehaviour
         {
             Instantiate(treasurePrefab, (Vector2)transform.position + spawnOffset, Quaternion.identity);
             Debug.LogWarning($"Treasure spawned! Perfect clear: {perfectClear}");
+
+            // Trigger perfect clear effect
+            GameObject perfectClearEffect = new GameObject("PerfectClearEffect");
+            perfectClearEffect.transform.position = transform.position;
+            perfectClearEffect.AddComponent<PerfectClearEffect>();
         }
 
         // Spawn slot machine if player has enough coins
         if (GameManager.Instance != null && GameManager.Instance.economyManager.PlayerCoins >= coinThreshold && slotMachinePrefab != null)
         {
-            Instantiate(slotMachinePrefab, 
-                (Vector2)transform.position + spawnOffset + Vector2.right * 2f, 
+            Instantiate(slotMachinePrefab,
+                (Vector2)transform.position + spawnOffset + Vector2.right * 2f,
                 Quaternion.identity);
             Debug.LogWarning("Slot machine spawned!");
         }
@@ -39,8 +44,8 @@ public class RoomClearRewardSpawner : MonoBehaviour
         // Spawn health trader with chance
         if (healthTraderPrefab != null && Random.value < healthTraderSpawnChance)
         {
-            Instantiate(healthTraderPrefab, 
-                (Vector2)transform.position + spawnOffset + Vector2.left * 2f, 
+            Instantiate(healthTraderPrefab,
+                (Vector2)transform.position + spawnOffset + Vector2.left * 2f,
                 Quaternion.identity);
             Debug.Log("Health trader spawned!");
         }

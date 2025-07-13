@@ -14,10 +14,15 @@ public class FloatingText : MonoBehaviour
         textMesh.text = text;
         textMesh.font = Resources.Load<TMP_FontAsset>("Assets/TextMesh Pro/Fonts/PressStart2P-Regular.ttf"); // Ensure you have the Arial SDF font in your Resources folder
         textMesh.fontSize = 4;
-        textMesh.color = color;        
+        textMesh.color = color;
         textMesh.alignment = TextAlignmentOptions.Center;
         textMesh.sortingOrder = 1000;
         //textMesh.sortingLayerID = SortingLayer.NameToID("UI"); // Ensure you have a sorting layer named "UI"
+
+        // Add outline effect
+        textMesh.outlineWidth = 0.2f;
+        textMesh.outlineColor = Color.black;
+        textMesh.fontMaterial.EnableKeyword("OUTLINE_ON");
 
         FloatingText floatingText = textGO.AddComponent<FloatingText>();
         floatingText.StartCoroutine(floatingText.AnimateAndDestroy());
