@@ -58,7 +58,8 @@ public class DefeatScreenManager : MonoBehaviour
             GameObject statObj = new GameObject(stat.Key);
             statObj.transform.SetParent(statsPanel.transform);
             TextMeshProUGUI statText = statObj.AddComponent<TextMeshProUGUI>();
-            statText.text = $"{stat.Key}: {stat.Value}";
+            string displayName = StatDisplayNames.DisplayNames.ContainsKey(stat.Key) ? StatDisplayNames.DisplayNames[stat.Key] : stat.Key;
+            statText.text = $"{displayName}: {stat.Value}";
             statText.fontSize = 24;
             RectTransform statRect = statObj.GetComponent<RectTransform>();
             statRect.anchorMin = new Vector2(0.5f, 0.5f);

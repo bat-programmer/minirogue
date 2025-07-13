@@ -11,14 +11,14 @@ public class WinScreenManager : MonoBehaviour
     public void ShowWinScreen(Dictionary<string, int> stats)
     {
         Debug.Log("Showing win screen");
-        
+
         // Create UI elements to display stats
         GameObject winScreen = new GameObject("WinScreen");
         Canvas canvas = winScreen.AddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         winScreen.AddComponent<CanvasScaler>();
         winScreen.AddComponent<GraphicRaycaster>();
-        
+
         // Create background
         GameObject background = new GameObject("Background");
         background.transform.SetParent(winScreen.transform);
@@ -29,7 +29,7 @@ public class WinScreenManager : MonoBehaviour
         bgRect.anchorMax = Vector2.one;
         bgRect.offsetMin = Vector2.zero;
         bgRect.offsetMax = Vector2.zero;
-        
+
         // Create title
         GameObject titleObj = new GameObject("Title");
         titleObj.transform.SetParent(winScreen.transform);
@@ -42,7 +42,7 @@ public class WinScreenManager : MonoBehaviour
         titleRect.anchorMax = new Vector2(0.5f, 0.8f);
         titleRect.anchoredPosition = Vector2.zero;
         titleRect.sizeDelta = new Vector2(400, 100);
-        
+
         // Create stats panel
         GameObject statsPanel = new GameObject("StatsPanel");
         statsPanel.transform.SetParent(winScreen.transform);
@@ -51,7 +51,7 @@ public class WinScreenManager : MonoBehaviour
         statsRect.anchorMax = new Vector2(0.5f, 0.5f);
         statsRect.anchoredPosition = Vector2.zero;
         statsRect.sizeDelta = new Vector2(400, 300);
-        
+
         // Create stat entries
         float yPos = 100;
         foreach (var stat in stats)
@@ -59,7 +59,8 @@ public class WinScreenManager : MonoBehaviour
             GameObject statObj = new GameObject(stat.Key);
             statObj.transform.SetParent(statsPanel.transform);
             TextMeshProUGUI statText = statObj.AddComponent<TextMeshProUGUI>();
-            statText.text = $"{stat.Key}: {stat.Value}";
+            string displayName = StatDisplayNames.DisplayNames.ContainsKey(stat.Key) ? StatDisplayNames.DisplayNames[stat.Key] : stat.Key;
+            statText.text = $"{displayName}: {stat.Value}";
             statText.fontSize = 24;
             RectTransform statRect = statObj.GetComponent<RectTransform>();
             statRect.anchorMin = new Vector2(0.5f, 0.5f);
@@ -68,7 +69,7 @@ public class WinScreenManager : MonoBehaviour
             statRect.sizeDelta = new Vector2(300, 30);
             yPos -= 30;
         }
-        
+
         // Create "Press Enter" message
         GameObject enterTextObj = new GameObject("EnterText");
         enterTextObj.transform.SetParent(winScreen.transform);
