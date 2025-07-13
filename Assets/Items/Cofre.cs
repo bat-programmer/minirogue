@@ -12,10 +12,10 @@ public class Cofre : MonoBehaviour
     public GameObject[] wandPrefabs; // Assign these in the inspector
 
     // Start is called before the first frame update
-    void Start()
-    {
-
-    }
+void Start()
+{
+    Debug.Log($"[Cofre] Wand prefab count at start: {wandPrefabs.Length}");
+}
 
     // Update is called once per frame
     void Update()
