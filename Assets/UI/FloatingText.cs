@@ -5,7 +5,7 @@ using System.Collections;
 public class FloatingText : MonoBehaviour
 {
     
-    public static void Create(Vector3 position, string text, Color color)
+    public static void Create(Vector3 position, string text, Color color, int fontSize = 4, bool pulseEffect = false)
     {
         GameObject textGO = new GameObject("FloatingText");
         textGO.transform.position = position;
@@ -13,7 +13,7 @@ public class FloatingText : MonoBehaviour
         TextMeshPro textMesh = textGO.AddComponent<TextMeshPro>();
         textMesh.text = text;
         textMesh.font = Resources.Load<TMP_FontAsset>("Assets/TextMesh Pro/Fonts/PressStart2P-Regular.ttf"); // Ensure you have the Arial SDF font in your Resources folder
-        textMesh.fontSize = 4;
+        textMesh.fontSize = fontSize;
         textMesh.color = color;
         textMesh.alignment = TextAlignmentOptions.Center;
         textMesh.sortingOrder = 1000;
@@ -25,7 +25,39 @@ public class FloatingText : MonoBehaviour
         textMesh.fontMaterial.EnableKeyword("OUTLINE_ON");
 
         FloatingText floatingText = textGO.AddComponent<FloatingText>();
+        if (pulseEffect)
+        {
+            floatingText.StartCoroutine(floatingText.PulseEffect());
+        }
         floatingText.StartCoroutine(floatingText.AnimateAndDestroy());
+    }
+
+    private IEnumerator PulseEffect()
+    {
+        float minScale = 1f;
+        float maxScale = 1.2f;
+        float pulseDuration = 0.5f;
+
+        while (true)
+        {
+            float elapsed = 0f;
+            while (elapsed < pulseDuration)
+            {
+                elapsed += Time.deltaTime;
+                float scale = Mathf.Lerp(minScale, maxScale, elapsed / pulseDuration);
+                transform.localScale = Vector3.one * scale;
+                yield return null;
+            }
+
+            elapsed = 0f;
+            while (elapsed < pulseDuration)
+            {
+                elapsed += Time.deltaTime;
+                float scale = Mathf.Lerp(maxScale, minScale, elapsed / pulseDuration);
+                transform.localScale = Vector3.one * scale;
+                yield return null;
+            }
+        }
     }
 
     private IEnumerator AnimateAndDestroy()

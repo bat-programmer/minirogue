@@ -5,7 +5,7 @@ public class PerfectClearEffect : MonoBehaviour
 {
     public float timeFreezeScale = 0.1f;
     public float timeFreezeDuration = 0.3f;
-    public Vector3 textPositionOffset = new Vector3(0, 2, 0);
+    public Vector3 textPositionOffset = new Vector3(0, 1, 0);
     public Color textColor = Color.yellow;
 
     private void Start()
@@ -21,7 +21,7 @@ public class PerfectClearEffect : MonoBehaviour
         Time.timeScale = 1f;
 
         // Create floating text
-        FloatingText.Create(transform.position + textPositionOffset, "Perfect Clear", textColor);
+        FloatingText.Create(transform.position + textPositionOffset, "Perfect Clear", textColor, 30, true);
 
         // Destroy this effect object after the animation is done
         Destroy(gameObject, 2f);
