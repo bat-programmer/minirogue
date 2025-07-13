@@ -10,7 +10,7 @@ public class PlayerHealth : MonoBehaviour
     public int maxHearts = 3; // Maximum number of hearts
 
     private bool isInvulnerable = false;
-    [SerializeField] private float invulnerabilityDuration = 5f;
+    [SerializeField] private float invulnerabilityDuration = 2f;
     [SerializeField] private float blinkInterval = 0.2f;
 
     [Header("UI")]

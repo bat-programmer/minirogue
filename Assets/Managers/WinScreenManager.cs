@@ -34,7 +34,7 @@ public class WinScreenManager : MonoBehaviour
         GameObject titleObj = new GameObject("Title");
         titleObj.transform.SetParent(winScreen.transform);
         TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
-        titleText.text = "YOU WIN!";
+        titleText.text = "Ganaste!!!";
         titleText.fontSize = 48;
         titleText.alignment = TextAlignmentOptions.Center;
         RectTransform titleRect = titleObj.GetComponent<RectTransform>();
@@ -69,31 +69,16 @@ public class WinScreenManager : MonoBehaviour
             yPos -= 30;
         }
         
-        // Create restart button
-        GameObject buttonObj = new GameObject("RestartButton");
-        buttonObj.transform.SetParent(winScreen.transform);
-        Button button = buttonObj.AddComponent<Button>();
-        TextMeshProUGUI buttonText = buttonObj.AddComponent<TextMeshProUGUI>();
-        buttonText.text = "RESTART";
-        buttonText.fontSize = 36;
-        buttonText.alignment = TextAlignmentOptions.Center;
-        RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
-        buttonRect.anchorMin = new Vector2(0.5f, 0.2f);
-        buttonRect.anchorMax = new Vector2(0.5f, 0.2f);
-        buttonRect.anchoredPosition = Vector2.zero;
-        buttonRect.sizeDelta = new Vector2(200, 60);
-        
-        // Add restart functionality
         // Create "Press Enter" message
         GameObject enterTextObj = new GameObject("EnterText");
         enterTextObj.transform.SetParent(winScreen.transform);
         TextMeshProUGUI enterText = enterTextObj.AddComponent<TextMeshProUGUI>();
-        enterText.text = "Press Enter to restart";
+        enterText.text = "Presiona Enter para reiniciar";
         enterText.fontSize = 24;
         enterText.alignment = TextAlignmentOptions.Center;
         RectTransform enterRect = enterTextObj.GetComponent<RectTransform>();
         enterRect.anchorMin = new Vector2(0.5f, 0.9f);
-        enterRect.anchorMax = new Vector2(0.5f, 0.9f);
+        enterRect.anchorMax = new Vector2(0.5f, 0.5f);
         enterRect.anchoredPosition = Vector2.zero;
         enterRect.sizeDelta = new Vector2(400, 50);
 
@@ -101,26 +86,14 @@ public class WinScreenManager : MonoBehaviour
         GameObject escapeTextObj = new GameObject("EscapeText");
         escapeTextObj.transform.SetParent(winScreen.transform);
         TextMeshProUGUI escapeText = escapeTextObj.AddComponent<TextMeshProUGUI>();
-        escapeText.text = "Press Escape to return to main menu";
+        escapeText.text = "Presiona Escape para volver al menú principal";
         escapeText.fontSize = 24;
         escapeText.alignment = TextAlignmentOptions.Center;
         RectTransform escapeRect = escapeTextObj.GetComponent<RectTransform>();
-        escapeRect.anchorMin = new Vector2(0.5f, 0.1f); // Position it below the restart button
+        escapeRect.anchorMin = new Vector2(0.5f, 0.1f); // Position it below where the restart button was
         escapeRect.anchorMax = new Vector2(0.5f, 0.1f);
         escapeRect.anchoredPosition = Vector2.zero;
         escapeRect.sizeDelta = new Vector2(400, 50);
-
-        // Set button colors
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.red;
-        colors.highlightedColor = new Color(1f, 0.5f, 0.5f);
-        button.colors = colors;
-
-        button.onClick.AddListener(() => {
-            Debug.Log("Restarting game...");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        });
 
         winScreenInstance = winScreen;
     }

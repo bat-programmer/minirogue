@@ -33,7 +33,7 @@ public class DefeatScreenManager : MonoBehaviour
         GameObject titleObj = new GameObject("Title");
         titleObj.transform.SetParent(defeatScreen.transform);
         TextMeshProUGUI titleText = titleObj.AddComponent<TextMeshProUGUI>();
-        titleText.text = "GAME OVER";
+        titleText.text = "GAME OVER :(";
         titleText.fontSize = 48;
         titleText.alignment = TextAlignmentOptions.Center;
         RectTransform titleRect = titleObj.GetComponent<RectTransform>();
@@ -68,21 +68,6 @@ public class DefeatScreenManager : MonoBehaviour
             yPos -= 30;
         }
         
-        // Create restart button
-        GameObject buttonObj = new GameObject("RestartButton");
-        buttonObj.transform.SetParent(defeatScreen.transform);
-        Button button = buttonObj.AddComponent<Button>();
-        TextMeshProUGUI buttonText = buttonObj.AddComponent<TextMeshProUGUI>();
-        buttonText.text = "RESTART";
-        buttonText.fontSize = 36;
-        buttonText.alignment = TextAlignmentOptions.Center;
-        RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
-        buttonRect.anchorMin = new Vector2(0.5f, 0.2f);
-        buttonRect.anchorMax = new Vector2(0.5f, 0.2f);
-        buttonRect.anchoredPosition = Vector2.zero;
-        buttonRect.sizeDelta = new Vector2(200, 60);
-        
-        // Add restart functionality
         // Create "Press Enter" message
         GameObject enterTextObj = new GameObject("EnterText");
         enterTextObj.transform.SetParent(defeatScreen.transform);
@@ -92,21 +77,9 @@ public class DefeatScreenManager : MonoBehaviour
         enterText.alignment = TextAlignmentOptions.Center;
         RectTransform enterRect = enterTextObj.GetComponent<RectTransform>();
         enterRect.anchorMin = new Vector2(0.5f, 0.9f);
-        enterRect.anchorMax = new Vector2(0.5f, 0.9f);
+        enterRect.anchorMax = new Vector2(0.5f, 0.5f);
         enterRect.anchoredPosition = Vector2.zero;
         enterRect.sizeDelta = new Vector2(400, 50);
-
-        // Set button colors
-        ColorBlock colors = button.colors;
-        colors.normalColor = Color.red;
-        colors.highlightedColor = new Color(1f, 0.5f, 0.5f);
-        button.colors = colors;
-
-        button.onClick.AddListener(() => {
-            Debug.Log("Restarting game...");
-            UnityEngine.SceneManagement.SceneManager.LoadScene(
-                UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        });
 
         defeatScreenInstance = defeatScreen;
     }

@@ -44,7 +44,7 @@ public class SlotMachine : MonoBehaviour
         // Wait for animation to finish (replace "Spin" with your animation state name)
         yield return null;
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
-        float animLength = state.length > 0 ? state.length : 1f;
+        float animLength = state.length > 0 ? state.length : 2f;
         Debug.Log($"Animation length: {animLength} seconds");        
         yield return new WaitForSeconds(animLength);
 

@@ -97,7 +97,17 @@ public class Jugador : MonoBehaviour
 
     public void StartVictoryDance()
     {
+        DisableCollider();
         StartCoroutine(VictoryDance());
+    }
+
+    private void DisableCollider()
+    {
+        Collider2D collider = GetComponent<Collider2D>();
+        if (collider != null)
+        {
+            collider.enabled = false;
+        }
     }
 
     private IEnumerator VictoryDance()
