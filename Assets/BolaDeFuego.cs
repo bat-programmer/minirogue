@@ -78,7 +78,7 @@ public class BolaDeFuego : MonoBehaviour
         }
     }
 
-    private void DisableFireball()
+    public void DisableFireball()
     {
         PoolBolaDeFuego pool = FindObjectOfType<PoolBolaDeFuego>();
         if (pool != null)

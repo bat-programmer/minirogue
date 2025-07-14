@@ -144,6 +144,11 @@ public class BounceEffect : FireballEffect
             fireball.SetDirection(bounceDirection);
             currentBounces++;
         }
+        else
+        {
+            // No more bounces left, disable the fireball
+            fireball.DisableFireball();
+        }
     }
 
     public override void RemoveEffect()
