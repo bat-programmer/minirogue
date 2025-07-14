@@ -31279,7 +31279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   treasurePrefab: {fileID: 4748041705917666, guid: 77c5fcad076dc0f44985770ddbbce0f0, type: 3}
-  spawnOffset: {x: 0, y: 0}
+  spawnOffset: {x: 0, y: -1}
   slotMachinePrefab: {fileID: 8106885513782118432, guid: ec49fd8a7d5c82141b767424d7b82aba, type: 3}
   coinThreshold: 3
   healthTraderPrefab: {fileID: 1661220154312467852, guid: 373feafd4b4f9af4786735c95ca873d2, type: 3}

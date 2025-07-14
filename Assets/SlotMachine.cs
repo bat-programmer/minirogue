@@ -46,7 +46,7 @@ public class SlotMachine : MonoBehaviour
         AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
         float animLength = state.length > 0 ? state.length : 2f;
         Debug.Log($"Animation length: {animLength} seconds");        
-        yield return new WaitForSeconds(animLength);
+        yield return new WaitForSeconds(animLength*2);
 
         // Chance to spawn potion
         if (Random.value < potionSpawnChance && dynamicPotionPrefab != null)
