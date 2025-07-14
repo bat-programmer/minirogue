@@ -30,7 +30,7 @@ public class FlechaMover : MonoBehaviour
             PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
             if (playerHealth != null)
             {
-                playerHealth.ApplyDamage(1); // 1 = half heart damage
+                playerHealth.ApplyDamage(2); // 1 = half heart damage
             }
         }
 

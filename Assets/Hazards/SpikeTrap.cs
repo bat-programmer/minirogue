@@ -17,7 +17,7 @@ public class SpikeTrap : MonoBehaviour
     [Header("Settings")]
     [SerializeField] private SpikeState currentState = SpikeState.Retracted;
     [SerializeField] private float animationSpeed = 4f; // Frames per second
-    [SerializeField] private int damageAmount = 1;
+    [SerializeField] private int damageAmount = 2;
 
     [Header("Timing")]
     [SerializeField] private float startDelay = 0f; // Add this field
