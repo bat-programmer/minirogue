@@ -128,6 +128,12 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
 
                 Debug.Log($"All enemies in room '{name}' are dead! Perfect clear: {perfectClear}");
 
+                // Track perfect room clears
+                if (perfectClear)
+                {
+                    StatsManager.Instance?.IncrementStat("perfectRoomClears");
+                }
+
                 // Invoke both events
                 //onRoomCleared?.Invoke();
                 onRoomClearedWithDamageStatus?.Invoke(perfectClear);

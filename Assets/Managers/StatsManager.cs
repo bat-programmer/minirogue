@@ -12,7 +12,8 @@ public class StatsManager : MonoBehaviour
         {"totalCoinsCollected", 0},
         {"potionsUsed", 0},
         {"heartsSacrificed", 0},
-        {"damageTaken", 0}
+        {"damageTaken", 0},
+        {"perfectRoomClears", 0}
     };
 
     public event System.Action<Dictionary<string, int>> OnStatsUpdated;

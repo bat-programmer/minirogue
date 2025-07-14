@@ -8,6 +8,7 @@ public static class StatDisplayNames
         { "totalCoinsCollected", "Monedas coleccionadas" },
         { "potionsUsed", "Pociones Usadas" },
         { "heartsSacrificed", "Corazones Sacrificados" },
-        { "damageTaken", "Dano recibido" }
+        { "damageTaken", "Dano recibido" },
+        { "perfectRoomClears", "Salas Perfectas" }
     };
 }
