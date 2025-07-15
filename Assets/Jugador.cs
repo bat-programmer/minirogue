@@ -34,6 +34,9 @@ public class Jugador : MonoBehaviour
             playerHealth.maxHearts = 3;
         }
 
+        // Forward PlayerHealth damage events to Jugador
+        playerHealth.OnDamageTaken += () => OnDamageTaken?.Invoke();
+
         attackController = gameObject.AddComponent<PlayerAttackController>();
         attackController.Initialize(anim, transform.Find("FirePoint"), FindObjectOfType<PoolBolaDeFuego>());
 
