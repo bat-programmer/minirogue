@@ -91,8 +91,8 @@ public class WinScreenManager : MonoBehaviour
         escapeText.fontSize = 24;
         escapeText.alignment = TextAlignmentOptions.Center;
         RectTransform escapeRect = escapeTextObj.GetComponent<RectTransform>();
-        escapeRect.anchorMin = new Vector2(0.5f, 0.1f); // Position it below where the restart button was
-        escapeRect.anchorMax = new Vector2(0.5f, 0.1f);
+        escapeRect.anchorMin = new Vector2(0.5f, 0.2f); // Position it below where the restart button was
+        escapeRect.anchorMax = new Vector2(0.5f, 0.2f);
         escapeRect.anchoredPosition = Vector2.zero;
         escapeRect.sizeDelta = new Vector2(400, 50);
 
