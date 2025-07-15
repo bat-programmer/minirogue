@@ -10,6 +10,7 @@ public class PotionManager : MonoBehaviour
 
     public IPotionEffect currentPotion;
     public PotionUISlot potionUISlot; // Assign in the Inspector
+    public AudioSource audioSource; // Assign in the Inspector
 
     // Track discovered potion types
     private Dictionary<System.Type, bool> discoveredPotions = new Dictionary<System.Type, bool>();
@@ -54,7 +55,17 @@ public class PotionManager : MonoBehaviour
         {
             Debug.LogError("PotionUISlot is not assigned in PotionManager. Please assign it in the Inspector.");
         }
-        
+
+        // Play pickup sound
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource not set in PotionManager.");
+        }
+
         // Mark as discovered when equipped
         DiscoverPotion(effect);
     }
