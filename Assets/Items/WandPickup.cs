@@ -59,6 +59,9 @@ public class WandPickup : MonoBehaviour
                     GameManager.Instance.RegisterPickedUpWand(wandData.effectType);
                 }
 
+                // Play wand pickup sound
+                PlayWandPickupSound();
+
                 Destroy(gameObject);
             }
             else
@@ -88,6 +91,19 @@ public class WandPickup : MonoBehaviour
                 return $"Temporary {effectName} boost for {overrideTemporalDuration} seconds!";
         }
         return wandData.GetPickupMessage();
+    }
+
+    private void PlayWandPickupSound()
+    {
+        GameObject soundManager = GameObject.Find("WandPickUpSound");
+        if (soundManager != null)
+        {
+            AudioSource audioSource = soundManager.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSource.Play();
+            }
+        }
     }
 }
 

@@ -28,6 +28,34 @@ public class EsqueleBoss : NavEnemyBase
         base.Start();
         if (projectilePrefab == null)
             projectilePrefab = Resources.Load<GameObject>("Projectiles/EnemyProjectile");
+
+        // Play boss music when the boss is activated
+        PlayBossMusic();
+    }
+
+    private void PlayBossMusic()
+    {
+        // Find and stop the background music
+        GameObject backgroundMusic = GameObject.Find("BackgroundMusic");
+        if (backgroundMusic != null)
+        {
+            AudioSource backgroundAudio = backgroundMusic.GetComponent<AudioSource>();
+            if (backgroundAudio != null)
+            {
+                backgroundAudio.Stop();
+            }
+        }
+
+        // Find and play the boss music
+        GameObject bossMusic = GameObject.Find("BossMusic");
+        if (bossMusic != null)
+        {
+            AudioSource bossAudio = bossMusic.GetComponent<AudioSource>();
+            if (bossAudio != null)
+            {
+                bossAudio.Play();
+            }
+        }
     }
 
     protected override void Update()
