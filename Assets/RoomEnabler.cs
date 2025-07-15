@@ -132,6 +132,7 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
                 if (perfectClear)
                 {
                     StatsManager.Instance?.IncrementStat("perfectRoomClears");
+                    PlayPerfectClearSound();
                 }
 
                 // Invoke both events
@@ -153,6 +154,19 @@ public class RoomEnabler : MonoBehaviour, IPostTeleportAction
         if (player != null)
         {
             player.OnDamageTaken -= OnPlayerDamageTaken;
+        }
+    }
+
+    private void PlayPerfectClearSound()
+    {
+        GameObject soundManager = GameObject.Find("PerfectRoomClearSound");
+        if (soundManager != null)
+        {
+            AudioSource audioSource = soundManager.GetComponent<AudioSource>();
+            if (audioSource != null)
+            {
+                audioSource.Play();
+            }
         }
     }
 
