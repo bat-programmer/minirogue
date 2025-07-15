@@ -8,11 +8,13 @@ public class SlotMachine : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float potionSpawnChance = 0.5f;
 
     private Animator animator;
+    private AudioSource audioSource;
     private bool isActive = true;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -52,6 +54,14 @@ public class SlotMachine : MonoBehaviour
         if (Random.value < potionSpawnChance && dynamicPotionPrefab != null)
         {
             Instantiate(dynamicPotionPrefab, transform.position + Vector3.down*2, Quaternion.identity);
+        }
+        else
+        {
+            // Play fail sound
+            if (audioSource != null && audioSource.clip != null)
+            {
+                audioSource.Play();
+            }
         }
 
         isActive = true; // Allow reuse if desired
