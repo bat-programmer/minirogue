@@ -82,6 +82,19 @@ public class DefeatScreenManager : MonoBehaviour
         enterRect.anchoredPosition = Vector2.zero;
         enterRect.sizeDelta = new Vector2(400, 50);
 
+        // Create "Press Escape" message
+        GameObject escapeTextObj = new GameObject("EscapeText");
+        escapeTextObj.transform.SetParent(defeatScreen.transform);
+        TextMeshProUGUI escapeText = escapeTextObj.AddComponent<TextMeshProUGUI>();
+        escapeText.text = "Presiona Escape para volver al menú principal";
+        escapeText.fontSize = 24;
+        escapeText.alignment = TextAlignmentOptions.Center;
+        RectTransform escapeRect = escapeTextObj.GetComponent<RectTransform>();
+        escapeRect.anchorMin = new Vector2(0.5f, 0.2f); 
+        escapeRect.anchorMax = new Vector2(0.5f, 0.2f);
+        escapeRect.anchoredPosition = Vector2.zero;
+        escapeRect.sizeDelta = new Vector2(400, 50);
+
         defeatScreenInstance = defeatScreen;
     }
 
