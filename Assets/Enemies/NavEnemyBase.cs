@@ -199,6 +199,7 @@ public abstract class NavEnemyBase : MonoBehaviour
         if (health <= 0 && !isDead)
         {
             isDead = true;
+            animator.SetBool("isDead", true); // used for Animator transition filtering
             animator.ResetTrigger("IsAttacking");
             animator.ResetTrigger("takeDamage");
             animator.SetBool("isMoving", false);
