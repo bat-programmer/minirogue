@@ -36,7 +36,28 @@ public class BolaDeFuego : MonoBehaviour
         direction = newDirection;
         if (spriteRenderer != null)
         {
-            spriteRenderer.flipX = direction.x < 0;
+            // Reset rotation and flip
+            spriteRenderer.flipX = false;
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            // Apply rotation based on direction
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+            {
+                // Horizontal movement
+                spriteRenderer.flipX = direction.x < 0;
+            }
+            else
+            {
+                // Vertical movement
+                if (direction.y > 0)
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, 90); // Up
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Euler(0, 0, -90); // Down
+                }
+            }
         }
         AdjustParticleEffect();
     }
@@ -107,15 +128,58 @@ public class BolaDeFuego : MonoBehaviour
         Invoke(nameof(DisableFireball), 0.2f);
     }
 
-    private void AdjustParticleEffect()
+private void AdjustParticleEffect()
+{
+    if (trailEffect == null) return;
+
+    Vector2 dir = direction.normalized;
+    Vector3 trailOffset = Vector3.zero;
+
+    // Calculate the position behind the sprite based on direction and sprite state
+    if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
     {
-        if (trailEffect != null)
+        // Horizontal movement
+        if (spriteRenderer != null)
         {
-            trailEffect.transform.localRotation = direction.x < 0
-                ? Quaternion.Euler(0, 180, 0)
-                : Quaternion.identity;
+            // Position based on sprite flip state
+            trailOffset.x = spriteRenderer.flipX ? 1f : -1f; // Behind the sprite
+        }
+        else
+        {
+            // Fallback if no sprite renderer
+            trailOffset.x = dir.x > 0 ? -1f : 1f;
+        }
+        trailOffset.y = 0; // Center vertically
+    }
+    else
+    {
+        // Vertical movement
+        trailOffset.y = dir.y > 0 ? -1f : 1f; // Behind the sprite
+        trailOffset.x = 0; // Center horizontally
+    }
+
+    // Apply the offset
+    trailEffect.transform.localPosition = trailOffset;
+
+    // Rotate the particle effect to match the sprite's rotation
+    if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+    {
+        // Horizontal - no rotation needed
+        trailEffect.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+    else
+    {
+        // Vertical - rotate to match sprite
+        if (dir.y > 0)
+        {
+            trailEffect.transform.rotation = Quaternion.Euler(0, 0, 90);
+        }
+        else
+        {
+            trailEffect.transform.rotation = Quaternion.Euler(0, 0, -90);
         }
     }
+}
 
     public void AddEffect<T>(float duration = -1f) where T : FireballEffect
     {

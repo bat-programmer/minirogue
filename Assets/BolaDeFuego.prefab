@@ -4879,6 +4879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 9.87
+  damage: 1000
   impactEffectPrefab: {fileID: 2689162150600003254, guid: 9408f0e67c2583e4cb457a2ff679af51, type: 3}
 --- !u!212 &8904666699492784964
 SpriteRenderer:
