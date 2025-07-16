@@ -67,23 +67,18 @@ void Start()
 
     void SpawnWand(FireballEffectType type)
     {
-        if (wandPrefabs.Length > 0)
+        // Find the wand prefab that matches the given FireballEffectType
+        GameObject wandPrefab = wandPrefabs
+            .FirstOrDefault(wand => wand.GetComponent<WandPickup>().WandEffectType == type);
+
+        if (wandPrefab != null)
         {
-            int index = Random.Range(0, wandPrefabs.Length);
-            GameObject wandPrefab = wandPrefabs[index];
-            if (wandPrefab != null)
-            {
-                GameObject spawnedWand = Instantiate(wandPrefab, transform.position, Quaternion.identity);
-                // Perform any additional operations on the spawned wand here
-            }
-            else
-            {
-                Debug.LogWarning($"No wand prefab assigned at index {index}");
-            }
+            GameObject spawnedWand = Instantiate(wandPrefab, transform.position, Quaternion.identity);
+            // Perform any additional operations on the spawned wand here
         }
         else
         {
-            Debug.LogWarning("No wand prefabs assigned.");
+            Debug.LogWarning($"No wand prefab found for FireballEffectType: {type}");
         }
     }
 

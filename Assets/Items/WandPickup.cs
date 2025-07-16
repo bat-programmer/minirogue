@@ -17,6 +17,9 @@ public class WandPickup : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
+    // Expose the FireballEffectType of this wand
+    public FireballEffectType WandEffectType => useOverrides ? overrideEffectType : wandData.effectType;
+
     private void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
