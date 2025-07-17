@@ -100,6 +100,12 @@ public class DefeatScreenManager : MonoBehaviour
 
     private void Update()
     {
+        if (defeatScreenInstance != null && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("Returning to main menu...");
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu"); // Assuming "MainMenu" is the scene name
+        }
+
         if (defeatScreenInstance != null && Input.GetKeyDown(KeyCode.Return))
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(
