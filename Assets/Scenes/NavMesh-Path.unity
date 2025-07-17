@@ -62698,7 +62698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinPrefab: {fileID: 803591683841211928, guid: ce2e7d208ce80584aba096035e2fcaf5, type: 3}
   coinDropEveryXDeaths: 1
-  coinDropChance: 1
+  coinDropChance: 0.4
   playerCoins: 0
   coinText: {fileID: 437924847}
 --- !u!1001 &2135922515

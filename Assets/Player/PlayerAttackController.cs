@@ -9,7 +9,7 @@ public class PlayerAttackController : MonoBehaviour
     public float fireCooldown = 1f;
     private Vector2? heldFireDirection = null;
     private PoolBolaDeFuego poolBolaDeFuego;
-    private int fireballDamage = 1000;
+    private int fireballDamage = 10;
 
     [Header("Wand Effects")]
     [SerializeField] private List<FireballEffectType> permanentEffects = new List<FireballEffectType>();

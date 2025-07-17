@@ -167,8 +167,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dynamicPotionPrefab: {fileID: 5477635131080504617, guid: de83dc12dc6a300419b0318c665c5fff, type: 3}
-  potionSpawnChance: 0
-  failSound: {fileID: 0}
+  potionSpawnChance: 0.7
 --- !u!82 &1769633402401103169
 AudioSource:
   m_ObjectHideFlags: 0
