@@ -45,9 +45,14 @@ public class Jugador : MonoBehaviour
 
     void Update()
     {
-        movementController.UpdateMovement();
+        movementController.ProcessInput();
         attackController.HandleAttackInput();
         usePotion();
+    }
+
+    void FixedUpdate()
+    {
+        movementController.FixedMovement();
     }
 
     private KeyCode GetKeyBinding(string prefKey, KeyCode defaultKey)

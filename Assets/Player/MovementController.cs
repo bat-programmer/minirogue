@@ -28,7 +28,7 @@ public class MovementController : MonoBehaviour
         rb = rigidbody;
     }
 
-    public void UpdateMovement()
+    public void ProcessInput()
     {
         MovH();
         MovV();
@@ -37,8 +37,12 @@ public class MovementController : MonoBehaviour
         {
             lastDirection = mov;
         }
+    }
 
-        transform.Translate(mov * speed * currentSpeedModifier * Time.deltaTime);
+    public void FixedMovement()
+    {
+        Vector2 targetPosition = rb.position + mov * speed * currentSpeedModifier * Time.fixedDeltaTime;
+        rb.MovePosition(targetPosition);
     }
 
     private void MovH()

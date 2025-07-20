@@ -49,6 +49,7 @@ public class PoolBolaDeFuego : MonoBehaviour
         GameObject fireball = Instantiate(fireballPrefab);
         fireball.SetActive(false);
         fireballPool.Enqueue(fireball);
+        Debug.LogWarning("Fireball pool expanded. Current size: " + fireballPool.Count);
     }
     // Update is called once per frame
     void Update()
