@@ -5,7 +5,7 @@ using UnityEngine;
 public class PoolBolaDeFuego : MonoBehaviour
 {
     public GameObject fireballPrefab;
-    public int poolSize = 10;  // Adjust based on needs
+    public int poolSize = 50;  // Adjust based on needs
 
     private Queue<GameObject> fireballPool = new Queue<GameObject>();
 

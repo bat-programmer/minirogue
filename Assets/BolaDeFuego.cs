@@ -10,6 +10,7 @@ public class BolaDeFuego : MonoBehaviour
     private ParticleSystem trailEffect;
     public GameObject impactEffectPrefab;
     private SpriteRenderer spriteRenderer;
+    private bool isBeingDestroyed = false;
 
     // Effects system
     private List<FireballEffect> activeEffects = new List<FireballEffect>();
@@ -101,6 +102,9 @@ public class BolaDeFuego : MonoBehaviour
 
     public void DisableFireball()
     {
+        isBeingDestroyed = false;
+        GetComponent<Collider2D>().enabled = true;
+        
         PoolBolaDeFuego pool = FindObjectOfType<PoolBolaDeFuego>();
         if (pool != null)
         {
@@ -113,19 +117,22 @@ public class BolaDeFuego : MonoBehaviour
     }
     private void DestroyFireball()
     {
+        if (isBeingDestroyed) return;
+        isBeingDestroyed = true;
+
+        // Disable collision immediately
+        GetComponent<Collider2D>().enabled = false;
+
         if (trailEffect != null)
-        {
             trailEffect.Stop();
-        }
 
         PoolImpactEffect impactPool = FindObjectOfType<PoolImpactEffect>();
         if (impactPool != null)
-        {
             impactPool.GetImpactEffect(transform.position);
-        }
 
         ClearAllEffects();
-        Invoke(nameof(DisableFireball), 0.2f);
+        //Invoke(nameof(DisableFireball), 0.2f);
+        DisableFireball();
     }
 
 private void AdjustParticleEffect()
