@@ -5,7 +5,7 @@ public class FireRateUpPotionEffect : MonoBehaviour, IPotionEffect
 {
     public void ApplyEffect(Jugador player)
     {
-        player.GetComponent<PlayerAttackController>().fireRate -= 0.1f; // adjust as needed
+        player.GetComponent<PlayerAttackController>().fireRate -= 0.2f; // adjust as needed
         Debug.Log("Permanent fire up applied");
     }
 
