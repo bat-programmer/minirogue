@@ -24,6 +24,27 @@ public class VampireEnemy : NavEnemyBase
         }
     }
 
+public override void ApplyDamage(int damage)
+{
+    Debug.Log($"[VampireEnemy] ApplyDamage called. isDead={isDead}, isInDamageState={isInDamageState}, health={health}");
+
+    if (isDead) return;
+
+    if (!isInDamageState)
+    {
+        Debug.Log("[VampireEnemy] Taking damage. Interrupting lunge/attack.");
+        isLunging = false;
+        isInAttackState = false;
+        animator.ResetTrigger("IsAttacking");
+        StopAllCoroutines();
+        base.ApplyDamage(damage);
+    }
+    else
+    {
+        Debug.Log("[VampireEnemy] Ignored damage due to damage state.");
+    }
+}
+
     // Animation event handlers
     public void OnWindupStart()
     {
