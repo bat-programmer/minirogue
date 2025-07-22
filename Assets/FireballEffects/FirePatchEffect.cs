@@ -4,6 +4,7 @@ public class FirePatchEffect : FireballEffect
 {
     [SerializeField] private float damageInterval = 0.5f;
     [SerializeField] private int damage = 1;
+    [SerializeField] private float duration = 3f;
     private float damageTimer;
 
     public override void ApplyEffect()

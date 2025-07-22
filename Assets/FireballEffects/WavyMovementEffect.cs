@@ -10,6 +10,13 @@ public class WavyMovementEffect : FireballEffect
     private float timeElapsed = 0f;
     private Vector2 lastPosition;
 
+    public override void Initialize(BolaDeFuego fireball, float duration = -1f)
+    {
+        base.Initialize(fireball, duration);
+        Priority = 5;
+        IsPhysicsEffect = false;
+    }
+
     public override void ApplyEffect()
     {
         originalDirection = fireball.GetDirection();
@@ -19,6 +26,8 @@ public class WavyMovementEffect : FireballEffect
 
     public override void UpdateEffect()
     {
+        if (!ShouldUpdate()) return;
+
         timeElapsed += Time.deltaTime;
 
         // Create perpendicular vector for wave motion
@@ -28,12 +37,31 @@ public class WavyMovementEffect : FireballEffect
         // Calculate wave force
         Vector2 waveForce = perpendicular * waveOffset * waveFrequency;
 
-        // Apply movement - physics direction remains original, visual gets wavy motion
-        fireball.GetComponent<Rigidbody2D>().velocity = originalDirection * fireball.speed + waveForce;
+        // Only apply wavy motion if no higher priority physics effects are active
+        bool shouldApplyWave = true;
+        foreach (var effect in fireball.GetComponents<FireballEffect>())
+        {
+            if (effect.IsPhysicsEffect && effect.Priority > Priority && effect.ShouldUpdate())
+            {
+                shouldApplyWave = false;
+                break;
+            }
+        }
 
-        // Update visual direction for sprite flipping
-        Vector2 visualDirection = (originalDirection + waveForce.normalized * 0.3f).normalized;
-        fireball.SetDirection(visualDirection);
+        if (shouldApplyWave)
+        {
+            // Apply movement - physics direction remains original, visual gets wavy motion
+            fireball.GetComponent<Rigidbody2D>().velocity = originalDirection * fireball.speed + waveForce;
+
+            // Update visual direction for sprite flipping
+            Vector2 visualDirection = (originalDirection + waveForce.normalized * 0.3f).normalized;
+            fireball.SetDirection(visualDirection);
+        }
+    }
+
+    public override void RemoveEffect()
+    {
+        isActive = false;
     }
 }
 
@@ -58,6 +86,11 @@ public class SpeedDamageModifierEffect : FireballEffect
 
         fireball.speed *= speedMultiplier;
         fireball.damage = Mathf.RoundToInt(fireball.damage * damageMultiplier);
+    }
+
+    public override void UpdateEffect()
+    {
+        // Speed/Damage modifier doesn't need per-frame updates
     }
 
     public override void RemoveEffect()
@@ -112,6 +145,11 @@ public class TrackingEffect : FireballEffect
             }
         }
     }
+
+    public override void RemoveEffect()
+    {
+        isActive = false;
+    }
 }
 
 // Bounce effect
@@ -119,6 +157,13 @@ public class BounceEffect : FireballEffect
 {
     [SerializeField] private int maxBounces = 3;
     private int currentBounces = 0;
+
+    public override void Initialize(BolaDeFuego fireball, float duration = -1f)
+    {
+        base.Initialize(fireball, duration);
+        Priority = 8;
+        IsPhysicsEffect = true;
+    }
 
     public override void ApplyEffect()
     {
@@ -140,6 +185,11 @@ public class BounceEffect : FireballEffect
             // No more bounces left, disable the fireball
             fireball.DisableFireball();
         }
+    }
+
+    public override void UpdateEffect()
+    {
+        // Bounce effect doesn't need per-frame updates
     }
 
     public override void RemoveEffect()
