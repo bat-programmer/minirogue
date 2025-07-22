@@ -21,28 +21,19 @@ public class WavyMovementEffect : FireballEffect
     {
         timeElapsed += Time.deltaTime;
 
-        // Calculate how far we should have moved in the original direction
-        float forwardDistance = fireball.speed * timeElapsed;
-        Vector2 forwardMovement = originalDirection * forwardDistance;
-
         // Create perpendicular vector for wave motion
         Vector2 perpendicular = new Vector2(-originalDirection.y, originalDirection.x);
         float waveOffset = Mathf.Sin(timeElapsed * waveFrequency) * waveAmplitude;
 
-        // Calculate new position
-        Vector2 newPosition = basePosition + forwardMovement + perpendicular * waveOffset;
+        // Calculate wave force
+        Vector2 waveForce = perpendicular * waveOffset * waveFrequency;
 
-        // Update fireball position directly
-        fireball.transform.position = newPosition;
+        // Apply movement - physics direction remains original, visual gets wavy motion
+        fireball.GetComponent<Rigidbody2D>().velocity = originalDirection * fireball.speed + waveForce;
 
-        // Update direction based on movement (for sprite flipping)
-        Vector2 movementDirection = (newPosition - lastPosition).normalized;
-        if (movementDirection != Vector2.zero)
-        {
-            fireball.SetDirection(movementDirection);
-        }
-
-        lastPosition = newPosition;
+        // Update visual direction for sprite flipping
+        Vector2 visualDirection = (originalDirection + waveForce.normalized * 0.3f).normalized;
+        fireball.SetDirection(visualDirection);
     }
 }
 

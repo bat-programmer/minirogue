@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class BolaDeFuego : MonoBehaviour
 {
     public float speed = 5f;
@@ -11,6 +12,7 @@ public class BolaDeFuego : MonoBehaviour
     public GameObject impactEffectPrefab;
     private SpriteRenderer spriteRenderer;
     private bool isBeingDestroyed = false;
+    private Rigidbody2D rb;
 
     // Effects system
     private List<FireballEffect> activeEffects = new List<FireballEffect>();
@@ -19,6 +21,9 @@ public class BolaDeFuego : MonoBehaviour
 
     void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0;
+        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
@@ -71,7 +76,7 @@ public class BolaDeFuego : MonoBehaviour
 
     void Update()
     {
-        transform.position += (Vector3)direction * speed * Time.deltaTime;
+        rb.velocity = direction * speed;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
